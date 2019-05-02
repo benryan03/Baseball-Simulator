@@ -1,6 +1,7 @@
 import random
 import time
 import math
+from datetime import datetime
 home_score = 0
 away_score = 0
 half_inning = 1
@@ -13,6 +14,22 @@ third = False
 rand = 0
 result = "_"
 gameover = False
+
+away_strikeout_count = 0
+away_walk_count = 0
+away_single_count = 0
+away_double_count = 0
+away_triple_count = 0
+away_homerun_count = 0
+away_hbp_count = 0
+
+home_strikeout_count = 0
+home_walk_count = 0
+home_single_count = 0
+home_double_count = 0
+home_triple_count = 0
+home_homerun_count = 0
+home_hbp_count = 0
 
 def random_number():
 	global rand
@@ -244,6 +261,8 @@ def outfieldfly():
 	resetcount()
 	
 def walk():
+	global home_walk_count
+	global away_walk_count
 	global first
 	global second
 	global third
@@ -263,12 +282,18 @@ def walk():
 		run()
 	elif first == True and second == False and third == True:
 		second = True
+	if half_inning % 2 != 0: #if top of inning
+		away_walk_count = away_walk_count + 1
+	elif half_inning % 2 ==	0: # if bottom of inning
+		home_walk_count = home_walk_count + 1
 	resetcount()
 	
 def hit_by_pitch():
 	global first
 	global second
 	global third
+	global home_hbp_count
+	global away_hbp_count
 	if first == False and second == False and third == False:
 		first = True
 	elif first == True and second == False and third == False:
@@ -285,12 +310,18 @@ def hit_by_pitch():
 		run()
 	elif first == True and second == False and third == True:
 		second = True
+	if half_inning % 2 != 0: #if top of inning
+		away_hbp_count = away_hbp_count + 1
+	elif half_inning % 2 ==	0: # if bottom of inning
+		home_hbp_count = home_hbp_count + 1
 	resetcount()
 
 def single():
 	global first
 	global second
 	global third
+	global home_single_count
+	global away_single_count
 	if first == False and second == False and third == False:
 		first = True
 	elif first == True and second == False and third == False:
@@ -312,12 +343,18 @@ def single():
 		second = True
 		third = False
 		run()
+	if half_inning % 2 != 0: #if top of inning
+		away_single_count = away_single_count + 1
+	elif half_inning % 2 ==	0: # if bottom of inning
+		home_single_count = home_single_count + 1
 	resetcount()
 
 def double():
 	global first
 	global second
 	global third
+	global home_double_count
+	global away_double_count
 	if first == False and second == False and third == False:
 		second = True
 	elif first == True and second == False and third == False:
@@ -349,12 +386,18 @@ def double():
 		third = False
 		run()
 		run()
+	if half_inning % 2 != 0: #if top of inning
+		away_double_count = away_double_count + 1
+	elif half_inning % 2 ==	0: # if bottom of inning
+		home_double_count = home_double_count + 1
 	resetcount()
 	
 def triplee():
 	global first
 	global second
 	global third
+	global home_triple_count
+	global away_triple_count
 	if first == False and second == False and third == False:
 		third = True
 	elif first == True and second == False and third == False:
@@ -388,12 +431,18 @@ def triplee():
 		first = False
 		run()
 		run()
+	if half_inning % 2 != 0: #if top of inning
+		away_triple_count = away_triple_count + 1
+	elif half_inning % 2 ==	0: # if bottom of inning
+		home_triple_count = home_triple_count + 1
 	resetcount()
 
 def homerun():
 	global first
 	global second
 	global third
+	global home_homerun_count
+	global away_homerun_count
 	if first == False and second == False and third == False:
 		run()
 	elif first == True and second == False and third == False:
@@ -432,6 +481,10 @@ def homerun():
 		run()
 		run()
 		run()
+	if half_inning % 2 != 0: #if top of inning
+		away_homerun_count = away_homerun_count + 1
+	elif half_inning % 2 ==	0: # if bottom of inning
+		home_homerun_count = home_homerun_count + 1
 	resetcount()
 	
 def run():
@@ -531,6 +584,10 @@ while gameover == False:
 		elif strikes == 2:
 			result = "Strikeout"
 			print ("STRIKEOUT!")
+			if half_inning % 2 != 0: #if top of inning
+				away_strikeout_count = away_strikeout_count + 1
+			elif half_inning % 2 ==	0: # if bottom of inning
+				home_strikeout_count = home_strikeout_count + 1
 			out()
 			wait()
 	elif 66 <= rand <= 77:
@@ -585,10 +642,29 @@ while gameover == False:
 		status()
 		wait()
 			
-print("End has been reached.")	
-	
-	
-	
+print("End has been reached.")
+print("")
+print("---Game Statistics---")
+print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M"))) 
+print("")
+print("HOME batting:")
+print("Strikeouts: " + str(home_strikeout_count))
+print("Walks: " + str(home_walk_count))
+print("Singles: " + str(home_single_count))
+print("Doubles: " + str(home_double_count))
+print("Triples: " + str(home_triple_count))
+print("Home runs: " + str(home_homerun_count))
+print("Hit by pitch: " + str(home_hbp_count))
+print("")
+print("AWAY batting:")
+print("Strikeouts: " + str(away_strikeout_count))
+print("Walks: " + str(away_walk_count))
+print("Singles: " + str(away_single_count))
+print("Doubles: " + str(away_double_count))
+print("Triples: " + str(away_triple_count))
+print("away runs: " + str(away_homerun_count))
+print("Hit by pitch: " + str(away_hbp_count))
+
 	
 	
 	
