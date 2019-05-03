@@ -641,7 +641,8 @@ while gameover == False:
 		print ("")
 		status()
 		wait()
-			
+
+
 print("End has been reached.")
 print("")
 print("---Game Statistics---")
@@ -665,10 +666,33 @@ print("Triples: " + str(away_triple_count))
 print("away runs: " + str(away_homerun_count))
 print("Hit by pitch: " + str(away_hbp_count))
 
-	
-	
-	
-	
+file1 = open(r"Game on  " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M")) + ".txt" , "w+")
+
+if home_score > away_score:
+	file1.write("HOME won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+elif away_score > home_score:
+	file1.write("AWAY won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+
+file1.write("\n")
+file1.write("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M\n")))
+file1.write("\n")
+file1.write("HOME batting:\n")
+file1.write("Strikeouts: " + str(home_strikeout_count) + "\n")
+file1.write("Walks: " + str(home_walk_count) + "\n")
+file1.write("Singles: " + str(home_single_count) + "\n")
+file1.write("Doubles: " + str(home_double_count) + "\n")
+file1.write("Triples: " + str(home_triple_count) + "\n")
+file1.write("Home runs: " + str(home_homerun_count) + "\n")
+file1.write("Hit by pitch: " + str(home_hbp_count) + "\n")
+file1.write("\n")
+file1.write("AWAY batting:" + "\n")
+file1.write("Strikeouts: " + str(away_strikeout_count) + "\n")
+file1.write("Walks: " + str(away_walk_count) + "\n")
+file1.write("Singles: " + str(away_single_count) + "\n")
+file1.write("Doubles: " + str(away_double_count) + "\n")
+file1.write("Triples: " + str(away_triple_count) + "\n")
+file1.write("away runs: " + str(away_homerun_count) + "\n")
+file1.write("Hit by pitch: " + str(away_hbp_count))
 	
 	
 	
