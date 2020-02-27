@@ -526,7 +526,7 @@ def status():
 		print ("-")
 
 def wait():
-	time.sleep(0)
+	time.sleep(1)
 
 #program start
 print ("Welcome to Baseball Simulator")
