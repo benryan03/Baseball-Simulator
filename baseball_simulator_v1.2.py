@@ -1,4 +1,4 @@
-#baseball_simulator_v1.1
+#baseball_simulator_v1.2
 #https://github.com/benryan03/baseball-simulator/
 
 import random
@@ -77,7 +77,7 @@ def out():
 			if half_inning % 2 != 0: # if end of top of inning
 
 				if home_score > away_score:
-					print("Game has ended. HOME wins.")
+					print("Game has ended. " + home_team + " wins.")
 					gameover = True
 					
 				else:
@@ -94,15 +94,15 @@ def out():
 					
 			elif half_inning % 2 == 0: # if end of bottom of inning
 				if home_score > away_score:
-					print("Game has ended. HOME wins.")
+					print("Game has ended. " + home_team + " wins.")
 					gameover = True
 					
 				elif home_score < away_score:
-					print("Game has ended. AWAY wins.")
+					print("Game has ended. " + away_team + " wins.")
 					gameover = True
 					
 				elif home_score == away_score:
-					print ("Half-inning has ended.")
+					print("Game has ended. " + home_team + " wins.")
 					wait()
 					print("")
 					half_inning = half_inning + 1
@@ -481,7 +481,7 @@ def run():
 			print ("Run scored by AWAY!")
 		elif half_inning % 2 ==	0: #even
 			home_score = home_score + 1
-			print ("Run scored by HOME!")
+			print ("Run scored by " + home_team + "!")
 	elif half_inning >= 18: #walkoff occurs if home scores		
 		#if the half_inning number is odd, score for away. if even, score for home.
 		if half_inning % 2 != 0: #odd/top
@@ -494,8 +494,8 @@ def run():
 				print ("Run scored by HOME!")
 			elif away_score == home_score:
 				home_score = home_score + 1
-				print ("WALKOFF RUN scored by HOME!")
-				print ("Game has ended. HOME wins.")
+				print ("WALKOFF RUN scored by " + home_team + "!")
+				print("Game has ended. " + home_team + " wins.")
 				gameover = True
 
 def status():
@@ -511,7 +511,7 @@ def status():
 		print ("Top ", end ="")
 	elif half_inning % 2 == 0:
 		print ("Bot ", end ="")
-	print (str(math.ceil(half_inning / 2)) + " | Home: " + str(home_score) + " | Away: " + str(away_score) + " | 1B: ", end ="")
+	print (str(math.ceil(half_inning / 2)) + " | " + home_team + ": " + str(home_score) + " | " + away_team + ": " + str(away_score) + " | 1B: ", end ="")
 	if first == True:
 		print ("X 2B: ", end ="")
 	elif first == False:
@@ -528,14 +528,27 @@ def status():
 def wait():
 	time.sleep(1)
 
+def wait_short():
+	time.sleep(.3)    
+
 #program start
 print ("Welcome to Baseball Simulator")
+home_team = input("Enter the name of the home team: ")
+away_team = input("Enter the name of the away team: ")
+
 status()
 	
 while gameover == False:
 	
-	print ("Pitching...")
-	wait()
+	print ("Pitching ", end="")
+	wait_short()
+	print(". ", end="")
+	wait_short()
+	print (". ", end="")
+	wait_short()
+	print (". ", end="")
+	wait_short()
+	print("")
 	random_number()
 	if 0 <= rand <= 36:
 		result = "Ball"
@@ -621,7 +634,7 @@ print("")
 print("---Game Statistics---")
 print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M"))) 
 print("")
-print("HOME batting:")
+print(home_team + " batting:")
 print("Strikeouts: " + str(home_strikeout_count))
 print("Walks: " + str(home_walk_count))
 print("Singles: " + str(home_single_count))
@@ -630,7 +643,7 @@ print("Triples: " + str(home_triple_count))
 print("Home runs: " + str(home_homerun_count))
 print("Hit by pitch: " + str(home_hbp_count))
 print("")
-print("AWAY batting:")
+print(away_team + " batting:")
 print("Strikeouts: " + str(away_strikeout_count))
 print("Walks: " + str(away_walk_count))
 print("Singles: " + str(away_single_count))
@@ -642,14 +655,14 @@ print("Hit by pitch: " + str(away_hbp_count))
 file1 = open(r"Game on  " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M")) + ".txt" , "w+")
 
 if home_score > away_score:
-	file1.write("HOME won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+	file1.write(home_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
 elif away_score > home_score:
-	file1.write("AWAY won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+	file1.write(away_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
 
 file1.write("\n")
 file1.write("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M\n")))
 file1.write("\n")
-file1.write("HOME batting:\n")
+file1.write(home_team + " batting:\n")
 file1.write("Strikeouts: " + str(home_strikeout_count) + "\n")
 file1.write("Walks: " + str(home_walk_count) + "\n")
 file1.write("Singles: " + str(home_single_count) + "\n")
@@ -658,7 +671,7 @@ file1.write("Triples: " + str(home_triple_count) + "\n")
 file1.write("Home runs: " + str(home_homerun_count) + "\n")
 file1.write("Hit by pitch: " + str(home_hbp_count) + "\n")
 file1.write("\n")
-file1.write("AWAY batting:" + "\n")
+file1.write(away_team + " batting:" + "\n")
 file1.write("Strikeouts: " + str(away_strikeout_count) + "\n")
 file1.write("Walks: " + str(away_walk_count) + "\n")
 file1.write("Singles: " + str(away_single_count) + "\n")
