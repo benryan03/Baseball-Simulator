@@ -1,3 +1,6 @@
+#baseball_simulator_v1.1
+#https://github.com/benryan03/baseball-simulator/
+
 import random
 import time
 import math
@@ -70,13 +73,9 @@ def out():
 			strikes = 0
 			
 		elif half_inning >= 17: # if 9th inning or later
-			#print ("it is the 9th inning or later")
-			
-			#away_score = 10
-			#home_score = 10
 			
 			if half_inning % 2 != 0: # if end of top of inning
-				#print ("it is the end of the top of an inning.")
+
 				if home_score > away_score:
 					print("Game has ended. HOME wins.")
 					gameover = True
@@ -93,10 +92,7 @@ def out():
 					balls = 0
 					strikes = 0
 					
-					#pitch()
-					
 			elif half_inning % 2 == 0: # if end of bottom of inning
-				#print ("it is the end of the bottom of an inning.")
 				if home_score > away_score:
 					print("Game has ended. HOME wins.")
 					gameover = True
@@ -185,77 +181,63 @@ def outfieldfly():
 	global third
 	global outs
 	if first == False and second == False and third == False:
-		#result = "Outfield fly"
 		print ("FLY OUT!")
 		out()
 	elif first == True and second == False and third == False:
-		#result = "Outfield fly"
 		print ("FLY OUT!")
 		out()
 	elif first == False and second == True and third == False:
 		if outs < 2:
-			#result = "Outfield fly"
 			print ("FLY OUT! RUNNER ADVANCED.")
 			second = False
 			third = True
 			out()
 		else:
-			#result = "Outfield fly"
 			print ("FLY OUT!")
 			out()
 	elif first == False and second == False and third == True:
 		if outs < 2:
-			#result = "Sacrifice fly"
 			print ("SACRIFICE FLY!")
 			third = False
 			out()
 			run()
 		else:
-			#result = "Outfield fly"
 			print ("FLY OUT!")
 			out()
 	elif first == True and second == True and third == False:
 		if outs < 2:
-			#result = "Outfield fly"
 			print ("FLY OUT! RUNNERS ADVANCED.")
 			second = False
 			third = True
 			out()
 		else:
-			#result = "Outfield fly"
 			print ("FLY OUT!")
 			out()
 	elif first == False and second == True and third == True:
 		if outs < 2:
-			#result = "Sacrifice fly"
 			print ("SACRIFICE FLY!")
 			third = False
 			out()
 			run()
 		else:
-			#result = "Outfield fly"
 			print ("FLY OUT!")
 			out()
 	elif first == True and second == False and third == True:
 		if outs < 2:
-			#result = "Sacrifice fly"
 			print ("SACRIFICE FLY!")
 			third = False
 			out()
 			run()
 		else:
-			#result = "Outfield fly"
 			print ("FLY OUT!")
 			out()
 	elif first == True and second == True and third == True:
 		if outs < 2:
-			#result = "Sacrifice fly"
 			print ("SACRIFICE FLY!")
 			third = False
 			out()
 			run()
 		else:
-			#result = "Outfield fly"
 			print ("FLY OUT!")
 			out()
 	resetcount()
@@ -515,13 +497,6 @@ def run():
 				print ("WALKOFF RUN scored by HOME!")
 				print ("Game has ended. HOME wins.")
 				gameover = True
-			
-#def pitch():
-	global rand
-	global balls
-	global strikes
-	global outs
-	global result
 
 def status():
 	global outs
@@ -553,11 +528,9 @@ def status():
 def wait():
 	time.sleep(0)
 
-#program starts		
+#program start
 print ("Welcome to Baseball Simulator")
 status()
-
-#while home_score + away_score < 100:
 	
 while gameover == False:
 	
@@ -693,30 +666,3 @@ file1.write("Doubles: " + str(away_double_count) + "\n")
 file1.write("Triples: " + str(away_triple_count) + "\n")
 file1.write("away runs: " + str(away_homerun_count) + "\n")
 file1.write("Hit by pitch: " + str(away_hbp_count))
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-"""
-ball 35% 1-35
-strike 30% 36-65
-foul 10% 67-76
-ground out 6% 77-82
-fly out 5% 83-87
-single 5% 88-92
-double 4% 93-96
-home run 97-98
-hit by pitch 99
-triple  100
-"""
-
-
-
-
-
