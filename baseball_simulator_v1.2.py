@@ -526,10 +526,14 @@ def status():
 		print ("-")
 
 def wait():
-	time.sleep(1)
+	time.sleep(2)
 
-def wait_short():
-	time.sleep(.3)    
+def pitching_animation(): # flush=True needs to be included, otherwise time.sleep will instances will occur all at once
+	print ("Pitching ", end="", flush=True)
+	for x in range (0, 3):
+		time.sleep(.2)
+		print (". ", end="", flush=True)
+	print("")
 
 #program start
 print ("Welcome to Baseball Simulator")
@@ -540,15 +544,8 @@ status()
 	
 while gameover == False:
 	
-	print ("Pitching ", end="")
-	wait_short()
-	print(". ", end="")
-	wait_short()
-	print (". ", end="")
-	wait_short()
-	print (". ", end="")
-	wait_short()
-	print("")
+	pitching_animation()
+
 	random_number()
 	if 0 <= rand <= 36:
 		result = "Ball"
