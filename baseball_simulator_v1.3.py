@@ -1,5 +1,5 @@
 #baseball_simulator_v1.3
-#https://github.com/benryan03/baseball-simulator/
+#https://github.com/benryan03/baseball_simulator/
 
 import random
 import time
