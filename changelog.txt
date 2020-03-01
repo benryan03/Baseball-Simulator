@@ -9,3 +9,8 @@ Added sample_output.txt
 v1.2 (2/27/20)
 User can now input a name for each team
 Added loading "animation" during pitches
+
+v1.3 (3/1/20)
+Fixed pitching animation
+Previously, animation would display correctly in VS Code terminal, but not in py.exe
+In py.exe, all time.sleep() instances would be displayed together, instead of between each period
