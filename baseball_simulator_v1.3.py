@@ -1,4 +1,4 @@
-#baseball_simulator_v1.2
+#baseball_simulator_v1.3
 #https://github.com/benryan03/baseball-simulator/
 
 import random
