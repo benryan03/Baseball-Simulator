@@ -1,4 +1,4 @@
-#baseball_simulator_v1.3
+#baseball_simulator_v1.4
 #https://github.com/benryan03/baseball_simulator/
 
 import random
@@ -649,30 +649,37 @@ print("Triples: " + str(away_triple_count))
 print("away runs: " + str(away_homerun_count))
 print("Hit by pitch: " + str(away_hbp_count))
 
-file1 = open(r"Game on  " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M")) + ".txt" , "w+")
+save_results = input("Save results to text file? (Y/N)")
+if save_results == "y" or save_results == "Y":
 
-if home_score > away_score:
-	file1.write(home_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
-elif away_score > home_score:
-	file1.write(away_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+	results_filename = ("Game on " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M")) + ".txt")
+	
+	file1 = open(results_filename, "w+")
 
-file1.write("\n")
-file1.write("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M\n")))
-file1.write("\n")
-file1.write(home_team + " batting:\n")
-file1.write("Strikeouts: " + str(home_strikeout_count) + "\n")
-file1.write("Walks: " + str(home_walk_count) + "\n")
-file1.write("Singles: " + str(home_single_count) + "\n")
-file1.write("Doubles: " + str(home_double_count) + "\n")
-file1.write("Triples: " + str(home_triple_count) + "\n")
-file1.write("Home runs: " + str(home_homerun_count) + "\n")
-file1.write("Hit by pitch: " + str(home_hbp_count) + "\n")
-file1.write("\n")
-file1.write(away_team + " batting:" + "\n")
-file1.write("Strikeouts: " + str(away_strikeout_count) + "\n")
-file1.write("Walks: " + str(away_walk_count) + "\n")
-file1.write("Singles: " + str(away_single_count) + "\n")
-file1.write("Doubles: " + str(away_double_count) + "\n")
-file1.write("Triples: " + str(away_triple_count) + "\n")
-file1.write("away runs: " + str(away_homerun_count) + "\n")
-file1.write("Hit by pitch: " + str(away_hbp_count))
+	if home_score > away_score:
+		file1.write(home_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+	elif away_score > home_score:
+		file1.write(away_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+
+	file1.write("\n")
+	file1.write("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M\n")))
+	file1.write("\n")
+	file1.write(home_team + " batting:\n")
+	file1.write("Strikeouts: " + str(home_strikeout_count) + "\n")
+	file1.write("Walks: " + str(home_walk_count) + "\n")
+	file1.write("Singles: " + str(home_single_count) + "\n")
+	file1.write("Doubles: " + str(home_double_count) + "\n")
+	file1.write("Triples: " + str(home_triple_count) + "\n")
+	file1.write("Home runs: " + str(home_homerun_count) + "\n")
+	file1.write("Hit by pitch: " + str(home_hbp_count) + "\n")
+	file1.write("\n")
+	file1.write(away_team + " batting:" + "\n")
+	file1.write("Strikeouts: " + str(away_strikeout_count) + "\n")
+	file1.write("Walks: " + str(away_walk_count) + "\n")
+	file1.write("Singles: " + str(away_single_count) + "\n")
+	file1.write("Doubles: " + str(away_double_count) + "\n")
+	file1.write("Triples: " + str(away_triple_count) + "\n")
+	file1.write("away runs: " + str(away_homerun_count) + "\n")
+	file1.write("Hit by pitch: " + str(away_hbp_count))
+
+	print("Results saved to " + results_filename)
