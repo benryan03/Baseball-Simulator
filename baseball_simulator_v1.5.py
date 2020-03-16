@@ -57,11 +57,10 @@ def out():
 	global strikes
 
 	if outs <=1:
-		resetcount()
 		outs = outs + 1
 
 	elif outs == 2 and half_inning < 17:
-    #before 9th inning, no win possible
+    	#before 9th inning, no win possible
 		outs = 3
 		print ("Half-inning has ended.")
 		print("")
