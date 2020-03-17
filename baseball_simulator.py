@@ -1,4 +1,4 @@
-#baseball_simulator_v1.6
+#baseball_simulator_v1.7
 #https://github.com/benryan03/baseball_simulator/
 
 import random
@@ -557,84 +557,89 @@ while gameover == False:
 	pitching_animation()
 
 	random_number()
-	if 0 <= rand <= 36:
+	if 0 <= rand <= 36 and balls < 3:
 		result = "Ball"
-		if balls < 3:
-			balls = balls + 1
-			print ("Ball. (" + str(balls) + " - " + str(strikes) + ")")
-			wait()
-		elif balls == 3:
-			result = "Walk"
-			print ("WALK!")
-			walk()
-			wait()
-	elif 35 <= rand <= 67:
+		balls = balls + 1
+		print ("Ball. (" + str(balls) + " - " + str(strikes) + ")")
+
+	elif 0 <= rand <= 36 and balls == 3:
+		result = "Ball"
+		result = "Walk"
+		print ("WALK!")
+		walk()
+
+	elif 35 <= rand <= 67 and strikes <2:
 		result = "Strike"
-		if strikes < 2:
-			strikes = strikes + 1
-			print ("Strike. (" + str(balls) + " - " + str(strikes) + ")")
-			wait()
-		elif strikes == 2:
-			result = "Strikeout"
-			print ("STRIKEOUT!")
-			if half_inning % 2 != 0: #if top of inning
-				away_strikeout_count = away_strikeout_count + 1
-			elif half_inning % 2 ==	0: # if bottom of inning
-				home_strikeout_count = home_strikeout_count + 1
-			out(1)
-			wait()
-	elif 66 <= rand <= 77:
+		strikes = strikes + 1
+		print ("Strike. (" + str(balls) + " - " + str(strikes) + ")")
+
+	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 != 0: #if top of inning
+		result = "Strike"
+		result = "Strikeout"
+		print ("STRIKEOUT!")
+		away_strikeout_count = away_strikeout_count + 1
+		out(1)
+
+	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 == 0: #if bottom of inning
+		result = "Strike"
+		result = "Strikeout"
+		print ("STRIKEOUT!")
+		home_strikeout_count = home_strikeout_count + 1
+		out(1)
+
+	elif 66 <= rand <= 77 and strikes < 2:
 		result = "Foul"
-		if strikes < 2:
-			strikes = strikes + 1
-			wait()
-		#else:	
-#		print ("Foul. (" + str(balls) + " - " + str(strikes) + ")")
+		strikes = strikes + 1
+		print ("Foul. (" + str(balls) + " - " + str(strikes) + ")")
+
+	elif 66 <= rand <= 77 and strikes == 2:
+		result = "Foul"
+		print ("Foul. (" + str(balls) + " - " + str(strikes) + ")")
+
 	elif 76 <= rand <= 83:
 		result = "Grounder"	
 		grounder()
-		wait()
+
 	elif 82 <= rand <= 85:
 		result = "Fly"
 		print ("POPPED UP!")
 		out(1)
-		wait()
+
 	elif 84 <= rand <= 88:
 		result = "Fly"
 		outfieldfly()
-		wait()
+
 	elif 87 <= rand <= 93:
 		result = "Single"
 		print ("SINGLE!")
 		single()
-		wait()
+
 	elif 92 <= rand <= 97:
 		result = "Double"
 		print ("DOUBLE!")
 		double()
-		wait()
+
 	elif 96 <= rand <= 99:
 		result = "Home run"
 		print ("HOME RUN!")
 		homerun()
-		wait()
+
 	elif 97 <= rand <= 101:
 		result = "Hit by pitch"
 		print ("HIT BY PITCH!")
 		hit_by_pitch()
-		wait()
+
 	elif rand == 99:
 		result = "Triple"
 		print ("TRIPLE!")
 		triple()
-		wait()
-		
+
 	if result == "Walk" or result == "Single" or result == "Double" or result == "Triple" or result == "Home run" or result == "Hit by pitch" or result == "Strikeout" or result == "Grounder" or result == "Fly" or result == "Sacrifice fly":
 		#at-bat is over
 		print ("")
 		status()
-		wait()
 
+	wait()
 
 print("End has been reached.")
 print("")
