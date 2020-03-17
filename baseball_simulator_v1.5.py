@@ -572,8 +572,6 @@ print ("Welcome to Baseball Simulator")
 home_team = input("Enter the name of the home team: ")
 away_team = input("Enter the name of the away team: ")
 
-half_inning = 19
-
 status()
 	
 while gameover == False:
