@@ -21,3 +21,8 @@ At the end of each game, user will be prompted to choose whether to save the res
 
 v1.5 (3/16/20)
 Refactored code to remove nested if statements
+
+v1.6 (3/16/20)
+Renamed "Infield fly!" event to "Popped up!"
+Changed order of base status indicators from 1B 2B 3B to 3B 2B 1B
+Refactored run() and out() functions to include a parameter for the number of runs/outs, and loop for that number.
