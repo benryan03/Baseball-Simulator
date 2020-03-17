@@ -1,4 +1,3 @@
-#baseball_simulator_v1.7
 #https://github.com/benryan03/baseball_simulator/
 
 import random
@@ -33,10 +32,6 @@ home_double_count = 0
 home_triple_count = 0
 home_homerun_count = 0
 home_hbp_count = 0
-
-def random_number():
-	global rand
-	rand = random.randint(1, 100)
 	
 def resetcount():
 	global balls
@@ -55,13 +50,10 @@ def out(num):
 	global gameover
 	global balls
 	global strikes
-
 	for x in range (num):
-
 		if outs <=1:
 			resetcount()
 			outs = outs + 1
-
 		elif outs == 2 and half_inning < 17:
 		#before 9th inning, no win possible
 			outs = 3
@@ -75,7 +67,6 @@ def out(num):
 			third = False
 			balls = 0
 			strikes = 0
-
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0: # if 2 outs and 9th inning or later and end of top of inning
 			outs = 3
 			print ("Half-inning has ended.")
@@ -88,21 +79,18 @@ def out(num):
 			third = False
 			balls = 0
 			strikes = 0
-
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score > away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and home team is ahead
 			outs = 3
 			print("Game has ended. " + home_team + " wins.")
 			gameover = True
 			return
-
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score < away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and away team is ahead
 			outs = 3
 			print("Game has ended. " + away_team + " wins.")
 			gameover = True
 			return
-
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score == away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and score is tied
 			outs = 3
@@ -117,397 +105,36 @@ def out(num):
 			balls = 0
 			strikes = 0
 
-def grounder():
-	global first
-	global second
-	global third
-
-	if first == False and second == False and third == False:
-		print ("GROUND OUT!")
-		out(1)	
-
-	elif first == True and second == False and third == False and outs < 2:
-		print ("DOUBLE PLAY!")
-		out(2)
-
-	elif first == True and second == False and third == False and outs == 2:
-		out(1)
-
-	elif first == False and second == True and third == False:
-		print ("GROUND OUT!")
-		out(1)	
-
-	elif first == False and second == False and third == True:
-		print ("GROUND OUT!")
-		out(1)
-
-	elif first == True and second == True and third == False and outs == 0:
-		print ("TRIPLE PLAY!")
-		out(3)
-
-	elif first == True and second == True and third == False and outs == 1:
-		print ("DOUBLE PLAY!")
-		out(2)
-
-	elif first == True and second == True and third == False and outs == 2:
-		print ("GROUND OUT!")
-		out(1)	
-
-	elif first == False and second == True and third == True:
-		print ("GROUND OUT!")
-		out(1)
-
-	elif first == True and second == True and third == True and outs == 0:
-		print ("TRIPLE PLAY!")
-		out(3)
-
-	elif first == True and second == True and third == True and outs == 1:
-		print ("DOUBLE PLAY!")
-		out(2)
-
-	elif first == True and second == True and third == True and outs == 2:
-		print ("GROUND OUT!")
-		out(1)
-
-	elif first == True and second == False and third == True and outs <2:
-		print ("DOUBLE PLAY!")
-		out(2)    
-			
-	elif first == True and second == False and third == True and outs == 2:
-		print ("GROUND OUT!")
-		out(1)
-
-	resetcount()
-
-
-def outfieldfly():
-	global first
-	global second
-	global third
-	global outs
-	if first == False and second == False and third == False:
-		print ("FLY OUT!")
-		out(1)
-
-	elif first == True and second == False and third == False:
-		print ("FLY OUT!")
-		out(1)
-
-	elif first == False and second == True and third == False and outs < 2:
-		print ("FLY OUT! RUNNER ADVANCED.")
-		second = False
-		third = True
-		out(1)
-
-	elif first == False and second == True and third == False and outs == 2:
-		print ("FLY OUT!")
-		out(1)
-
-	elif first == False and second == False and third == True and outs < 2:
-		print ("SACRIFICE FLY!")
-		third = False
-		out(1)
-		run(1)
-
-	elif first == False and second == False and third == True and outs == 2:
-		print ("FLY OUT!")
-		out(1)
-
-	elif first == True and second == True and third == False and outs < 2:
-		print ("FLY OUT! RUNNERS ADVANCED.")
-		second = False
-		third = True
-		out(1)
-
-	elif first == True and second == True and third == False and outs == 2:
-		print ("FLY OUT!")
-		out(1)
-
-	elif first == False and second == True and third == True and outs < 2:
-		print ("SACRIFICE FLY!")
-		third = False
-		out(1)
-		run(1)
-
-	elif first == False and second == True and third == True and outs == 2:
-		print ("FLY OUT!")
-		out(1)
-
-	elif first == True and second == False and third == True and outs < 2:
-		print ("SACRIFICE FLY!")
-		third = False
-		out(1)
-		run(1)
-
-	elif first == True and second == False and third == True and outs == 2:
-		print ("FLY OUT!")
-		out(1)
-
-	elif first == True and second == True and third == True and outs < 2:
-		print ("SACRIFICE FLY!")
-		third = False
-		out(1)
-		run(1)
-
-	elif first == True and second == True and third == True and outs < 2:
-		print ("FLY OUT!")
-		out(1)
-
-	resetcount()
-
-def walk():
-	global home_walk_count
-	global away_walk_count
-	global first
-	global second
-	global third
-	if first == False and second == False and third == False:
-		first = True
-	elif first == True and second == False and third == False:
-		second = True
-	elif first == False and second == True and third == False:
-		first = True
-	elif first == False and second == False and third == True:
-		first = True
-	elif first == True and second == True and third == False:
-		third = True
-	elif first == False and second == True and third == True:
-		first = True
-	elif first == True and second == True and third == True:
-		run(1)
-	elif first == True and second == False and third == True:
-		second = True
-
-	if half_inning % 2 != 0: #if top of inning
-		away_walk_count = away_walk_count + 1
-	elif half_inning % 2 ==	0: # if bottom of inning
-		home_walk_count = home_walk_count + 1
-	resetcount()
-	
-def hit_by_pitch():
-	global first
-	global second
-	global third
-	global home_hbp_count
-	global away_hbp_count
-
-	if first == False and second == False and third == False:
-		first = True
-	elif first == True and second == False and third == False:
-		second = True
-	elif first == False and second == True and third == False:
-		first = True
-	elif first == False and second == False and third == True:
-		first = True
-	elif first == True and second == True and third == False:
-		third = True
-	elif first == False and second == True and third == True:
-		first = True
-	elif first == True and second == True and third == True:
-		run(1)
-	elif first == True and second == False and third == True:
-		second = True
-
-	if half_inning % 2 != 0: #if top of inning
-		away_hbp_count = away_hbp_count + 1
-	elif half_inning % 2 ==	0: # if bottom of inning
-		home_hbp_count = home_hbp_count + 1
-	resetcount()
-
-def single():
-	global first
-	global second
-	global third
-	global home_single_count
-	global away_single_count
-
-	if first == False and second == False and third == False:
-		first = True
-	elif first == True and second == False and third == False:
-		second = True
-	elif first == False and second == True and third == False:
-		first = True
-	elif first == False and second == False and third == True:
-		first = True
-		run(1)
-	elif first == True and second == True and third == False:
-		third = True
-	elif first == False and second == True and third == True:
-		first = True
-		second = False
-		run(1)
-	elif first == True and second == True and third == True:
-		run(1)
-	elif first == True and second == False and third == True:
-		second = True
-		third = False
-		run(1)
-	if half_inning % 2 != 0: #if top of inning
-		away_single_count = away_single_count + 1
-	elif half_inning % 2 ==	0: # if bottom of inning
-		home_single_count = home_single_count + 1
-	resetcount()
-
-def double():
-	global first
-	global second
-	global third
-	global home_double_count
-	global away_double_count
-
-	if first == False and second == False and third == False:
-		second = True
-	elif first == True and second == False and third == False:
-		second = True
-		third = True
-	elif first == False and second == True and third == False:
-		run(1)
-	elif first == False and second == False and third == True:
-		run(1)
-		third = False
-		second = True
-	elif first == True and second == True and third == False:
-		first = False
-		run(2)
-	elif first == False and second == True and third == True:
-		third = False
-		run(2)
-	elif first == True and second == True and third == True:
-		first = False
-		third = False
-		run(3)
-	elif first == True and second == False and third == True:
-		second = True
-		first = False
-		third = False
-		run(2)
-
-	if half_inning % 2 != 0: #if top of inning
-		away_double_count = away_double_count + 1
-	elif half_inning % 2 ==	0: # if bottom of inning
-		home_double_count = home_double_count + 1
-	resetcount()
-	
-def triple():
-	global first
-	global second
-	global third
-	global home_triple_count
-	global away_triple_count
-
-	if first == False and second == False and third == False:
-		third = True
-	elif first == True and second == False and third == False:
-		first = False
-		third = True
-		run(1)
-	elif first == False and second == True and third == False:
-		third = True
-		second = False
-		run(1)
-	elif first == False and second == False and third == True:
-		run(1)
-	elif first == True and second == True and third == False:
-		third = True
-		first = False
-		second = False
-		run(2)
-	elif first == False and second == True and third == True:
-		second = False
-		run(2)
-	elif first == True and second == True and third == True:
-		first = False
-		second = False
-		third = True
-		run(3)
-	elif first == True and second == False and third == True:
-		first = False
-		run(2)
-
-	if half_inning % 2 != 0: #if top of inning
-		away_triple_count = away_triple_count + 1
-	elif half_inning % 2 ==	0: # if bottom of inning
-		home_triple_count = home_triple_count + 1
-	resetcount()
-
-def homerun():
-	global first
-	global second
-	global third
-	global home_homerun_count
-	global away_homerun_count
-
-	if first == False and second == False and third == False:
-		run(1)
-	elif first == True and second == False and third == False:
-		first = False
-		run(2)
-	elif first == False and second == True and third == False:
-		second = False
-		run(2)
-	elif first == False and second == False and third == True:
-		third = False
-		run(1)
-	elif first == True and second == True and third == False:
-		first = False
-		second = False
-		run(2)
-	elif first == False and second == True and third == True:
-		third = False
-		second = False
-		run(3)
-	elif first == True and second == True and third == True:
-		first = False
-		second = False
-		third = False
-		run(4)
-	elif first == True and second == False and third == True:
-		first = False
-		third = False
-		run(3)
-
-	if half_inning % 2 != 0: #if top of inning
-		away_homerun_count = away_homerun_count + 1
-	elif half_inning % 2 ==	0: # if bottom of inning
-		home_homerun_count = home_homerun_count + 1
-	resetcount()
-	
 def run(num):
 	global half_inning
 	global away_score
 	global home_score
 	global gameover
-
 	for x in range (num):
-
 		if half_inning < 18 and half_inning % 2 != 0:
 			#normal innings - run for away
 			away_score = away_score + 1
 			print ("Run scored by AWAY!")
-
 		elif half_inning < 18 and half_inning % 2 == 0:
 			#normal innings - run for home
 			home_score = home_score + 1
 			print ("Run scored by " + home_team + "!")
-
-		elif half_inning >= 18 and half_inning % 2 != 0: #odd/top
+		elif half_inning >= 18 and half_inning % 2 != 0: #odd/top of inning
 			#extra innings - run for away
 			away_score = away_score + 1
 			print ("Run scored by AWAY!")
-
-		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score: #even/bottom
+		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score: #even/bottom of inning
 			#extra innings - run for home, no walkoff
 			home_score = home_score + 1
 			print ("Run scored by HOME!")
-
-		elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score: #even/bottom
+		elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score: #even/bottom of inning
 			#walkoff run!
 			home_score = home_score + 1
 			print ("WALKOFF RUN scored by " + home_team + "!")
 			print("Game has ended. " + home_team + " wins.")
 			gameover = True
 
-def status():
+def status(): #print number of outs, inning number, score, and on-base statuses
 	global outs
 	global half_inning
 	global home_score
@@ -515,7 +142,6 @@ def status():
 	global first
 	global second
 	global third
-
 	print ("Outs: " + str(outs) + " | Inning: ", end ="")
 	if half_inning % 2 != 0:
 		print ("Top ", end ="")
@@ -535,28 +161,29 @@ def status():
 	elif first == False:
 		print ("-")
 
-def wait():
+def wait(): #change these wait times to 0 for game to complete immediately
 	time.sleep(2)
 
-def pitching_animation(): # flush=True needs to be included, otherwise time.sleep will instances will occur all at once
-	print ("Pitching ", end="", flush=True)
-	for x in range (0, 3):
-		time.sleep(.2)
-		print (". ", end="", flush=True)
-	print("")
+def wait_short():
+	time.sleep(.2)
 
 #program start
 print ("Welcome to Baseball Simulator")
 home_team = input("Enter the name of the home team: ")
 away_team = input("Enter the name of the away team: ")
-
 status()
-	
-while gameover == False:
-	
-	pitching_animation()
 
-	random_number()
+while gameover == False: #main program loop
+
+	#pitching animation
+	print ("Pitching ", end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
+	for x in range (0, 3):
+		wait_short()
+		print (". ", end="", flush=True)
+	print("")
+
+	rand = random.randint(1, 100) #generate random number to determine result of pitch
+	
 	if 0 <= rand <= 36 and balls < 3:
 		result = "Ball"
 		balls = balls + 1
@@ -566,7 +193,27 @@ while gameover == False:
 		result = "Ball"
 		result = "Walk"
 		print ("WALK!")
-		walk()
+		if first == False and second == False and third == False:
+			first = True
+		elif first == True and second == False and third == False:
+			second = True
+		elif first == False and second == True and third == False:
+			first = True
+		elif first == False and second == False and third == True:
+			first = True
+		elif first == True and second == True and third == False:
+			third = True
+		elif first == False and second == True and third == True:
+			first = True
+		elif first == True and second == True and third == True:
+			run(1)
+		elif first == True and second == False and third == True:
+			second = True
+		if half_inning % 2 != 0: #if top of inning
+			away_walk_count = away_walk_count + 1
+		elif half_inning % 2 ==	0: # if bottom of inning
+			home_walk_count = home_walk_count + 1
+		resetcount()
 
 	elif 35 <= rand <= 67 and strikes <2:
 		result = "Strike"
@@ -598,7 +245,48 @@ while gameover == False:
 
 	elif 76 <= rand <= 83:
 		result = "Grounder"	
-		grounder()
+		if first == False and second == False and third == False:
+			print ("GROUND OUT!")
+			out(1)	
+		elif first == True and second == False and third == False and outs < 2:
+			print ("DOUBLE PLAY!")
+			out(2)
+		elif first == True and second == False and third == False and outs == 2:
+			out(1)
+		elif first == False and second == True and third == False:
+			print ("GROUND OUT!")
+			out(1)	
+		elif first == False and second == False and third == True:
+			print ("GROUND OUT!")
+			out(1)
+		elif first == True and second == True and third == False and outs == 0:
+			print ("TRIPLE PLAY!")
+			out(3)
+		elif first == True and second == True and third == False and outs == 1:
+			print ("DOUBLE PLAY!")
+			out(2)
+		elif first == True and second == True and third == False and outs == 2:
+			print ("GROUND OUT!")
+			out(1)	
+		elif first == False and second == True and third == True:
+			print ("GROUND OUT!")
+			out(1)
+		elif first == True and second == True and third == True and outs == 0:
+			print ("TRIPLE PLAY!")
+			out(3)
+		elif first == True and second == True and third == True and outs == 1:
+			print ("DOUBLE PLAY!")
+			out(2)
+		elif first == True and second == True and third == True and outs == 2:
+			print ("GROUND OUT!")
+			out(1)
+		elif first == True and second == False and third == True and outs <2:
+			print ("DOUBLE PLAY!")
+			out(2)    
+		elif first == True and second == False and third == True and outs == 2:
+			print ("GROUND OUT!")
+			out(1)
+		resetcount()
 
 	elif 82 <= rand <= 85:
 		result = "Fly"
@@ -607,32 +295,225 @@ while gameover == False:
 
 	elif 84 <= rand <= 88:
 		result = "Fly"
-		outfieldfly()
+		if first == False and second == False and third == False:
+			print ("FLY OUT!")
+			out(1)
+		elif first == True and second == False and third == False:
+			print ("FLY OUT!")
+			out(1)
+		elif first == False and second == True and third == False and outs < 2:
+			print ("FLY OUT! RUNNER ADVANCED.")
+			second = False
+			third = True
+			out(1)
+		elif first == False and second == True and third == False and outs == 2:
+			print ("FLY OUT!")
+			out(1)
+		elif first == False and second == False and third == True and outs < 2:
+			print ("SACRIFICE FLY!")
+			third = False
+			out(1)
+			run(1)
+		elif first == False and second == False and third == True and outs == 2:
+			print ("FLY OUT!")
+			out(1)
+		elif first == True and second == True and third == False and outs < 2:
+			print ("FLY OUT! RUNNERS ADVANCED.")
+			second = False
+			third = True
+			out(1)
+		elif first == True and second == True and third == False and outs == 2:
+			print ("FLY OUT!")
+			out(1)
+		elif first == False and second == True and third == True and outs < 2:
+			print ("SACRIFICE FLY!")
+			third = False
+			out(1)
+			run(1)
+		elif first == False and second == True and third == True and outs == 2:
+			print ("FLY OUT!")
+			out(1)
+		elif first == True and second == False and third == True and outs < 2:
+			print ("SACRIFICE FLY!")
+			third = False
+			out(1)
+			run(1)
+		elif first == True and second == False and third == True and outs == 2:
+			print ("FLY OUT!")
+			out(1)
+		elif first == True and second == True and third == True and outs < 2:
+			print ("SACRIFICE FLY!")
+			third = False
+			out(1)
+			run(1)
+		elif first == True and second == True and third == True and outs < 2:
+			print ("FLY OUT!")
+			out(1)
+		resetcount()
 
 	elif 87 <= rand <= 93:
 		result = "Single"
 		print ("SINGLE!")
-		single()
+		if first == False and second == False and third == False:
+			first = True
+		elif first == True and second == False and third == False:
+			second = True
+		elif first == False and second == True and third == False:
+			first = True
+		elif first == False and second == False and third == True:
+			first = True
+			run(1)
+		elif first == True and second == True and third == False:
+			third = True
+		elif first == False and second == True and third == True:
+			first = True
+			second = False
+			run(1)
+		elif first == True and second == True and third == True:
+			run(1)
+		elif first == True and second == False and third == True:
+			second = True
+			third = False
+			run(1)
+		if half_inning % 2 != 0: #if top of inning
+			away_single_count = away_single_count + 1
+		elif half_inning % 2 ==	0: # if bottom of inning
+			home_single_count = home_single_count + 1
+		resetcount()
 
 	elif 92 <= rand <= 97:
 		result = "Double"
 		print ("DOUBLE!")
-		double()
-
+		if first == False and second == False and third == False:
+			second = True
+		elif first == True and second == False and third == False:
+			second = True
+			third = True
+		elif first == False and second == True and third == False:
+			run(1)
+		elif first == False and second == False and third == True:
+			run(1)
+			third = False
+			second = True
+		elif first == True and second == True and third == False:
+			first = False
+			run(2)
+		elif first == False and second == True and third == True:
+			third = False
+			run(2)
+		elif first == True and second == True and third == True:
+			first = False
+			third = False
+			run(3)
+		elif first == True and second == False and third == True:
+			second = True
+			first = False
+			third = False
+			run(2)
+		if half_inning % 2 != 0: #if top of inning
+			away_double_count = away_double_count + 1
+		elif half_inning % 2 ==	0: # if bottom of inning
+			home_double_count = home_double_count + 1
+			resetcount()
+	
 	elif 96 <= rand <= 99:
 		result = "Home run"
 		print ("HOME RUN!")
-		homerun()
+		if first == False and second == False and third == False:
+			run(1)
+		elif first == True and second == False and third == False:
+			first = False
+			run(2)
+		elif first == False and second == True and third == False:
+			second = False
+			run(2)
+		elif first == False and second == False and third == True:
+			third = False
+			run(1)
+		elif first == True and second == True and third == False:
+			first = False
+			second = False
+			run(2)
+		elif first == False and second == True and third == True:
+			third = False
+			second = False
+			run(3)
+		elif first == True and second == True and third == True:
+			first = False
+			second = False
+			third = False
+			run(4)
+		elif first == True and second == False and third == True:
+			first = False
+			third = False
+			run(3)
+		if half_inning % 2 != 0: #if top of inning
+			away_homerun_count = away_homerun_count + 1
+		elif half_inning % 2 ==	0: # if bottom of inning
+			home_homerun_count = home_homerun_count + 1
+		resetcount()
 
 	elif 97 <= rand <= 101:
 		result = "Hit by pitch"
 		print ("HIT BY PITCH!")
-		hit_by_pitch()
+		if first == False and second == False and third == False:
+			first = True
+		elif first == True and second == False and third == False:
+			second = True
+		elif first == False and second == True and third == False:
+			first = True
+		elif first == False and second == False and third == True:
+			first = True
+		elif first == True and second == True and third == False:
+			third = True
+		elif first == False and second == True and third == True:
+			first = True
+		elif first == True and second == True and third == True:
+			run(1)
+		elif first == True and second == False and third == True:
+			second = True
+		if half_inning % 2 != 0: #if top of inning
+			away_hbp_count = away_hbp_count + 1
+		elif half_inning % 2 ==	0: # if bottom of inning
+			home_hbp_count = home_hbp_count + 1
+		resetcount()
 
 	elif rand == 99:
 		result = "Triple"
 		print ("TRIPLE!")
-		triple()
+		if first == False and second == False and third == False:
+			third = True
+		elif first == True and second == False and third == False:
+			first = False
+			third = True
+			run(1)
+		elif first == False and second == True and third == False:
+			third = True
+			second = False
+			run(1)
+		elif first == False and second == False and third == True:
+			run(1)
+		elif first == True and second == True and third == False:
+			third = True
+			first = False
+			second = False
+			run(2)
+		elif first == False and second == True and third == True:
+			second = False
+			run(2)
+		elif first == True and second == True and third == True:
+			first = False
+			second = False
+			third = True
+			run(3)
+		elif first == True and second == False and third == True:
+			first = False
+			run(2)
+		if half_inning % 2 != 0: #if top of inning
+			away_triple_count = away_triple_count + 1
+		elif half_inning % 2 ==	0: # if bottom of inning
+			home_triple_count = home_triple_count + 1
+		resetcount()
 
 	if result == "Walk" or result == "Single" or result == "Double" or result == "Triple" or result == "Home run" or result == "Hit by pitch" or result == "Strikeout" or result == "Grounder" or result == "Fly" or result == "Sacrifice fly":
 		#at-bat is over
