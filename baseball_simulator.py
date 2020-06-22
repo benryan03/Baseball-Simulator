@@ -4,6 +4,11 @@ import random
 import time
 import math
 from datetime import datetime
+
+#To scrape players and stats from baseball-reference
+from lxml import html
+import requests
+
 home_score = 0
 away_score = 0
 half_inning = 1
@@ -170,7 +175,91 @@ def wait_short():
 #program start
 print ("Welcome to Baseball Simulator")
 home_team = input("Enter the name of the home team: ")
+home_year = input("Enter year: ")
+
 away_team = input("Enter the name of the away team: ")
+away_year = input("Enter year: ")
+
+#Load baseball-reference page for inputted team/year
+#URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
+home_page = requests.get("https://www.baseball-reference.com/teams/" + home_team + "/" + home_year + ".shtml")
+home_tree = html.fromstring(home_page.content)
+away_page = requests.get("https://www.baseball-reference.com/teams/" + away_team + "/" + away_year + ".shtml")
+away_tree = html.fromstring(away_page.content)
+
+home_batters = ["", "", "", "", "", "", "", "", ""]
+away_batters = ["", "", "", "", "", "", "", "", ""]
+
+#Scrape names of top 8 batters
+for x in range(8):
+	#Home
+    fullname = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
+    fname = str(fullname).partition(",")[2]
+    lname = str(fullname).partition(",")[0]
+    home_batters[x] = fname.strip("[],'") + " " + lname.strip("[],'")
+
+	#Away
+    fullname = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
+    fname = str(fullname).partition(",")[2]
+    lname = str(fullname).partition(",")[0]
+    away_batters[x] = fname.strip("[],'") + " " + lname.strip("[],'")
+
+#Scrape name of 9th batter (sometimes the formatting on baseball-reference skips the 9th row)
+#Home
+fullname = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[2]/@csk')
+if fullname == []:
+    fullname = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[2]/@csk')
+
+fname = str(fullname).partition(",")[2]
+lname = str(fullname).partition(",")[0]
+home_batters[8] = fname.strip("[],'") + " " + lname.strip("[],'")
+
+#Away
+fullname = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[2]/@csk')
+if fullname == []:
+    fullname = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[2]/@csk')
+
+fname = str(fullname).partition(",")[2]
+lname = str(fullname).partition(",")[0]
+away_batters[8] = fname.strip("[],'") + " " + lname.strip("[],'")
+
+#Batting averages
+home_avg = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+away_avg = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+#Scrape batting averages of first 8 batters
+for x in range(8):
+	home_avg[x] = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
+	away_avg[x] = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
+
+#Scrape batting average of 9th batter
+home_avg[8] = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[17]/text()')
+if home_avg[8] == []:
+	home_avg[8] = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[17]/text()')
+	
+away_avg[8] = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[17]/text()')
+if away_avg[8] == []:
+	away_avg[8] = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[17]/text()')
+
+#Add batting averages to batters array
+home_batters = [[home_batters[0], home_avg[0]], [home_batters[1], home_avg[1]], [home_batters[2], home_avg[2]], [home_batters[3], home_avg[3]], [home_batters[4], home_avg[4]], [home_batters[5], home_avg[5]], [home_batters[6], home_avg[6]], [home_batters[7], home_avg[7]], [home_batters[8], home_avg[8]]]
+away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], [away_batters[2], away_avg[2]], [away_batters[3], away_avg[3]], [away_batters[4], away_avg[4]], [away_batters[5], away_avg[5]], [away_batters[6], away_avg[6]], [away_batters[7], away_avg[7]], [away_batters[8], away_avg[8]]]
+
+#Sort array by batting average
+home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
+away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
+
+print("\nStarting lineup for " + home_team + ":")
+for x in home_batters:
+	print(x)
+	wait()
+
+print("\nStarting lineup for " + away_team + ":")
+for x in away_batters:
+	print(x)
+	wait()
+
+print()
 status()
 
 while gameover == False: #main program loop
