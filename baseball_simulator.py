@@ -174,15 +174,15 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 
 def now_batting():
 	if half_inning % 2 == 0:
-		print ("Now batting for " + home_team + ": " + str(home_batters[current_home_batter][0]) + ". " + str(home_year) + " AVG: " + str(home_batters[current_home_batter][1]))
+		print ("Now batting for " + home_team + ": " + str(home_batters[current_home_batter][0]) + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 	else:
-		print ("Now batting for " + away_team + ": " + str(away_batters[current_away_batter][0]) + ". " + str(away_year) + " AVG: " + str(away_batters[current_away_batter][1]))
+		print ("Now batting for " + away_team + ": " + str(away_batters[current_away_batter][0]) + ". " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 
 def next_batter():
 	global half_inning
 	global current_home_batter
 	global current_away_batter
-	
+
 	if half_inning % 2 == 0 and current_home_batter < 8:
 		current_home_batter = current_home_batter + 1
 	elif half_inning % 2 == 0 and current_home_batter == 8:
@@ -191,6 +191,18 @@ def next_batter():
 		current_away_batter = current_away_batter + 1
 	elif half_inning % 2 != 0 and current_away_batter == 8:
 		current_away_batter = 0
+
+def format_batting_average(avg):
+	avg_string = str(avg)
+	avg_string = avg_string[1:]#Remove leading 0
+
+	# Add trailing 0s if necessary
+	if len(avg_string) == 2:
+		avg_string = avg_string + "00"
+	elif len(avg_string) == 3:
+		avg_string = avg_string + "0"
+	
+	return avg_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
 	time.sleep(2)
@@ -204,16 +216,16 @@ def wait_short():
 #program start
 
 print ("Welcome to Baseball Simulator")
-#home_team = input("Enter the name of the home team: ")
-#home_year = input("Enter year: ")
+home_team = input("Enter the name of the home team: ")
+home_year = input("Enter year: ")
 
-#away_team = input("Enter the name of the away team: ")
-#away_year = input("Enter year: ")
+away_team = input("Enter the name of the away team: ")
+away_year = input("Enter year: ")
 
-home_team = "bos"
-home_year = "2018"
-away_team = "nyy"
-away_year = "2018"
+#home_team = "bos" #debug
+#home_year = "2018" #debug
+#away_team = "nyy" #debug
+#away_year = "2018" #debug
 
 #Load baseball-reference page for inputted team/year
 #URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
@@ -284,8 +296,6 @@ if avg == []:
 else:
 	away_avg[8] = float(str(avg).strip("[]'"))
 
-
-
 #Add batting averages to batters array
 home_batters = [[home_batters[0], home_avg[0]], [home_batters[1], home_avg[1]], [home_batters[2], home_avg[2]], [home_batters[3], home_avg[3]], [home_batters[4], home_avg[4]], [home_batters[5], home_avg[5]], [home_batters[6], home_avg[6]], [home_batters[7], home_avg[7]], [home_batters[8], home_avg[8]]]
 away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], [away_batters[2], away_avg[2]], [away_batters[3], away_avg[3]], [away_batters[4], away_avg[4]], [away_batters[5], away_avg[5]], [away_batters[6], away_avg[6]], [away_batters[7], away_avg[7]], [away_batters[8], away_avg[8]]]
@@ -295,14 +305,16 @@ home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
 away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
 
 print("\nStarting lineup for " + home_team + ":")
+wait()
 for x in home_batters:
-	print(x)
-	#wait()
+	print(x[0] + " - " + format_batting_average(x[1]))
+	wait()
 
 print("\nStarting lineup for " + away_team + ":")
+wait()
 for x in away_batters:
-	print(x)
-	#wait()
+	print(x[0] + " - " + format_batting_average(x[1]))
+	wait()
 
 print()
 status()
@@ -315,8 +327,6 @@ while gameover == False: #main program loop
 		wait_short()
 		print (". ", end="", flush=True)
 	print("")
-
-	print(str(current_away_batter) + " " + str(current_home_batter))
 
 	rand = random.randint(1, 100) #generate random number to determine result of pitch
 	
