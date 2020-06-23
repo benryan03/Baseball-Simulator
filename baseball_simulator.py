@@ -178,6 +178,19 @@ def now_batting():
 	else:
 		print ("Now batting for " + away_team + ": " + str(away_batters[current_away_batter][0]) + ". " + str(away_year) + " AVG: " + str(away_batters[current_away_batter][1]))
 
+def next_batter():
+	global half_inning
+	global current_home_batter
+	global current_away_batter
+	
+	if half_inning % 2 == 0 and current_home_batter < 8:
+		current_home_batter = current_home_batter + 1
+	elif half_inning % 2 == 0 and current_home_batter == 8:
+		current_home_batter = 0
+	elif half_inning % 2 != 0 and current_away_batter < 8:
+		current_away_batter = current_away_batter + 1
+	elif half_inning % 2 != 0 and current_away_batter == 8:
+		current_away_batter = 0
 
 def wait(): #change these wait times to 0 for game to complete immediately
 	time.sleep(2)
@@ -303,6 +316,8 @@ while gameover == False: #main program loop
 		print (". ", end="", flush=True)
 	print("")
 
+	print(str(current_away_batter) + " " + str(current_home_batter))
+
 	rand = random.randint(1, 100) #generate random number to determine result of pitch
 	
 	if 0 <= rand <= 36 and balls < 3: #Ball
@@ -311,6 +326,7 @@ while gameover == False: #main program loop
 		print ("Ball. (" + str(balls) + " - " + str(strikes) + ")")
 
 	elif 0 <= rand <= 36 and balls == 3: #Walk
+		next_batter()
 		result = "Ball"
 		result = "Walk"
 		print ("WALK!")
@@ -342,6 +358,7 @@ while gameover == False: #main program loop
 		print ("Strike. (" + str(balls) + " - " + str(strikes) + ")")
 
 	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 != 0: #Strikeout - away
+		next_batter()
 		result = "Strike"
 		result = "Strikeout"
 		print ("STRIKEOUT!")
@@ -349,6 +366,7 @@ while gameover == False: #main program loop
 		out(1)
 
 	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 == 0: #Strikeout - home
+		next_batter()
 		result = "Strike"
 		result = "Strikeout"
 		print ("STRIKEOUT!")
@@ -365,6 +383,7 @@ while gameover == False: #main program loop
 		print ("Foul. (" + str(balls) + " - " + str(strikes) + ")")
 
 	elif 76 <= rand <= 83: #Ground out
+		next_batter()
 		result = "Grounder"	
 		if first == False and second == False and third == False:
 			print ("GROUND OUT!")
@@ -410,11 +429,13 @@ while gameover == False: #main program loop
 		resetcount()
 
 	elif 82 <= rand <= 85: #Pop up
+		next_batter()
 		result = "Fly"
 		print ("POPPED UP!")
 		out(1)
 
 	elif 84 <= rand <= 88: #Fly out
+		next_batter()
 		result = "Fly"
 		if first == False and second == False and third == False:
 			print ("FLY OUT!")
@@ -473,6 +494,7 @@ while gameover == False: #main program loop
 		resetcount()
 
 	elif 87 <= rand <= 93: #Single
+		next_batter()
 		result = "Single"
 		print ("SINGLE!")
 		if first == False and second == False and third == False:
@@ -503,6 +525,7 @@ while gameover == False: #main program loop
 		resetcount()
 
 	elif 92 <= rand <= 97: #Double
+		next_batter()
 		result = "Double"
 		print ("DOUBLE!")
 		if first == False and second == False and third == False:
@@ -538,6 +561,7 @@ while gameover == False: #main program loop
 			resetcount()
 	
 	elif 96 <= rand <= 99: #Home run
+		next_batter()
 		result = "Home run"
 		print ("HOME RUN!")
 		if first == False and second == False and third == False:
@@ -575,6 +599,7 @@ while gameover == False: #main program loop
 		resetcount()
 
 	elif 97 <= rand <= 101: #Hit by pitch
+		next_batter()
 		result = "Hit by pitch"
 		print ("HIT BY PITCH!")
 		if first == False and second == False and third == False:
@@ -600,6 +625,7 @@ while gameover == False: #main program loop
 		resetcount()
 
 	elif rand == 99: #Triple
+		next_batter()
 		result = "Triple"
 		print ("TRIPLE!")
 		if first == False and second == False and third == False:
@@ -638,15 +664,6 @@ while gameover == False: #main program loop
 
 	if result == "Walk" or result == "Single" or result == "Double" or result == "Triple" or result == "Home run" or result == "Hit by pitch" or result == "Strikeout" or result == "Grounder" or result == "Fly" or result == "Sacrifice fly":
 		#at-bat is over
-		if half_inning % 2 == 0 and current_home_batter < 8:
-			current_home_batter = current_home_batter + 1
-		elif half_inning % 2 == 0 and current_home_batter == 8:
-			current_home_batter = 0
-		elif half_inning % 2 != 0 and current_away_batter < 8:
-			current_away_batter = current_away_batter + 1
-		elif half_inning % 2 != 0 and current_away_batter == 8:
-			current_away_batter = 0
-		
 		print ("")
 		status()
 
