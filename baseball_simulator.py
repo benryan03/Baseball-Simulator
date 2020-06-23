@@ -200,7 +200,7 @@ def next_batter():
 
 def format_batting_average(avg):
 	avg_string = str(avg)
-	avg_string = avg_string[1:]#Remove leading 0
+	avg_string = avg_string[1:] # Remove leading 0
 
 	# Add trailing 0s if necessary
 	if len(avg_string) == 2:
@@ -232,6 +232,8 @@ away_year = input("Enter year: ")
 #home_year = "2018" #debug
 #away_team = "nyy" #debug
 #away_year = "2018" #debug
+
+print("Loading players...")
 
 #Load baseball-reference page for inputted team/year
 #URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
@@ -310,17 +312,132 @@ away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], 
 home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
 away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+home_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
+away_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
+
+home_closer = ["", ""]
+away_closer = ["", ""]
+
+#Scrape names and Earned Run Averages of top 12 pitchers
+for x in range(12):
+	#Home
+	fullname = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
+	position = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[1]/descendant::strong/text()')
+	if str(fullname).strip("[],'") != "":
+		fname = str(fullname).partition(",")[2]
+		lname = str(fullname).partition(",")[0]
+		if str(position).strip("[],'") == "CL":
+			home_closer[0] = fname.strip("[],'") + " " + lname.strip("[],'")
+			era = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
+			home_closer[1] = float(str(era).strip("[]'"))
+			home_pitchers[x][0] = "_EMPTY_"
+		else: #Not Closer
+			home_pitchers[x][0] = fname.strip("[],'") + " " + lname.strip("[],'")
+			era = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
+			home_pitchers[x][1] = float(str(era).strip("[]'"))
+	else:
+		home_pitchers[x][0] = "_EMPTY_"
+
+	#away
+	fullname = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
+	position = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[1]/descendant::strong/text()')
+	if str(fullname).strip("[],'") != "":
+		fname = str(fullname).partition(",")[2]
+		lname = str(fullname).partition(",")[0]
+		if str(position).strip("[],'") == "CL":
+			away_closer[0] = fname.strip("[],'") + " " + lname.strip("[],'")
+			era = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
+			away_closer[1] = float(str(era).strip("[]'"))
+			away_pitchers[x][0] = "_EMPTY_"
+		else: #Not Closer
+			away_pitchers[x][0] = fname.strip("[],'") + " " + lname.strip("[],'")
+			era = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
+			away_pitchers[x][1] = float(str(era).strip("[]'"))
+	else:
+		away_pitchers[x][0] = "_EMPTY_"
+
+
+
+
+
+for x in home_pitchers:
+	if "_EMPTY_" in x:
+		home_pitchers.remove(x)
+
+for x in home_pitchers:
+	if "_EMPTY_" in x:
+		home_pitchers.remove(x)
+
+for x in away_pitchers:
+	if "_EMPTY_" in x:
+		away_pitchers.remove(x)
+
+for x in away_pitchers:
+	if "_EMPTY_" in x:
+		away_pitchers.remove(x)
+
+
+
+
+
+
+
+
+
+
+
+
 print("\nStarting lineup for " + home_team + ":")
-wait()
+#wait()
 for x in home_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
-	wait()
+#	wait()
 
 print("\nStarting lineup for " + away_team + ":")
-wait()
+#wait()
 for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
-	wait()
+#	wait()
+
+
+
+print()
+for x in home_pitchers:
+	print(x)
+
+print()
+for x in away_pitchers:
+	print(x)
+
+print()
+print(home_team + " closer: " + home_closer[0])
+
+print()
+print(away_team + " closer: " + away_closer[0])
+
+
+
+
+
+
+
+
+
 
 print()
 status()
