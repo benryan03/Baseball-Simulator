@@ -37,6 +37,9 @@ home_double_count = 0
 home_triple_count = 0
 home_homerun_count = 0
 home_hbp_count = 0
+
+current_home_batter = 0
+current_away_batter = 0
 	
 def resetcount():
 	global balls
@@ -147,6 +150,9 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 	global first
 	global second
 	global third
+
+	now_batting()
+
 	print ("Outs: " + str(outs) + " | Inning: ", end ="")
 	if half_inning % 2 != 0:
 		print ("Top ", end ="")
@@ -166,19 +172,35 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 	elif first == False:
 		print ("-")
 
+def now_batting():
+	if half_inning % 2 == 0:
+		print ("Now batting for " + home_team + ": " + str(home_batters[current_home_batter][0]) + ". " + str(home_year) + " AVG: " + str(home_batters[current_home_batter][1]))
+	else:
+		print ("Now batting for " + away_team + ": " + str(away_batters[current_away_batter][0]) + ". " + str(away_year) + " AVG: " + str(away_batters[current_away_batter][1]))
+
+
 def wait(): #change these wait times to 0 for game to complete immediately
 	time.sleep(2)
 
 def wait_short():
 	time.sleep(.2)
 
-#program start
-print ("Welcome to Baseball Simulator")
-home_team = input("Enter the name of the home team: ")
-home_year = input("Enter year: ")
+#######################################################################################################################
+#######################################################################################################################
 
-away_team = input("Enter the name of the away team: ")
-away_year = input("Enter year: ")
+#program start
+
+print ("Welcome to Baseball Simulator")
+#home_team = input("Enter the name of the home team: ")
+#home_year = input("Enter year: ")
+
+#away_team = input("Enter the name of the away team: ")
+#away_year = input("Enter year: ")
+
+home_team = "bos"
+home_year = "2018"
+away_team = "nyy"
+away_year = "2018"
 
 #Load baseball-reference page for inputted team/year
 #URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
@@ -229,17 +251,27 @@ away_avg = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 #Scrape batting averages of first 8 batters
 for x in range(8):
-	home_avg[x] = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
-	away_avg[x] = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
+	avg = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
+	home_avg[x] = float(str(avg).strip("[]'"))
+	avg = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
+	away_avg[x] = float(str(avg).strip("[]'"))
 
 #Scrape batting average of 9th batter
-home_avg[8] = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[17]/text()')
-if home_avg[8] == []:
-	home_avg[8] = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[17]/text()')
+avg = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[17]/text()')
+if avg == []:
+	avg = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[17]/text()')
+	home_avg[8] = float(str(avg).strip("[]'"))
+else:
+	home_avg[8] = float(str(avg).strip("[]'"))
 	
-away_avg[8] = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[17]/text()')
-if away_avg[8] == []:
-	away_avg[8] = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[17]/text()')
+avg = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[17]/text()')
+if avg == []:
+	avg = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[17]/text()')
+	away_avg[8] = float(str(avg).strip("[]'"))
+else:
+	away_avg[8] = float(str(avg).strip("[]'"))
+
+
 
 #Add batting averages to batters array
 home_batters = [[home_batters[0], home_avg[0]], [home_batters[1], home_avg[1]], [home_batters[2], home_avg[2]], [home_batters[3], home_avg[3]], [home_batters[4], home_avg[4]], [home_batters[5], home_avg[5]], [home_batters[6], home_avg[6]], [home_batters[7], home_avg[7]], [home_batters[8], home_avg[8]]]
@@ -252,12 +284,12 @@ away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
 print("\nStarting lineup for " + home_team + ":")
 for x in home_batters:
 	print(x)
-	wait()
+	#wait()
 
 print("\nStarting lineup for " + away_team + ":")
 for x in away_batters:
 	print(x)
-	wait()
+	#wait()
 
 print()
 status()
@@ -273,12 +305,12 @@ while gameover == False: #main program loop
 
 	rand = random.randint(1, 100) #generate random number to determine result of pitch
 	
-	if 0 <= rand <= 36 and balls < 3:
+	if 0 <= rand <= 36 and balls < 3: #Ball
 		result = "Ball"
 		balls = balls + 1
 		print ("Ball. (" + str(balls) + " - " + str(strikes) + ")")
 
-	elif 0 <= rand <= 36 and balls == 3:
+	elif 0 <= rand <= 36 and balls == 3: #Walk
 		result = "Ball"
 		result = "Walk"
 		print ("WALK!")
@@ -304,35 +336,35 @@ while gameover == False: #main program loop
 			home_walk_count = home_walk_count + 1
 		resetcount()
 
-	elif 35 <= rand <= 67 and strikes <2:
+	elif 35 <= rand <= 67 and strikes <2: #Strike
 		result = "Strike"
 		strikes = strikes + 1
 		print ("Strike. (" + str(balls) + " - " + str(strikes) + ")")
 
-	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 != 0: #if top of inning
+	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 != 0: #Strikeout - away
 		result = "Strike"
 		result = "Strikeout"
 		print ("STRIKEOUT!")
 		away_strikeout_count = away_strikeout_count + 1
 		out(1)
 
-	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 == 0: #if bottom of inning
+	elif 35 <= rand <= 67 and strikes ==2 and half_inning % 2 == 0: #Strikeout - home
 		result = "Strike"
 		result = "Strikeout"
 		print ("STRIKEOUT!")
 		home_strikeout_count = home_strikeout_count + 1
 		out(1)
 
-	elif 66 <= rand <= 77 and strikes < 2:
+	elif 66 <= rand <= 77 and strikes < 2: #Foul
 		result = "Foul"
 		strikes = strikes + 1
 		print ("Foul. (" + str(balls) + " - " + str(strikes) + ")")
 
-	elif 66 <= rand <= 77 and strikes == 2:
+	elif 66 <= rand <= 77 and strikes == 2: #Foul (with 2 strikes)
 		result = "Foul"
 		print ("Foul. (" + str(balls) + " - " + str(strikes) + ")")
 
-	elif 76 <= rand <= 83:
+	elif 76 <= rand <= 83: #Ground out
 		result = "Grounder"	
 		if first == False and second == False and third == False:
 			print ("GROUND OUT!")
@@ -377,12 +409,12 @@ while gameover == False: #main program loop
 			out(1)
 		resetcount()
 
-	elif 82 <= rand <= 85:
+	elif 82 <= rand <= 85: #Pop up
 		result = "Fly"
 		print ("POPPED UP!")
 		out(1)
 
-	elif 84 <= rand <= 88:
+	elif 84 <= rand <= 88: #Fly out
 		result = "Fly"
 		if first == False and second == False and third == False:
 			print ("FLY OUT!")
@@ -440,7 +472,7 @@ while gameover == False: #main program loop
 			out(1)
 		resetcount()
 
-	elif 87 <= rand <= 93:
+	elif 87 <= rand <= 93: #Single
 		result = "Single"
 		print ("SINGLE!")
 		if first == False and second == False and third == False:
@@ -470,7 +502,7 @@ while gameover == False: #main program loop
 			home_single_count = home_single_count + 1
 		resetcount()
 
-	elif 92 <= rand <= 97:
+	elif 92 <= rand <= 97: #Double
 		result = "Double"
 		print ("DOUBLE!")
 		if first == False and second == False and third == False:
@@ -505,7 +537,7 @@ while gameover == False: #main program loop
 			home_double_count = home_double_count + 1
 			resetcount()
 	
-	elif 96 <= rand <= 99:
+	elif 96 <= rand <= 99: #Home run
 		result = "Home run"
 		print ("HOME RUN!")
 		if first == False and second == False and third == False:
@@ -542,7 +574,7 @@ while gameover == False: #main program loop
 			home_homerun_count = home_homerun_count + 1
 		resetcount()
 
-	elif 97 <= rand <= 101:
+	elif 97 <= rand <= 101: #Hit by pitch
 		result = "Hit by pitch"
 		print ("HIT BY PITCH!")
 		if first == False and second == False and third == False:
@@ -567,7 +599,7 @@ while gameover == False: #main program loop
 			home_hbp_count = home_hbp_count + 1
 		resetcount()
 
-	elif rand == 99:
+	elif rand == 99: #Triple
 		result = "Triple"
 		print ("TRIPLE!")
 		if first == False and second == False and third == False:
@@ -606,6 +638,15 @@ while gameover == False: #main program loop
 
 	if result == "Walk" or result == "Single" or result == "Double" or result == "Triple" or result == "Home run" or result == "Hit by pitch" or result == "Strikeout" or result == "Grounder" or result == "Fly" or result == "Sacrifice fly":
 		#at-bat is over
+		if half_inning % 2 == 0 and current_home_batter < 8:
+			current_home_batter = current_home_batter + 1
+		elif half_inning % 2 == 0 and current_home_batter == 8:
+			current_home_batter = 0
+		elif half_inning % 2 != 0 and current_away_batter < 8:
+			current_away_batter = current_away_batter + 1
+		elif half_inning % 2 != 0 and current_away_batter == 8:
+			current_away_batter = 0
+		
 		print ("")
 		status()
 
