@@ -151,7 +151,11 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 	global second
 	global third
 
+	wait()
+
 	now_batting()
+	
+	wait()
 
 	print ("Outs: " + str(outs) + " | Inning: ", end ="")
 	if half_inning % 2 != 0:
@@ -171,6 +175,8 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 		print ("X")
 	elif first == False:
 		print ("-")
+
+	wait()
 
 def now_batting():
 	if half_inning % 2 == 0:
