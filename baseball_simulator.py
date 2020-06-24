@@ -75,6 +75,10 @@ def out(num):
 			third = False
 			balls = 0
 			strikes = 0
+			if half_inning == 2:
+				print("Starting pitcher for " + away_team + ": " + away_starting_pitcher[0])
+				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
+				wait()
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0: # if 2 outs and 9th inning or later and end of top of inning
 			outs = 3
 			print ("Half-inning has ended.")
@@ -210,6 +214,15 @@ def format_batting_average(avg):
 	
 	return avg_string
 
+def format_era(era):
+	era_string = str(era)
+
+	# Add trailing 0 if necessary
+	if len(era_string) == 3:
+		era_string = era_string + "0"
+	
+	return era_string
+
 def wait(): #change these wait times to 0 for game to complete immediately
 	time.sleep(2)
 
@@ -222,16 +235,16 @@ def wait_short():
 #program start
 
 print ("Welcome to Baseball Simulator")
-home_team = input("Enter the name of the home team: ")
-home_year = input("Enter year: ")
+#home_team = input("Enter the name of the home team: ")
+#home_year = input("Enter year: ")
 
-away_team = input("Enter the name of the away team: ")
-away_year = input("Enter year: ")
+#away_team = input("Enter the name of the away team: ")
+#away_year = input("Enter year: ")
 
-#home_team = "bos" #debug
-#home_year = "2018" #debug
-#away_team = "nyy" #debug
-#away_year = "2018" #debug
+home_team = "bos" #debug
+home_year = "2018" #debug
+away_team = "nyy" #debug
+away_year = "2018" #debug
 
 print("Loading players...")
 
@@ -312,26 +325,11 @@ away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], 
 home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
 away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 home_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
 away_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
 
-home_closer = ["", ""]
-away_closer = ["", ""]
+home_closer = ["", 0]
+away_closer = ["", 0]
 
 #Scrape names and Earned Run Averages of top 12 pitchers
 for x in range(12):
@@ -371,36 +369,19 @@ for x in range(12):
 	else:
 		away_pitchers[x][0] = "_EMPTY_"
 
-
-
-
-
+#For some reason, these loops need to be run twice each
 for x in home_pitchers:
 	if "_EMPTY_" in x:
 		home_pitchers.remove(x)
-
 for x in home_pitchers:
 	if "_EMPTY_" in x:
 		home_pitchers.remove(x)
-
 for x in away_pitchers:
 	if "_EMPTY_" in x:
 		away_pitchers.remove(x)
-
 for x in away_pitchers:
 	if "_EMPTY_" in x:
 		away_pitchers.remove(x)
-
-
-
-
-
-
-
-
-
-
-
 
 print("\nStarting lineup for " + home_team + ":")
 #wait()
@@ -414,30 +395,26 @@ for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 #	wait()
 
-
-
-print()
-for x in home_pitchers:
-	print(x)
-
-print()
-for x in away_pitchers:
-	print(x)
+#for x in home_pitchers:
+#	print(x)
+#for x in away_pitchers:
+#	print(x)
+#print(home_team + " closer: " + home_closer[0] + " - " + str(home_closer[1]))
+#print(away_team + " closer: " + away_closer[0] + " - " + str(away_closer[1]))
 
 print()
-print(home_team + " closer: " + home_closer[0])
 
+wait()
+pitcher_rand = random.randint(1, 5)
+home_starting_pitcher = home_pitchers[pitcher_rand]
+pitcher_rand = random.randint(1, 5)
+away_starting_pitcher = away_pitchers[pitcher_rand]
+print("Starting pitcher for " + home_team + ": " + home_starting_pitcher[0])
+print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
+wait()
 print()
-print(away_team + " closer: " + away_closer[0])
-
-
-
-
-
-
-
-
-
+print("PLAY BALL!")
+wait()
 
 print()
 status()
