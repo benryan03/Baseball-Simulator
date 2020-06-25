@@ -39,9 +39,9 @@ home_triple_count = 0
 home_homerun_count = 0
 home_hbp_count = 0
 
-current_home_batter = 0
 current_away_batter = 0
-	
+current_home_batter = 0
+
 def resetcount():
 	global balls
 	global strikes
@@ -188,6 +188,51 @@ def now_batting():
 		print ("Now batting for " + home_team + ": " + str(home_batters[current_home_batter][0]) + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 	else:
 		print ("Now batting for " + away_team + ": " + str(away_batters[current_away_batter][0]) + ". " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+
+	# Determine advantage
+	if half_inning % 2 == 0: #Bottom half
+		avg = home_batters[current_home_batter][1]
+		era = away_starting_pitcher[1]
+
+		x = avg / .250
+		y = 2 - (era / 4.50)
+
+		if x > y:
+			#Batter has adventage
+			advantage = home_batters[current_home_batter][0]
+			margin = x - y
+
+		elif x <= y:
+			#Pitcher has advantage
+			advantage = away_starting_pitcher[0]
+			margin = y - x
+
+		wait()
+		margin = round(margin*50,1)
+		print("Edge: " + advantage + " - " + str(margin) + "%")
+
+	elif half_inning % 2 != 0: #Top half
+		avg = away_batters[current_away_batter][1]
+		era = home_starting_pitcher[1]
+		
+		x = avg / .250
+		y = 2 - (era / 4.50)
+
+		if x > y:
+			#Batter has adventage
+			advantage = away_batters[current_away_batter][0]
+			margin = x - y
+
+		elif x <= y:
+			#Pitcher has advantage
+			advantage = home_starting_pitcher[0]
+			margin = y - x
+
+		wait()
+		margin = round(margin*50,1)
+		print("Edge: " + advantage + " - " + str(margin) + "%")
+	
+
 
 def next_batter():
 	global half_inning
@@ -369,16 +414,16 @@ def calculate_pitch_outcome(pitch):
 #program start
 
 print ("Welcome to Baseball Simulator")
-#home_team = input("Enter the name of the home team: ")
-#home_year = input("Enter year: ")
+home_team = input("Enter the name of the home team: ")
+home_year = input("Enter year: ")
 
-#away_team = input("Enter the name of the away team: ")
-#away_year = input("Enter year: ")
+away_team = input("Enter the name of the away team: ")
+away_year = input("Enter year: ")
 
-home_team = "bos" #debug
-home_year = "2018" #debug
-away_team = "nyy" #debug
-away_year = "2018" #debug
+#home_team = "bos" #debug
+#home_year = "2018" #debug
+#away_team = "nyy" #debug
+#away_year = "2018" #debug
 
 print("Loading players...")
 
@@ -570,7 +615,7 @@ while gameover == False: #main game loop
 			print ("Ball. (" + str(balls) + " - " + str(strikes) + ")")
 
 		elif balls == 3: #Walk
-			next_batter()
+			pitch_result = "Walk"
 			print ("WALK!")
 			if first == False and second == False and third == False:
 				first = True
@@ -593,6 +638,7 @@ while gameover == False: #main game loop
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_walk_count = home_walk_count + 1
 			resetcount()
+			next_batter()
 
 	elif pitch_result == "Strike":
 		if strikes <2: #Strike
@@ -600,16 +646,18 @@ while gameover == False: #main game loop
 			print ("Strike. (" + str(balls) + " - " + str(strikes) + ")")
 
 		elif strikes ==2 and half_inning % 2 != 0: #Strikeout - away
-			next_batter()
 			print ("STRIKEOUT!")
+			pitch_result = "Strikeout"
 			away_strikeout_count = away_strikeout_count + 1
 			out(1)
+			next_batter()
 
 		elif strikes ==2 and half_inning % 2 == 0: #Strikeout - home
-			next_batter()
 			print ("STRIKEOUT!")
+			pitch_result = "Strikeout"
 			home_strikeout_count = home_strikeout_count + 1
 			out(1)
+			next_batter()
 
 	elif pitch_result == "Foul":
 		if strikes < 2: #Foul
