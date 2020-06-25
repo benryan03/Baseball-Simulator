@@ -42,6 +42,9 @@ home_hbp_count = 0
 current_away_batter = 0
 current_home_batter = 0
 
+margin = 0
+edge = ["", 0]
+
 def resetcount():
 	global balls
 	global strikes
@@ -184,6 +187,10 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 	wait()
 
 def now_batting():
+	global edge
+	global edge_pos
+	global margin
+
 	if half_inning % 2 == 0:
 		print ("Now batting for " + home_team + ": " + str(home_batters[current_home_batter][0]) + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 	else:
@@ -192,45 +199,49 @@ def now_batting():
 	# Determine advantage
 	if half_inning % 2 == 0: #Bottom half
 		avg = home_batters[current_home_batter][1]
-		era = away_starting_pitcher[1]
+		era = current_away_pitcher[1]
 
 		x = avg / .250
-		y = 2 - (era / 4.50)
+		y = 2 - (era / 4)
 
 		if x > y:
 			#Batter has adventage
-			advantage = home_batters[current_home_batter][0]
+			edge = home_batters[current_home_batter][0]
+			edge_pos = "Batter"
 			margin = x - y
 
 		elif x <= y:
 			#Pitcher has advantage
-			advantage = away_starting_pitcher[0]
+			edge = current_away_pitcher[0]
+			edge_pos = "Pitcher"
 			margin = y - x
 
 		wait()
 		margin = round(margin*50,1)
-		print("Edge: " + advantage + " - " + str(margin) + "%")
+		print("Edge: " + edge + " - " + str(margin) + "%")
 
 	elif half_inning % 2 != 0: #Top half
 		avg = away_batters[current_away_batter][1]
-		era = home_starting_pitcher[1]
+		era = current_home_pitcher[1]
 		
 		x = avg / .250
 		y = 2 - (era / 4.50)
 
 		if x > y:
 			#Batter has adventage
-			advantage = away_batters[current_away_batter][0]
+			edge = away_batters[current_away_batter][0]
+			edge_pos = "Batter"
 			margin = x - y
 
 		elif x <= y:
 			#Pitcher has advantage
-			advantage = home_starting_pitcher[0]
+			edge = current_home_pitcher[0]
+			edge_pos = "Pitcher"
 			margin = y - x
 
 		wait()
 		margin = round(margin*50,1)
-		print("Edge: " + advantage + " - " + str(margin) + "%")
+		print("Edge: " + edge + " - " + str(margin) + "%")
 	
 
 
@@ -270,24 +281,88 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(2)
+	time.sleep(.5) #2
 
 def wait_short():
-	time.sleep(.2)
+	time.sleep(.1) #.2
 
 def calculate_pitch_outcome(pitch):
+	global edge_pos
+	global margin
+	
 	rand = random.randint(1, 100)
+	pitch = 1
 	if pitch == 1:
-		if rand >= 1 and rand <= 43:
-			return "Ball"
-		elif rand >=44 and rand <= 72:
-			return "Strike" #Called Strike
-		elif rand >= 73 and rand <= 82:
-			return "Foul"
-		elif rand >= 83 and rand <= 88:
-			return "Strike" #Swinging Strike
-		else:
-			return "Ball_in_play"
+		if rand <= 1 and rand <= 43: #Ball
+			#print("init: ball")
+			if edge_pos == "Pitcher":
+				#print("Calculating whether to redo")
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					#print("Redo pitch SUCCEEDED\n\n\n\n")
+					calculate_pitch_outcome(pitch)
+				else:
+					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
+					return "Ball"
+			else:
+				#print("No redo attempt")
+				return "Ball"
+		elif rand <=44 and rand <= 72: #Called Strike
+			#print("init: called strike")
+			if edge_pos == "Batter":
+				#print("Calculating whether to redo")
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					#print("Redo pitch SUCCEEDED\n\n\n\n")
+					calculate_pitch_outcome(pitch)
+				else:
+					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
+					return "Strike"
+			else:
+				#print("No redo attempt")
+				return "Strike"
+		elif rand <= 73 and rand <= 82: #Foul
+			#print("init: foul")
+			if edge_pos == "Batter":
+				#print("Calculating whether to redo")
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					#print("Redo pitch SUCCEEDED\n\n\n\n")
+					calculate_pitch_outcome(pitch)
+				else:
+					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
+					return "Foul"
+			else:
+				#print("No redo attempt")
+				return "Foul"
+		elif rand <= 83 and rand <= 88: #Swinging Strike
+			#print("init: swinging strike")
+			if edge_pos == "Batter":
+				#print("Calculating whether to redo")
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					#print("Redo pitch SUCCEEDED\n\n\n\n")
+					calculate_pitch_outcome(pitch)
+				else:
+					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
+					return "Strike"
+			else:
+				#print("No redo attempt")
+				return "Strike"
+		else: #Ball in play
+			#print("init: ballinplay")
+			if edge_pos == "Pitcher":
+				#print("Calculating whether to redo")
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					#print("Redo pitch SUCCEEDED\n\n\n\n")
+					calculate_pitch_outcome(pitch)
+				else:
+					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
+					return "Ball_in_play"
+			else:
+				#print("No redo attempt")
+				return "Ball_in_play"
 	elif pitch == 2:
 		if rand >= 1 and rand <= 40:
 			return "Ball"
@@ -588,6 +663,10 @@ pitcher_rand = random.randint(1, 5)
 home_starting_pitcher = home_pitchers[pitcher_rand]
 pitcher_rand = random.randint(1, 5)
 away_starting_pitcher = away_pitchers[pitcher_rand]
+
+current_home_pitcher = home_starting_pitcher
+current_away_pitcher = away_starting_pitcher
+
 print("Starting pitcher for " + home_team + ": " + home_starting_pitcher[0])
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
 wait()
@@ -671,6 +750,25 @@ while gameover == False: #main game loop
 		rand = random.randint(1, 100)
 
 		if 1 <= rand <= 40: #Fly out
+			
+			#print("init: fly out") #DEBUG
+			if edge_pos == "Batter":
+			#	print("Calculating whether to redo") #DEBUG
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+			#	else:
+			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
+					#pitch_result = "Fly"
+			#else:
+			#	print("No redo attempt") #DEBUG
+				#pitch_result == "Fly"
+
+
+
+
+			
 			next_batter()
 			if first == False and second == False and third == False:
 				print ("FLY OUT!")
@@ -728,7 +826,28 @@ while gameover == False: #main game loop
 				out(1)
 			resetcount()
 			pitch_result = "Fly"
+
+
+
 		elif 41 <= rand <= 70: #Ground out
+
+			#print("init: ground out") #DEBUG
+			if edge_pos == "Batter":
+			#	print("Calculating whether to redo") #DEBUG
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+			#	else:
+			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
+					#pitch_result = "Fly"
+			#else:
+			#	print("No redo attempt") #DEBUG
+				#pitch_result == "Fly"
+
+
+
+
 			next_batter()
 			if first == False and second == False and third == False:
 				print ("GROUND OUT!")
@@ -774,6 +893,24 @@ while gameover == False: #main game loop
 			resetcount()
 			pitch_result = "Grounder"	
 		elif 71 <= rand <= 87: #Single
+
+			#print("init: single") #DEBUG
+			if edge_pos == "Pitcher":
+			#	print("Calculating whether to redo") #DEBUG
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+			#	else:
+			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
+					#pitch_result = "Fly"
+			#else:
+			#	print("No redo attempt") #DEBUG
+				#pitch_result == "Fly"
+
+
+
+
 			next_batter()
 			print ("SINGLE!")
 			if first == False and second == False and third == False:
@@ -804,6 +941,26 @@ while gameover == False: #main game loop
 			resetcount()
 			pitch_result = "Single"
 		elif 88 <= rand <= 93: #Double
+
+
+
+			#print("init: double") #DEBUG
+			if edge_pos == "Pitcher":
+			#	print("Calculating whether to redo") #DEBUG
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+			#	else:
+			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
+					#pitch_result = "Fly"
+			#else:
+			#	print("No redo attempt") #DEBUG
+				#pitch_result == "Fly"
+
+
+
+
 			next_batter()
 			print ("DOUBLE!")
 			if first == False and second == False and third == False:
@@ -838,7 +995,32 @@ while gameover == False: #main game loop
 				home_double_count = home_double_count + 1
 				resetcount()
 			pitch_result = "Double"
+
+
+
 		elif 94 <= rand <= 98: #Home run
+			
+			
+			
+
+			#print("init: home run") #DEBUG
+			if edge_pos == "pitcher":
+			#	print("Calculating whether to redo") #DEBUG
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+			#	else:
+			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
+					#pitch_result = "Fly"
+			#else:
+			#	print("No redo attempt") #DEBUG
+				#pitch_result == "Fly"
+
+
+
+			
+			
 			next_batter()
 			print ("HOME RUN!")
 			if first == False and second == False and third == False:
@@ -875,7 +1057,28 @@ while gameover == False: #main game loop
 				home_homerun_count = home_homerun_count + 1
 			resetcount()
 			pitch_result = "Home run"
+
+
+
 		elif 97 <= rand <= 99: #Hit by pitch
+			
+			
+			#print("hit by pitch") #DEBUG
+			if edge_pos == "pitcher":
+			#	print("Calculating whether to redo") #DEBUG
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+			#	else:
+			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
+					#pitch_result = "Fly"
+			#else:
+			#	print("No redo attempt") #DEBUG
+				#pitch_result == "Fly"
+
+
+
 			next_batter()
 			print ("HIT BY PITCH!")
 			if first == False and second == False and third == False:
@@ -900,7 +1103,29 @@ while gameover == False: #main game loop
 				home_hbp_count = home_hbp_count + 1
 			resetcount()
 			pitch_result = "Hit by pitch"
+
+
 		elif rand == 100: #Triple
+			
+			
+			
+
+			#print("init:  triple") #DEBUG
+			if edge_pos == "Batter":
+			#	print("Calculating whether to redo") #DEBUG
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+			#	else:
+			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
+					#pitch_result = "Fly"
+			#else:
+			#	print("No redo attempt") #DEBUG
+				#pitch_result == "Fly"
+
+
+
 			next_batter()
 			print ("TRIPLE!")
 			if first == False and second == False and third == False:
