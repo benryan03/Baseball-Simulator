@@ -286,12 +286,12 @@ def wait(): #change these wait times to 0 for game to complete immediately
 def wait_short():
 	time.sleep(.2) # .2
 
-def calculate_pitch_outcome(pitch):
+def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
 	global margin
 	
 	rand = random.randint(1, 100)
-	pitch = 1
+	#pitch = 1
 	if pitch == 1:
 		if rand <= 1 and rand <= 43: #Ball
 			#print("init: ball")
@@ -300,7 +300,7 @@ def calculate_pitch_outcome(pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					#print("Redo pitch SUCCEEDED\n\n\n\n")
-					calculate_pitch_outcome(pitch)
+					calculate_pitch_outcome(pitch, True)
 				else:
 					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
 					return "Ball"
@@ -314,7 +314,7 @@ def calculate_pitch_outcome(pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					#print("Redo pitch SUCCEEDED\n\n\n\n")
-					calculate_pitch_outcome(pitch)
+					calculate_pitch_outcome(pitch, True)
 				else:
 					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
 					return "Strike"
@@ -328,7 +328,7 @@ def calculate_pitch_outcome(pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					#print("Redo pitch SUCCEEDED\n\n\n\n")
-					calculate_pitch_outcome(pitch)
+					calculate_pitch_outcome(pitch, True)
 				else:
 					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
 					return "Foul"
@@ -342,7 +342,7 @@ def calculate_pitch_outcome(pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					#print("Redo pitch SUCCEEDED\n\n\n\n")
-					calculate_pitch_outcome(pitch)
+					calculate_pitch_outcome(pitch, True)
 				else:
 					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
 					return "Strike"
@@ -356,7 +356,7 @@ def calculate_pitch_outcome(pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					#print("Redo pitch SUCCEEDED\n\n\n\n")
-					calculate_pitch_outcome(pitch)
+					calculate_pitch_outcome(pitch, True)
 				else:
 					#print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)))
 					return "Ball_in_play"
@@ -364,123 +364,339 @@ def calculate_pitch_outcome(pitch):
 				#print("No redo attempt")
 				return "Ball_in_play"
 	elif pitch == 2:
-		if rand >= 1 and rand <= 40:
+		if rand <= 1 and rand <= 40: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=41 and rand <= 56:
-			return "Strike" #Called Strike
-		elif rand >= 57 and rand <= 72:
+		elif rand <=41 and rand <= 56: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 57 and rand <= 72: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 73 and rand <= 81:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 73 and rand <= 81: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 3:
-		if rand >= 1 and rand <= 39:
+		if rand <= 1 and rand <= 39: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >= 40 and rand <= 52:
-			return "Strike" #Called Strike
-		elif rand >= 53 and rand <= 70:
+		elif rand <=40 and rand <= 52: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 53 and rand <= 70: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 71 and rand <= 80:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 71 and rand <= 80: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 4:
-		if rand >= 1 and rand <= 35:
+		if rand <= 1 and rand <= 35: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=36 and rand <= 47:
-			return "Strike" #Called Strike
-		elif rand >= 48 and rand <= 68:
+		elif rand <=36 and rand <= 47: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 48 and rand <= 68: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 69 and rand <= 80:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 69 and rand <= 80: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 5:
-		if rand >= 1 and rand <= 31:
+		if rand <= 1 and rand <= 31: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=32 and rand <= 40:
-			return "Strike" #Called Strike
-		elif rand >= 41 and rand <= 61:
+		elif rand <=32 and rand <= 40: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 41 and rand <= 61: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 62 and rand <= 73:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 62 and rand <= 73: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 6:
-		if rand >= 1 and rand <= 26:
+		if rand <= 1 and rand <= 26: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=27 and rand <= 30:
-			return "Strike" #Called Strike
-		elif rand >= 31 and rand <= 53:
+		elif rand <=27 and rand <= 30: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 31 and rand <= 53: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 54 and rand <= 65:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 54 and rand <= 65: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 7:
-		if rand >= 1 and rand <= 25:
+		if rand <= 1 and rand <= 25: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=26 and rand <= 29:
-			return "Strike" #Called Strike
-		elif rand >= 30 and rand <= 57:
+		elif rand <=26 and rand <= 29: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 30 and rand <= 57: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 58 and rand <= 69:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 58 and rand <= 69: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 8:
-		if rand >= 1 and rand <= 24:
+		if rand <= 1 and rand <= 24: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=25 and rand <= 28:
-			return "Strike" #Called Strike
-		elif rand >= 29 and rand <= 57:
+		elif rand <=25 and rand <= 28: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 29 and rand <= 57: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 58 and rand <= 68:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 58 and rand <= 68: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 9:
-		if rand >= 1 and rand <= 23:
+		if rand <= 1 and rand <= 23: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=24 and rand <= 26:
-			return "Strike" #Called Strike
-		elif rand >= 27 and rand <= 57:
+		elif rand <=24 and rand <= 26: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 27 and rand <= 57: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 58 and rand <= 68:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <= 58 and rand <= 68: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 10:
-		if rand >= 1 and rand <= 22:
+		if rand <= 1 and rand <= 22: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=23 and rand <= 25:
-			return "Strike" #Called Strike
-		elif rand >= 26 and rand <= 57:
+		elif rand <=23 and rand <= 25: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 26 and rand <= 57: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Foul"
-		elif rand >= 58 and rand <= 68:
-			return "Strike" #Swinging Strike
-		else:
-			return "Ball_in_play"
+		elif rand <= 58 and rand <= 68: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Ball_in_play"	
 	elif pitch == 11:
-		if rand >= 1 and rand <= 22:
+		if rand <= 1 and rand <= 22: #Ball
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=23 and rand <= 25:
-			return "Strike" #Called Strike
-		elif rand >= 26 and rand <= 57:
-			return "Fou"
-		elif rand >= 58 and rand <= 68:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <=23 and rand <= 25: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 26 and rand <= 57: #Foul
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Foul"
+		elif rand <= 58 and rand <= 68: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 	elif pitch == 12:
-		if rand >= 1 and rand <= 28:
+		if rand <= 1 and rand <= 28: #Ball
+			if edge_pos == "Pitch9er":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball"
-		elif rand >=29 and rand <= 40:
-			return "Strike" #Called Strike
-		elif rand >= 41 and rand <= 58:
-			return "Strike" #Swinging Strike
-		else:
+		elif rand <=29 and rand <= 40: #Called Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		elif rand <= 41 and rand <= 58: #Swinging Strike
+			if edge_pos == "Batter":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
+			return "Strike"
+		else: #Ball in play
+			if edge_pos == "Pitcher":
+				rand = random.randint(1, 100)
+				if 1 <= rand <= round(margin,0):
+					calculate_pitch_outcome(pitch, True)
 			return "Ball_in_play"
 
 #######################################################################################################################
@@ -679,6 +895,8 @@ status()
 
 while gameover == False: #main game loop
 
+	pitch_result = calculate_pitch_outcome(atbat_pitch_count, False)
+
 	#pitching animation
 	if half_inning % 2 == 0:
 		current_pitcher_pitch_count = home_pitcher_pitch_count
@@ -689,8 +907,6 @@ while gameover == False: #main game loop
 		wait_short()
 		print (". ", end="", flush=True)
 	print("")
-
-	pitch_result = calculate_pitch_outcome(atbat_pitch_count)
 
 	if pitch_result == "Ball":
 		if balls < 3:
@@ -761,7 +977,7 @@ while gameover == False: #main game loop
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
-					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
 			#	else:
 			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
 					#pitch_result = "Fly"
@@ -841,7 +1057,7 @@ while gameover == False: #main game loop
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
-					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
 			#	else:
 			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
 					#pitch_result = "Fly"
@@ -904,7 +1120,7 @@ while gameover == False: #main game loop
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
-					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
 			#	else:
 			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
 					#pitch_result = "Fly"
@@ -954,7 +1170,7 @@ while gameover == False: #main game loop
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
-					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
 			#	else:
 			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
 					#pitch_result = "Fly"
@@ -1013,7 +1229,7 @@ while gameover == False: #main game loop
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
-					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
 			#	else:
 			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
 					#pitch_result = "Fly"
@@ -1073,7 +1289,7 @@ while gameover == False: #main game loop
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
-					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
 			#	else:
 			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
 					#pitch_result = "Fly"
@@ -1120,7 +1336,7 @@ while gameover == False: #main game loop
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 			#		print("Redo pitch SUCCEEDED\n\n\n\n") #DEBUG
-					pitch_result = calculate_pitch_outcome(atbat_pitch_count)
+					pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
 			#	else:
 			#		print("Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0))) #DEBUG
 					#pitch_result = "Fly"
