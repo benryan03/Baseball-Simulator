@@ -22,6 +22,8 @@ rand = 0
 pitch_result = "_"
 gameover = False
 atbat_pitch_count = 1
+home_pitcher_pitch_count = 1
+away_pitcher_pitch_count = 1
 
 away_strikeout_count = 0
 away_walk_count = 0
@@ -242,8 +244,6 @@ def now_batting():
 		wait()
 		margin = round(margin*50,1)
 		print("Edge: " + edge + " - " + str(margin) + "%")
-	
-
 
 def next_batter():
 	global half_inning
@@ -281,10 +281,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(.5) #2
+	time.sleep(2) # 2
 
 def wait_short():
-	time.sleep(.1) #.2
+	time.sleep(.2) # .2
 
 def calculate_pitch_outcome(pitch):
 	global edge_pos
@@ -680,7 +680,11 @@ status()
 while gameover == False: #main game loop
 
 	#pitching animation
-	print ("Pitching ", end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
+	if half_inning % 2 == 0:
+		current_pitcher_pitch_count = home_pitcher_pitch_count
+	else:
+		current_pitcher_pitch_count = away_pitcher_pitch_count
+	print ("Pitch " + str(current_pitcher_pitch_count), end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
 	for x in range (0, 3):
 		wait_short()
 		print (". ", end="", flush=True)
@@ -1164,6 +1168,11 @@ while gameover == False: #main game loop
 			pitch_result = "Triple"
 
 	atbat_pitch_count = atbat_pitch_count + 1
+
+	if half_inning % 2 == 0:
+		home_pitcher_pitch_count = home_pitcher_pitch_count + 1
+	else:
+		away_pitcher_pitch_count = away_pitcher_pitch_count + 1
 
 	if pitch_result == "Walk" or pitch_result == "Single" or pitch_result == "Double" or pitch_result == "Triple" or pitch_result == "Home run" or pitch_result == "Hit by pitch" or pitch_result == "Strikeout" or pitch_result == "Grounder" or pitch_result == "Fly" or pitch_result == "Sacrifice fly":
 		#at-bat is over
