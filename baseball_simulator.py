@@ -23,7 +23,7 @@ pitch_result = "_"
 gameover = False
 atbat_pitch_count = 1
 home_pitcher_pitch_count = 1
-away_pitcher_pitch_count = 1
+away_pitcher_pitch_count = 0
 
 away_strikeout_count = 0
 away_walk_count = 0
@@ -899,9 +899,9 @@ while gameover == False: #main game loop
 
 	#pitching animation
 	if half_inning % 2 == 0:
-		current_pitcher_pitch_count = home_pitcher_pitch_count
-	else:
 		current_pitcher_pitch_count = away_pitcher_pitch_count
+	else:
+		current_pitcher_pitch_count = home_pitcher_pitch_count
 	print ("Pitch " + str(current_pitcher_pitch_count), end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
 	for x in range (0, 3):
 		wait_short()
@@ -1386,9 +1386,9 @@ while gameover == False: #main game loop
 	atbat_pitch_count = atbat_pitch_count + 1
 
 	if half_inning % 2 == 0:
-		home_pitcher_pitch_count = home_pitcher_pitch_count + 1
-	else:
 		away_pitcher_pitch_count = away_pitcher_pitch_count + 1
+	else:
+		home_pitcher_pitch_count = home_pitcher_pitch_count + 1
 
 	if pitch_result == "Walk" or pitch_result == "Single" or pitch_result == "Double" or pitch_result == "Triple" or pitch_result == "Home run" or pitch_result == "Hit by pitch" or pitch_result == "Strikeout" or pitch_result == "Grounder" or pitch_result == "Fly" or pitch_result == "Sacrifice fly":
 		#at-bat is over
