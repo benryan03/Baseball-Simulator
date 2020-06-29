@@ -200,11 +200,14 @@ def now_batting():
 	global edge
 	global edge_pos
 	global margin
+	global redo_pitch_loops
 
 	if half_inning % 2 == 0:
 		print ("Now batting for " + home_team + ": " + str(home_batters[current_home_batter][0]) + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 	else:
 		print ("Now batting for " + away_team + ": " + str(away_batters[current_away_batter][0]) + ". " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+
+	redo_pitch_loops = 0
 
 	# Determine advantage
 	if half_inning % 2 == 0: #Bottom half
@@ -290,10 +293,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(2) # 2
+	time.sleep(.5) # 2
 
 def wait_short():
-	time.sleep(.2) # .2
+	time.sleep(.1) # .2
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -301,13 +304,9 @@ def calculate_pitch_outcome(pitch, redo_pitch):
 	global redo_pitch_loops
 	
 	rand = random.randint(1, 100)
+
 	pitch = 1
 
-	if redo_pitch == True:
-		redo_pitch_loops = redo_pitch_loops + 1
-	else:
-		redo_pitch_loops = 0
-	
 	if pitch == 1:
 		if rand >= 1 and rand <= 25: #Ball
 			print(Style.DIM + "init: ball" + Style.RESET_ALL)
@@ -316,6 +315,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
@@ -330,6 +330,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
@@ -344,6 +345,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
@@ -358,6 +360,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
 					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
@@ -365,7 +368,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
 			else:
 				print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
 				return "Ball_in_play"
-	
+		
 	"""	
 	if pitch == 1:
 		if rand <= 1 and rand <= 43: #Ball
@@ -1528,6 +1531,7 @@ while gameover == False: #main game loop
 			pitch_result = "Triple"
 
 	atbat_pitch_count = atbat_pitch_count + 1
+	redo_pitch_loops = 0
 
 	if half_inning % 2 == 0:
 		away_pitcher_pitch_count = away_pitcher_pitch_count + 1
