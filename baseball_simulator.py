@@ -237,8 +237,8 @@ def now_batting():
 		avg = away_batters[current_away_batter][1]
 		era = current_home_pitcher[1]
 		
-		#x = avg / .250
-		x = 1000
+		x = avg / .250
+		#x = 1000
 		y = (2 - (era / 4)) - (home_pitcher_pitch_count * .005)
 
 		if x > y:
@@ -801,10 +801,45 @@ def pitching_animation():
 
 	print("")
 
+#def check_if_pitching_change():
+	#If starting pitcher is in:
+
+		#If starting pitcher has thrown more than 100 pitches:
+
+			#Pitching change
+
+		#Else if 7th inning:
+
+			#Pitching change
+
+		#Else:
+
+			#If other team has scored more than 4 runs:
+
+				#Pitching change
+
+	#Else:
+
+		#If start of an inning:
+
+			#Pitching change, unless no more relievers left
+
+		#Else:
+
+			#If other team has scored more than 1 run since start of inning:
+
+		#Pitching change, unless no more relievers left
+
+
 #######################################################################################################################
 #######################################################################################################################
 
 #program start
+
+home_team = "bos" #debug
+home_year = "2018" #debug
+away_team = "nyy" #debug
+away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
 #home_team = input("Enter the name of the home team: ")
@@ -812,11 +847,6 @@ print ("Welcome to Baseball Simulator")
 
 #away_team = input("Enter the name of the away team: ")
 #away_year = input("Enter year: ")
-
-home_team = "bos" #debug
-home_year = "2018" #debug
-away_team = "nyy" #debug
-away_year = "2018" #debug
 
 print("Loading players...")
 
@@ -900,6 +930,9 @@ away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
 home_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
 away_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
 
+home_relief_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]]]
+away_relief_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]]]
+
 home_closer = ["", 0]
 away_closer = ["", 0]
 
@@ -955,6 +988,11 @@ for x in away_pitchers:
 	if "_EMPTY_" in x:
 		away_pitchers.remove(x)
 
+for x in range (5,9):
+	home_relief_pitchers[x-5] = home_pitchers[x]
+	away_relief_pitchers[x-5] = away_pitchers[x]
+
+
 print("\nStarting lineup for " + home_team + ":")
 #wait()
 for x in home_batters:
@@ -967,19 +1005,30 @@ for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 #	wait()
 
-#for x in home_pitchers:
-#	print(x)
-#for x in away_pitchers:
-#	print(x)
-#print(home_team + " closer: " + home_closer[0] + " - " + str(home_closer[1]))
-#print(away_team + " closer: " + away_closer[0] + " - " + str(away_closer[1]))
+print("")
+for x in home_pitchers:
+	print(x)
+print("")
+for x in away_pitchers:
+	print(x)
+
+print("")
+for x in home_relief_pitchers:
+	print(x)
+print("")
+for x in away_relief_pitchers:
+	print(x)
+
+print("")
+print(home_team + " closer: " + home_closer[0] + " - " + str(home_closer[1]))
+print(away_team + " closer: " + away_closer[0] + " - " + str(away_closer[1]))
 
 print()
 
 wait()
-pitcher_rand = random.randint(1, 5)
+pitcher_rand = random.randint(0, 4)
 home_starting_pitcher = home_pitchers[pitcher_rand]
-pitcher_rand = random.randint(1, 5)
+pitcher_rand = random.randint(0, 4)
 away_starting_pitcher = away_pitchers[pitcher_rand]
 
 current_home_pitcher = home_starting_pitcher
