@@ -1520,6 +1520,7 @@ while gameover == False: #main game loop
 			if first == False and second == False and third == False:
 				second = True
 			elif first == True and second == False and third == False:
+				first = False
 				second = True
 				third = True
 			elif first == False and second == True and third == False:
