@@ -936,22 +936,21 @@ def inning_status():
 	if half_inning % 2 != 0:
 		wait()
 		print("")
-		wait()
+		print("")
 		print("------------------------------------")
 		print ("It is now the top of the " + str((half_inning/2) + .5)[0] + x + " inning.")
 		print("------------------------------------")
-		wait()
 		print("")
 		wait()
 
 	elif half_inning % 2 == 0:
 		wait()
 		print("")
-		wait()
+		print("")
 		print("---------------------------------------")
 		print ("It is now the bottom of the " + str(half_inning/2)[0] + x + " inning.")
 		print("---------------------------------------")
-		wait()
+		print("")
 		print("")
 		wait()
 
@@ -966,11 +965,11 @@ away_team = "nyy" #debug
 away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
-#home_team = input("Enter the name of the home team: ")
-#home_year = input("Enter year: ")
+home_team = input("Enter the name of the home team: ")
+home_year = input("Enter year: ")
 
-#away_team = input("Enter the name of the away team: ")
-#away_year = input("Enter year: ")
+away_team = input("Enter the name of the away team: ")
+away_year = input("Enter year: ")
 
 print("Loading players...")
 
