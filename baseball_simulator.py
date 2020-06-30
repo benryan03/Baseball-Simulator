@@ -24,8 +24,18 @@ rand = 0
 pitch_result = "_"
 gameover = False
 atbat_pitch_count = 1
-home_pitcher_pitch_count = 1
+#home_pitcher_pitch_count = 1
+#away_pitcher_pitch_count = 0
+
+
+
+
+home_pitcher_pitch_count = 98
 away_pitcher_pitch_count = 0
+
+
+
+
 
 away_strikeout_count = 0
 away_walk_count = 0
@@ -51,6 +61,8 @@ edge = ["", 0]
 
 redo_pitch_loops = 0
 
+runs_in_current_inning = 0
+
 def resetcount():
 	global balls
 	global strikes
@@ -68,6 +80,7 @@ def out(num):
 	global gameover
 	global balls
 	global strikes
+	global runs_in_current_inning
 	for x in range (num):
 		if outs <=1:
 			resetcount()
@@ -75,18 +88,19 @@ def out(num):
 		elif outs == 2 and half_inning < 17:
 		#before 9th inning, no win possible
 			outs = 3
-			print ("Half-inning has ended.")
-			print("")
 			wait()
 			half_inning = half_inning + 1
+			inning_status()
 			outs = 0
 			first = False
 			second = False
 			third = False
 			balls = 0
 			strikes = 0
+			runs_in_current_inning = 0
 			if half_inning == 2:
 				print("Starting pitcher for " + away_team + ": " + away_starting_pitcher[0])
+				wait()
 				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
 				wait()
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0: # if 2 outs and 9th inning or later and end of top of inning
@@ -95,6 +109,7 @@ def out(num):
 			print("")
 			wait()
 			half_inning = half_inning + 1
+			inning_status()
 			outs = 0
 			first = False
 			second = False
@@ -120,6 +135,7 @@ def out(num):
 			print("")
 			wait()
 			half_inning = half_inning + 1
+			inning_status()
 			outs = 0
 			first = False
 			second = False
@@ -132,26 +148,31 @@ def run(num):
 	global away_score
 	global home_score
 	global gameover
+	global runs_in_current_inning
 	for x in range (num):
 		if half_inning < 18 and half_inning % 2 != 0:
 			#normal innings - run for away
 			away_score = away_score + 1
+			runs_in_current_inning = runs_in_current_inning + 1
 			print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning < 18 and half_inning % 2 == 0:
 			#normal innings - run for home
 			home_score = home_score + 1
+			runs_in_current_inning = runs_in_current_inning + 1
 			print ("Run scored by " + home_team + "!")
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 != 0: #odd/top of inning
 			#extra innings - run for away
 			away_score = away_score + 1
+			runs_in_current_inning = runs_in_current_inning + 1
 			print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score: #even/bottom of inning
 			#extra innings - run for home, no walkoff
 			home_score = home_score + 1
 			print ("Run scored by " + home_team + "!")
+			runs_in_current_inning = runs_in_current_inning + 1
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score: #even/bottom of inning
 			#walkoff run!
@@ -296,7 +317,7 @@ def wait(): #change these wait times to 0 for game to complete immediately
 	time.sleep(.5) # 2
 
 def wait_short():
-	time.sleep(.1) # .2
+	time.sleep(.2) # .2
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -801,35 +822,131 @@ def pitching_animation():
 
 	print("")
 
-#def check_if_pitching_change():
-	#If starting pitcher is in:
+def check_if_pitching_change():
+	global half_inning
+	global current_home_pitcher
+	global home_starting_pitcher
+	global home_pitcher_pitch_count
+	global home_score
+	
+	global current_away_pitcher
+	global away_starting_pitcher
+	global away_pitcher_pitch_count
+	global away_score
 
-		#If starting pitcher has thrown more than 100 pitches:
+	global outs
+	global first
+	global second
+	global third
 
-			#Pitching change
 
-		#Else if 7th inning:
+	if half_inning % 2 != 0: #Top half
+		if current_home_pitcher == home_starting_pitcher:
+			if home_pitcher_pitch_count >= 100:
+				pitching_change()
+			if half_inning >= 13:
+				pitching_change()
+			if away_score > 4:
+				pitching_change()
+		elif current_home_pitcher != home_starting_pitcher:
+			if outs == 0 and first == False and second == False and third == False:
+				if len(home_relief_pitchers) > 0:
+					pitching_change()
+			if runs_in_current_inning > 2:
+				if len(home_relief_pitchers) > 0:
+					pitching_change()
 
-			#Pitching change
+	elif half_inning % 2 == 0: #Bottom half
+		if current_away_pitcher == away_starting_pitcher:
+			if away_pitcher_pitch_count >= 100:
+				pitching_change()
+			if half_inning >= 14:
+				pitching_change()
+			if away_score > 4:
+				pitching_change()
+		elif current_away_pitcher != away_starting_pitcher:
+			if outs == 0 and first == False and second == False and third == False:
+				if len(away_relief_pitchers) > 0:
+					pitching_change()
+			if runs_in_current_inning > 2:
+				if len(away_relief_pitchers) > 0:
+					pitching_change()
 
-		#Else:
+	#else:
 
-			#If other team has scored more than 4 runs:
+def pitching_change():
+	global home_relief_pitchers
+	global current_home_pitcher
+	global home_pitcher_pitch_count
+	global away_relief_pitchers
+	global current_away_pitcher
+	global away_pitcher_pitch_count
 
-				#Pitching change
+	if half_inning % 2 != 0: #Top half
 
-	#Else:
+		x = len(home_relief_pitchers)
+		rand = random.randint(0, x-1)
+		current_home_pitcher = home_relief_pitchers[rand]
+		del home_relief_pitchers[rand]
+		home_pitcher_pitch_count = 0
 
-		#If start of an inning:
+		wait()
+		print("")
+		print("Pitching change!")
+		wait()
+		print("")
+		wait()
+		print("Now pitching for " + home_team + ": " + current_home_pitcher[0])
+		wait()
+		print(str(home_year) + " ERA: " + str(format_era(current_home_pitcher[1])))
+		wait()
+		print("")
+		wait()
 
-			#Pitching change, unless no more relievers left
+	elif half_inning % 2 == 0: #Bottom half
 
-		#Else:
+		x = len(away_relief_pitchers)
+		rand = random.randint(0, x-1)
+		current_away_pitcher = away_relief_pitchers[rand]
+		del away_relief_pitchers[rand]
+		away_pitcher_pitch_count = 0
 
-			#If other team has scored more than 1 run since start of inning:
+		print("\nPitching change!\n")
+		wait()
+		print("Now pitching for " + away_team + ": " + current_away_pitcher[0])
+		wait()
+		print(str(away_year) + " ERA: " + str(format_era(current_away_pitcher[1])))
+		wait()
 
-		#Pitching change, unless no more relievers left
+def inning_status():
+	global half_inning
 
+	if half_inning == 1 or half_inning == 2:
+		x = "st"
+	elif half_inning == 3  or half_inning == 4:
+		x = "nd"
+	elif half_inning == 5 or half_inning == 6:
+		x = "rd"
+	else:
+		x = "th"
+
+	if half_inning % 2 != 0:
+		wait()
+		print("")
+		wait()
+		print ("It is now the top of the " + str((half_inning/2) + .5)[0] + x + " inning.")
+		wait()
+		print("")
+		wait()
+
+	elif half_inning % 2 == 0:
+		wait()
+		print("")
+		wait()
+		print ("It is now the bottom of the " + str(half_inning/2)[0] + x + " inning.")
+		wait()
+		print("")
+		wait()
 
 #######################################################################################################################
 #######################################################################################################################
@@ -1035,6 +1152,7 @@ current_home_pitcher = home_starting_pitcher
 current_away_pitcher = away_starting_pitcher
 
 print("Starting pitcher for " + home_team + ": " + home_starting_pitcher[0])
+wait()
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
 wait()
 print()
@@ -1246,6 +1364,7 @@ while gameover == False: #main game loop
 				out(2)
 			elif first == True and second == False and third == False and outs == 2:
 				pitching_animation()
+				print ("GROUND OUT!")
 				out(1)
 			elif first == False and second == True and third == False:
 				pitching_animation()
@@ -1591,6 +1710,9 @@ while gameover == False: #main game loop
 		#at-bat is over
 		atbat_pitch_count = 1
 		print ("")
+
+		check_if_pitching_change()
+
 		status()
 
 	wait()
