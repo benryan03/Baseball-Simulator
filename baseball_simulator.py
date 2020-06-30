@@ -9,7 +9,10 @@ from datetime import datetime
 from lxml import html
 import requests
 
-from colorama import Fore, Back, Style 
+from colorama import init, Fore, Back, Style
+init()
+
+from termcolor import colored, cprint
 
 home_score = 0
 away_score = 0
@@ -24,18 +27,11 @@ rand = 0
 pitch_result = "_"
 gameover = False
 atbat_pitch_count = 1
-#home_pitcher_pitch_count = 1
-#away_pitcher_pitch_count = 0
-
-
-
-
-home_pitcher_pitch_count = 98
+home_pitcher_pitch_count = 1
 away_pitcher_pitch_count = 0
 
-
-
-
+#home_pitcher_pitch_count = 98
+#away_pitcher_pitch_count = 0
 
 away_strikeout_count = 0
 away_walk_count = 0
@@ -154,30 +150,35 @@ def run(num):
 			#normal innings - run for away
 			away_score = away_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
-			print ("Run scored by " + away_team + "!")
+			print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
+			#print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning < 18 and half_inning % 2 == 0:
 			#normal innings - run for home
 			home_score = home_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
-			print ("Run scored by " + home_team + "!")
+			print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
+			#print ("Run scored by " + home_team + "!")
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 != 0: #odd/top of inning
 			#extra innings - run for away
 			away_score = away_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
-			print ("Run scored by " + away_team + "!")
+			print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
+			#print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score: #even/bottom of inning
 			#extra innings - run for home, no walkoff
 			home_score = home_score + 1
-			print ("Run scored by " + home_team + "!")
+			print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
+			#print ("Run scored by " + home_team + "!")
 			runs_in_current_inning = runs_in_current_inning + 1
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score: #even/bottom of inning
 			#walkoff run!
 			home_score = home_score + 1
-			print ("WALKOFF RUN scored by " + home_team + "!")
+			print ("\033[1;30;102mWALKOFF RUN scored by " + home_team + "!\033[0m")
+			#print ("WALKOFF RUN scored by " + home_team + "!")
 			print("Game has ended. " + home_team + " wins.")
 			gameover = True
 
@@ -224,9 +225,10 @@ def now_batting():
 	global redo_pitch_loops
 
 	if half_inning % 2 == 0:
-		print ("Now batting for " + home_team + ": " + str(home_batters[current_home_batter][0]) + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
+		#print ("\033[1;97;101mSTRIKEOUT!\033[0m")
+		print ("Now batting for " + home_team + ": \033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 	else:
-		print ("Now batting for " + away_team + ": " + str(away_batters[current_away_batter][0]) + ". " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+		print ("Now batting for " + away_team + ": \033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 
 	redo_pitch_loops = 0
 
@@ -314,7 +316,7 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(.5) # 2
+	time.sleep(2) # 2
 
 def wait_short():
 	time.sleep(.2) # .2
@@ -330,64 +332,64 @@ def calculate_pitch_outcome(pitch, redo_pitch):
 
 	if pitch == 1:
 		if rand >= 1 and rand <= 25: #Ball
-			print(Style.DIM + "init: ball" + Style.RESET_ALL)
+			#print(Style.DIM + "init: ball" + Style.RESET_ALL)
 			if edge_pos == "Pitcher":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
 					return "Ball"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
 				return "Ball"
 		elif rand >=26 and rand <= 50: #Called Strike
-			print(Style.DIM + "init: called strike" + Style.RESET_ALL)
+			#print(Style.DIM + "init: called strike" + Style.RESET_ALL)
 			if edge_pos == "Batter":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
 					return "Strike"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
 				return "Strike"
 		elif rand >= 51 and rand <= 75: #Foul
-			print(Style.DIM + "init: foul" + Style.RESET_ALL)
+			#print(Style.DIM + "init: foul" + Style.RESET_ALL)
 			if edge_pos == "Batter":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
 					return "Foul"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
 				return "Foul"
 		else: #Ball in play
-			print(Style.DIM + "init: ballinplay" + Style.RESET_ALL)
+			#print(Style.DIM + "init: ballinplay" + Style.RESET_ALL)
 			if edge_pos == "Pitcher":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
 					return "Ball_in_play"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
 				return "Ball_in_play"
 		
 	"""	
@@ -811,14 +813,15 @@ def pitching_animation():
 	else:
 		current_pitcher = current_home_pitcher
 		current_pitcher_pitch_count = home_pitcher_pitch_count
-	print ("Pitch " + str(current_pitcher_pitch_count) + " (" + current_pitcher[0] + ")", end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
+
+	print ("\033[1;30;40mPitch " + str(current_pitcher_pitch_count) + " (" + current_pitcher[0] + ") \033[0m", end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
 	for x in range (0, 3):
 		wait_short()
-		print (". ", end="", flush=True)
+		print ("\033[1;30;40m. \033[0m", end="", flush=True)
 
 	for x in range (0, redo_pitch_loops):
 		wait_short()
-		print (". ", end="", flush=True)
+		print ("\033[1;30;40m. \033[0m", end="", flush=True)
 
 	print("")
 
@@ -862,7 +865,7 @@ def check_if_pitching_change():
 				pitching_change()
 			if half_inning >= 14:
 				pitching_change()
-			if away_score > 4:
+			if home_score > 4:
 				pitching_change()
 		elif current_away_pitcher != away_starting_pitcher:
 			if outs == 0 and first == False and second == False and third == False:
@@ -934,7 +937,9 @@ def inning_status():
 		wait()
 		print("")
 		wait()
+		print("------------------------------------")
 		print ("It is now the top of the " + str((half_inning/2) + .5)[0] + x + " inning.")
+		print("------------------------------------")
 		wait()
 		print("")
 		wait()
@@ -943,7 +948,9 @@ def inning_status():
 		wait()
 		print("")
 		wait()
+		print("---------------------------------------")
 		print ("It is now the bottom of the " + str(half_inning/2)[0] + x + " inning.")
+		print("---------------------------------------")
 		wait()
 		print("")
 		wait()
@@ -1151,11 +1158,36 @@ away_starting_pitcher = away_pitchers[pitcher_rand]
 current_home_pitcher = home_starting_pitcher
 current_away_pitcher = away_starting_pitcher
 
+
+
+
+
+
+
+
+
+#print ("\033[1;97;101mSTRIKEOUT!\033[0m")
+#print ("\033[1;30;102mHIT BY PITCH!\033[0m")
+
+
+
+
+
+
+
+
+
+
+
+
 print("Starting pitcher for " + home_team + ": " + home_starting_pitcher[0])
 wait()
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
 wait()
 print()
+#print(Fore.RED + "PLAY BALL!" + Fore.RESET)
+#cprint('PLAY BALL!', 'red', 'on_grey')
+#print("\033[1;30;40mPLAY BALL!")
 print("PLAY BALL!")
 wait()
 
@@ -1177,7 +1209,7 @@ while gameover == False: #main game loop
 		elif balls == 3: #Walk
 			pitch_result = "Walk"
 			pitching_animation()
-			print ("WALK!")
+			print ("\033[1;30;102mWALK!\033[0m")
 			if first == False and second == False and third == False:
 				first = True
 			elif first == True and second == False and third == False:
@@ -1209,7 +1241,7 @@ while gameover == False: #main game loop
 
 		elif strikes ==2 and half_inning % 2 != 0: #Strikeout - away
 			pitching_animation()
-			print ("STRIKEOUT!")
+			print ("\033[1;97;101mSTRIKEOUT!\033[0m")
 			pitch_result = "Strikeout"
 			away_strikeout_count = away_strikeout_count + 1
 			out(1)
@@ -1217,7 +1249,8 @@ while gameover == False: #main game loop
 
 		elif strikes ==2 and half_inning % 2 == 0: #Strikeout - home
 			pitching_animation()
-			print ("STRIKEOUT!")
+			print ("\033[1;97;101mSTRIKEOUT!\033[0m")
+			#print ("STRIKEOUT!")
 			pitch_result = "Strikeout"
 			home_strikeout_count = home_strikeout_count + 1
 			out(1)
@@ -1238,20 +1271,19 @@ while gameover == False: #main game loop
 
 		if 1 <= rand <= 40: #Fly out
 			
-			print(Style.DIM + "init: fly out" + Style.RESET_ALL) #DEBUG
+			#print(Style.DIM + "init: fly out" + Style.RESET_ALL) #DEBUG
 			if edge_pos == "Batter":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
-					#pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
 					redo_pitch_loops = redo_pitch_loops + 1
 					continue
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
 					pitch_result = "Fly"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
 				pitch_result == "Fly"
 
 
@@ -1261,71 +1293,71 @@ while gameover == False: #main game loop
 			next_batter()
 			if first == False and second == False and third == False:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == False and third == False:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == False and second == True and third == False and outs < 2:
 				pitching_animation()
-				print ("FLY OUT! RUNNER ADVANCED.")
+				print ("\033[1;30;103mFLY OUT! RUNNER ADVANCED.\033[0m")
 				second = False
 				third = True
 				out(1)
 			elif first == False and second == True and third == False and outs == 2:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == False and second == False and third == True and outs < 2:
 				pitching_animation()
-				print ("SACRIFICE FLY!")
+				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
 				run(1)
 			elif first == False and second == False and third == True and outs == 2:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == False and outs < 2:
 				pitching_animation()
-				print ("FLY OUT! RUNNERS ADVANCED.")
+				print ("\033[1;30;103mFLY OUT! RUNNERS ADVANCED.\033[0m")
 				second = False
 				third = True
 				out(1)
 			elif first == True and second == True and third == False and outs == 2:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == False and second == True and third == True and outs < 2:
 				pitching_animation()
-				print ("SACRIFICE FLY!")
+				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
 				run(1)
 			elif first == False and second == True and third == True and outs == 2:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == False and third == True and outs < 2:
 				pitching_animation()
-				print ("SACRIFICE FLY!")
+				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
 				run(1)
 			elif first == True and second == False and third == True and outs == 2:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == True and outs < 2:
 				pitching_animation()
-				print ("SACRIFICE FLY!")
+				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
 				run(1)
 			elif first == True and second == True and third == True and outs < 2:
 				pitching_animation()
-				print ("FLY OUT!")
+				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			resetcount()
 			pitch_result = "Fly"
@@ -1334,20 +1366,19 @@ while gameover == False: #main game loop
 
 		elif 41 <= rand <= 70: #Ground out
 
-			print(Style.DIM + "init: ground out" + Style.RESET_ALL) #DEBUG
+			#print(Style.DIM + "init: ground out" + Style.RESET_ALL) #DEBUG
 			if edge_pos == "Batter":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
-					#pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
 					redo_pitch_loops = redo_pitch_loops + 1
 					continue
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
 					pitch_result = "Grounder"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
 				pitch_result == "Grounder"
 
 
@@ -1356,78 +1387,77 @@ while gameover == False: #main game loop
 			next_batter()
 			if first == False and second == False and third == False:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)	
 			elif first == True and second == False and third == False and outs < 2:
 				pitching_animation()
-				print ("DOUBLE PLAY!")
+				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 			elif first == True and second == False and third == False and outs == 2:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == False and second == True and third == False:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)	
 			elif first == False and second == False and third == True:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == False and outs == 0:
 				pitching_animation()
-				print ("TRIPLE PLAY!")
+				print ("\033[1;97;101mTRIPLE PLAY\033[0m")
 				out(3)
 			elif first == True and second == True and third == False and outs == 1:
 				pitching_animation()
-				print ("DOUBLE PLAY!")
+				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 			elif first == True and second == True and third == False and outs == 2:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)	
 			elif first == False and second == True and third == True:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == True and outs == 0:
 				pitching_animation()
-				print ("TRIPLE PLAY!")
+				print ("\033[1;97;101mTRIPLE PLAY!\033[0m")
 				out(3)
 			elif first == True and second == True and third == True and outs == 1:
 				pitching_animation()
-				print ("DOUBLE PLAY!")
+				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 			elif first == True and second == True and third == True and outs == 2:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == True and second == False and third == True and outs <2:
 				pitching_animation()
-				print ("DOUBLE PLAY!")
+				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)    
 			elif first == True and second == False and third == True and outs == 2:
 				pitching_animation()
-				print ("GROUND OUT!")
+				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			resetcount()
 			pitch_result = "Grounder"	
 		elif 71 <= rand <= 87: #Single
 
-			print(Style.DIM + "init: single" + Style.RESET_ALL) #DEBUG
+			#print(Style.DIM + "init: single" + Style.RESET_ALL) #DEBUG
 			if edge_pos == "Pitcher":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
-					#pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
 					redo_pitch_loops = redo_pitch_loops + 1
 					continue
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
 					pitch_result = "Single"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
 				pitch_result == "Single"
 
 
@@ -1435,7 +1465,7 @@ while gameover == False: #main game loop
 
 			next_batter()
 			pitching_animation()
-			print ("SINGLE!")
+			print ("\033[1;30;102mSINGLE!\033[0m")
 			if first == False and second == False and third == False:
 				first = True
 			elif first == True and second == False and third == False:
@@ -1467,20 +1497,19 @@ while gameover == False: #main game loop
 
 
 
-			print(Style.DIM + "init: double" + Style.RESET_ALL) #DEBUG
+			#print(Style.DIM + "init: double" + Style.RESET_ALL) #DEBUG
 			if edge_pos == "Pitcher":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
-					#pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
 					redo_pitch_loops = redo_pitch_loops + 1
 					continue
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
 					pitch_result = "Double"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
 				pitch_result == "Double"
 
 
@@ -1488,7 +1517,7 @@ while gameover == False: #main game loop
 
 			next_batter()
 			pitching_animation()
-			print ("DOUBLE!")
+			print ("\033[1;30;102mDOUBLE!\033[0m")
 			if first == False and second == False and third == False:
 				second = True
 			elif first == True and second == False and third == False:
@@ -1529,20 +1558,19 @@ while gameover == False: #main game loop
 			
 			
 
-			print(Style.DIM + "init: home run" + Style.RESET_ALL) #DEBUG
+			#print(Style.DIM + "init: home run" + Style.RESET_ALL) #DEBUG
 			if edge_pos == "pitcher":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
-					#pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
 					redo_pitch_loops = redo_pitch_loops + 1
 					continue
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
 					pitch_result = "Home run"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
 				pitch_result == "Home run"
 
 
@@ -1551,7 +1579,7 @@ while gameover == False: #main game loop
 			
 			next_batter()
 			pitching_animation()
-			print ("HOME RUN!")
+			print ("\033[1;30;102mHOME RUN!\033[0m")
 			if first == False and second == False and third == False:
 				run(1)
 			elif first == True and second == False and third == False:
@@ -1592,27 +1620,26 @@ while gameover == False: #main game loop
 		elif 97 <= rand <= 99: #Hit by pitch
 			
 			
-			print(Style.DIM + "hit by pitch" + Style.RESET_ALL) #DEBUG
+			#print(Style.DIM + "hit by pitch" + Style.RESET_ALL) #DEBUG
 			if edge_pos == "pitcher":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
-					#pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
 					redo_pitch_loops = redo_pitch_loops + 1
 					continue
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
 					pitch_result = "Hit by pitch"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
 				pitch_result == "Hit by pitch"
 
 
 
 			next_batter()
 			pitching_animation()
-			print ("HIT BY PITCH!")
+			print ("\033[1;30;102mHIT BY PITCH!\033[0m")
 			if first == False and second == False and third == False:
 				first = True
 			elif first == True and second == False and third == False:
@@ -1642,20 +1669,19 @@ while gameover == False: #main game loop
 			
 			
 
-			print(Style.DIM + "init: triple" + Style.RESET_ALL) #DEBUG
+			#print(Style.DIM + "init: triple" + Style.RESET_ALL) #DEBUG
 			if edge_pos == "Batter":
-				print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL) #DEBUG
 				rand = random.randint(1, 100)
 				if 1 <= rand <= round(margin,0):
-					print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
-					#pitch_result = calculate_pitch_outcome(atbat_pitch_count, True)
+					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL) #DEBUG
 					redo_pitch_loops = redo_pitch_loops + 1
 					continue
 				else:
-					print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
+					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL) #DEBUG
 					pitch_result = "Triple"
 			else:
-				print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
+				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL) #DEBUG
 				pitch_result == "Triple"
 
 
