@@ -95,7 +95,7 @@ def out(num):
 			strikes = 0
 			runs_in_current_inning = 0
 			if half_inning == 2:
-				print("Starting pitcher for " + away_team + ": " + away_starting_pitcher[0])
+				print("Starting pitcher for " + away_team + ": \033[1;93;40m" + away_starting_pitcher[0] + "\033[0m")
 				wait()
 				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
 				wait()
@@ -899,7 +899,7 @@ def pitching_change():
 		wait()
 		print("")
 		wait()
-		print("Now pitching for " + home_team + ": " + current_home_pitcher[0])
+		print("Now pitching for " + home_team + ": \033[1;93;40m" + current_home_pitcher[0] + "\033[0m")
 		wait()
 		print(str(home_year) + " ERA: " + str(format_era(current_home_pitcher[1])))
 		wait()
@@ -916,7 +916,7 @@ def pitching_change():
 
 		print("\nPitching change!\n")
 		wait()
-		print("Now pitching for " + away_team + ": " + current_away_pitcher[0])
+		print("Now pitching for " + away_team + ": \033[1;93;40m" + current_away_pitcher[0] + "\033[0m")
 		wait()
 		print(str(away_year) + " ERA: " + str(format_era(current_away_pitcher[1])))
 		wait()
@@ -1178,8 +1178,7 @@ current_away_pitcher = away_starting_pitcher
 
 
 
-
-print("Starting pitcher for " + home_team + ": " + home_starting_pitcher[0])
+print("Starting pitcher for " + home_team + ": \033[1;93;40m" + home_starting_pitcher[0] + "\033[0m")
 wait()
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
 wait()
