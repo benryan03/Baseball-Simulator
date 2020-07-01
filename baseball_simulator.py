@@ -110,24 +110,6 @@ def out(num):
 			third = False
 			balls = 0
 			strikes = 0
-		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0 and home_score > away_score:
-		# if 2 outs and 9th inning or later and end of top of inning and home team is ahead
-			outs = 3
-			print("Game has ended. " + home_team + " wins.")
-			gameover = True
-			break
-		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score > away_score:
-		# if 2 outs and 9th inning or later and end of bottom of inning and home team is ahead
-			outs = 3
-			print("Game has ended. " + home_team + " wins.")
-			gameover = True
-			break
-		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score < away_score:
-		# if 2 outs and 9th inning or later and end of bottom of inning and away team is ahead
-			outs = 3
-			print("Game has ended. " + away_team + " wins.")
-			gameover = True
-			break
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score == away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and score is tied
 			outs = 3
@@ -142,6 +124,18 @@ def out(num):
 			third = False
 			balls = 0
 			strikes = 0
+		else:
+			gameover = True
+
+		#elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0 and home_score > away_score:
+		# if 2 outs and 9th inning or later and end of top of inning and home team is ahead
+		#	gameover = True
+		#elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score > away_score:
+		# if 2 outs and 9th inning or later and end of bottom of inning and home team is ahead
+		#	gameover = True
+		#elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score < away_score:
+		# if 2 outs and 9th inning or later and end of bottom of inning and away team is ahead
+		#	gameover = True
 
 def run(num):
 	global half_inning
@@ -1200,8 +1194,6 @@ while gameover == False: #main game loop
 
 	pitch_result = calculate_pitch_outcome(atbat_pitch_count, False)
 
-	#pitching_animation()
-
 	if pitch_result == "Ball":
 		if balls < 3:
 			balls = balls + 1
@@ -1751,7 +1743,16 @@ while gameover == False: #main game loop
 
 	wait()
 
-print("End has been reached.")
+#######################################################################################################################
+#######################################################################################################################
+
+#Game over
+
+if home_score > away_score:
+	print("Game has ended. " + home_team + " wins!")
+elif home_score < away_score:
+	print("Game has ended. " + away_team + " wins!")
+
 print("")
 print("---Game Statistics---")
 print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M"))) 
