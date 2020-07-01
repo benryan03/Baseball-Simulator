@@ -92,7 +92,7 @@ def out(num):
 			strikes = 0
 			runs_in_current_inning = 0
 			if half_inning == 2:
-				print("\033[1;93;40m" + away_starting_pitcher[0] + "\033[0m is now pitching for the " + away_team)
+				print("\033[1;93;40m" + away_starting_pitcher[0] + "\033[0m is now pitching for the " + away_team + ".")
 				#print("Starting pitcher for " + away_team + ": \033[1;93;40m" + away_starting_pitcher[0] + "\033[0m")
 				wait()
 				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
@@ -906,7 +906,8 @@ def pitching_change():
 		wait()
 		print("")
 		wait()
-		print("Now pitching for the " + home_team + ": \033[1;93;40m" + current_home_pitcher[0] + "\033[0m")
+		#print("Now pitching for the " + home_team + ": \033[1;93;40m" + current_home_pitcher[0] + "\033[0m"
+		print("\033[1;93;40m" + current_home_pitcher[0] + "\033[0m is now pitching for the " + home_team + ".")
 		wait()
 		print(str(home_year) + " ERA: " + str(format_era(current_home_pitcher[1])))
 		wait()
@@ -923,7 +924,8 @@ def pitching_change():
 
 		print("\nPitching change!\n")
 		wait()
-		print("Now pitching for the " + away_team + ": \033[1;93;40m" + current_away_pitcher[0] + "\033[0m")
+		#print("Now pitching for the " + away_team + ": \033[1;93;40m" + current_away_pitcher[0] + "\033[0m")
+		print("\033[1;93;40m" + current_away_pitcher[0] + "\033[0m is now pitching for the " + away_team + ".")
 		wait()
 		print(str(away_year) + " ERA: " + str(format_era(current_away_pitcher[1])))
 		wait()
@@ -958,7 +960,7 @@ def inning_status():
 		print ("It is now the bottom of the " + str(half_inning/2)[0] + x + " inning.")
 		print("---------------------------------------")
 		print("")
-		print("")
+		#print("")
 		wait()
 
 def parse_input(input_team):
@@ -1300,7 +1302,7 @@ wait()
 
 
 
-print("\033[1;93;40m" + home_starting_pitcher[0] + "\033[0m is now pitching for the " + home_team)
+print("\033[1;93;40m" + home_starting_pitcher[0] + "\033[0m is now pitching for the " + home_team + ".")
 #print("Starting pitcher for " + home_team + ": \033[1;93;40m" + home_starting_pitcher[0] + "\033[0m")
 wait()
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
