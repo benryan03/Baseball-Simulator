@@ -191,25 +191,26 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 	global third
 
 	wait()
-
+	print("-------------------------------------------------------------")
+	wait()
 	print ("Outs: " + str(outs) + " | Inning: ", end ="")
 	if half_inning % 2 != 0:
 		print ("Top ", end ="")
 	elif half_inning % 2 == 0:
 		print ("Bot ", end ="")
-	print (str(math.ceil(half_inning / 2)) + " | " + home_team + ": " + str(home_score) + " | " + away_team + ": " + str(away_score) + " | 3B: ", end ="")
+	print (str(math.ceil(half_inning / 2)) + " | " + home_abbr + ": " + str(home_score) + " | " + away_abbr + ": " + str(away_score) + " | 3B: ", end ="")
 	if third == True:
 		print ("X 2B: ", end ="")
 	elif third == False:
-		print ("- 2B: ", end ="")
+		print ("  2B: ", end ="")
 	if second == True:
 		print ("X 1B: ", end ="")
 	elif second == False:
-		print ("- 1B: ", end ="")
+		print ("  1B: ", end ="")
 	if first == True:
 		print ("X")
 	elif first == False:
-		print ("-")
+		print (" ")
 
 	wait()
 
