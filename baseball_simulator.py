@@ -92,7 +92,8 @@ def out(num):
 			strikes = 0
 			runs_in_current_inning = 0
 			if half_inning == 2:
-				print("Starting pitcher for " + away_team + ": \033[1;93;40m" + away_starting_pitcher[0] + "\033[0m")
+				print("\033[1;93;40m" + away_starting_pitcher[0] + "\033[0m is now pitching for " + away_team)
+				#print("Starting pitcher for " + away_team + ": \033[1;93;40m" + away_starting_pitcher[0] + "\033[0m")
 				wait()
 				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
 				wait()
@@ -223,10 +224,17 @@ def now_batting():
 	global redo_pitch_loops
 
 	if half_inning % 2 == 0:
-		#print ("\033[1;97;101mSTRIKEOUT!\033[0m")
-		print ("Now batting for " + home_team + ": \033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
+		#print("Now batting for " + home_team + ":")
+		#wait()
+		#print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
+		print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + "\033[0m is now batting for " + home_team + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
+		#print ("Now batting for " + home_team + ": \033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 	else:
-		print ("Now batting for " + away_team + ": \033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+		#print("Now batting for " + away_team + ":")
+		#wait()
+		#print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + "\033[0m is now batting for " + away_team + ". " + str(home_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+		#print ("Now batting for " + away_team + ": \033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 
 	redo_pitch_loops = 0
 
@@ -314,10 +322,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(.01) # 2
+	time.sleep(2) # 2
 
 def wait_short():
-	time.sleep(.01) # .2
+	time.sleep(.5) # .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -963,11 +971,11 @@ away_team = "nyy" #debug
 away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
-home_team = input("Enter the name of the home team: ")
-home_year = input("Enter year: ")
+#home_team = input("Enter the name of the home team: ")
+#home_year = input("Enter year: ")
 
-away_team = input("Enter the name of the away team: ")
-away_year = input("Enter year: ")
+#away_team = input("Enter the name of the away team: ")
+#away_year = input("Enter year: ")
 
 print("Loading players...")
 
@@ -1126,27 +1134,26 @@ for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 #	wait()
 
-print("")
-for x in home_pitchers:
-	print(x)
-print("")
-for x in away_pitchers:
-	print(x)
+#print("")
+#for x in home_pitchers:
+#	print(x)
+#print("")
+#for x in away_pitchers:
+#	print(x)
 
-print("")
-for x in home_relief_pitchers:
-	print(x)
-print("")
-for x in away_relief_pitchers:
-	print(x)
+#print("")
+#for x in home_relief_pitchers:
+#	print(x)
+#print("")
+#for x in away_relief_pitchers:
+#	print(x)
 
-print("")
-print(home_team + " closer: " + home_closer[0] + " - " + str(home_closer[1]))
-print(away_team + " closer: " + away_closer[0] + " - " + str(away_closer[1]))
+#print("")
+#print(home_team + " closer: " + home_closer[0] + " - " + str(home_closer[1]))
+#print(away_team + " closer: " + away_closer[0] + " - " + str(away_closer[1]))
 
-print()
 
-wait()
+
 pitcher_rand = random.randint(0, 4)
 home_starting_pitcher = home_pitchers[pitcher_rand]
 pitcher_rand = random.randint(0, 4)
@@ -1171,12 +1178,18 @@ current_away_pitcher = away_starting_pitcher
 
 
 
+wait()
+print("")
+wait()
+print("PLAY BALL!")
+wait()
+print("")
+wait()
 
 
 
-
-
-print("Starting pitcher for " + home_team + ": \033[1;93;40m" + home_starting_pitcher[0] + "\033[0m")
+print("\033[1;93;40m" + home_starting_pitcher[0] + "\033[0m is now pitching for " + home_team)
+#print("Starting pitcher for " + home_team + ": \033[1;93;40m" + home_starting_pitcher[0] + "\033[0m")
 wait()
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
 wait()
@@ -1184,10 +1197,9 @@ print()
 #print(Fore.RED + "PLAY BALL!" + Fore.RESET)
 #cprint('PLAY BALL!', 'red', 'on_grey')
 #print("\033[1;30;40mPLAY BALL!")
-print("PLAY BALL!")
-wait()
 
-print()
+
+wait()
 status()
 
 while gameover == False: #main game loop
