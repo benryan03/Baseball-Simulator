@@ -1875,9 +1875,9 @@ while gameover == False: #main game loop
 #Game over
 
 if home_score > away_score:
-	print("Game has ended. " + home_team + " wins!")
+	print("Game has ended. " + home_team + " win!")
 elif home_score < away_score:
-	print("Game has ended. " + away_team + " wins!")
+	print("Game has ended. " + away_team + " win!")
 
 print("")
 print("---Game Statistics---")
