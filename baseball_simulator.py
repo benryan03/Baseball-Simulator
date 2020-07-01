@@ -30,9 +30,6 @@ atbat_pitch_count = 1
 home_pitcher_pitch_count = 1
 away_pitcher_pitch_count = 0
 
-#home_pitcher_pitch_count = 98
-#away_pitcher_pitch_count = 0
-
 away_strikeout_count = 0
 away_walk_count = 0
 away_single_count = 0
@@ -99,7 +96,8 @@ def out(num):
 				wait()
 				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
 				wait()
-		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0: # if 2 outs and 9th inning or later and end of top of inning
+		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0 and home_score <= away_score:
+		# if 2 outs and 9th inning or later and end of top of inning and away team is ahead or tied
 			outs = 3
 			print ("Half-inning has ended.")
 			print("")
@@ -112,18 +110,24 @@ def out(num):
 			third = False
 			balls = 0
 			strikes = 0
+		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0 and home_score > away_score:
+		# if 2 outs and 9th inning or later and end of top of inning and home team is ahead
+			outs = 3
+			print("Game has ended. " + home_team + " wins.")
+			gameover = True
+			break
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score > away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and home team is ahead
 			outs = 3
 			print("Game has ended. " + home_team + " wins.")
 			gameover = True
-			return
+			break
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score < away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and away team is ahead
 			outs = 3
 			print("Game has ended. " + away_team + " wins.")
 			gameover = True
-			return
+			break
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score == away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and score is tied
 			outs = 3
@@ -316,10 +320,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(2) # 2
+	time.sleep(.01) # 2
 
 def wait_short():
-	time.sleep(.2) # .2
+	time.sleep(.01) # .2
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -1739,8 +1743,10 @@ while gameover == False: #main game loop
 		atbat_pitch_count = 1
 		print ("")
 
-		check_if_pitching_change()
+		if gameover == True:
+			break
 
+		check_if_pitching_change()
 		status()
 
 	wait()
