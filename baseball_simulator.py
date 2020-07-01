@@ -92,7 +92,7 @@ def out(num):
 			strikes = 0
 			runs_in_current_inning = 0
 			if half_inning == 2:
-				print("\033[1;93;40m" + away_starting_pitcher[0] + "\033[0m is now pitching for " + away_team)
+				print("\033[1;93;40m" + away_starting_pitcher[0] + "\033[0m is now pitching for the " + away_team)
 				#print("Starting pitcher for " + away_team + ": \033[1;93;40m" + away_starting_pitcher[0] + "\033[0m")
 				wait()
 				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
@@ -227,13 +227,13 @@ def now_batting():
 		#print("Now batting for " + home_team + ":")
 		#wait()
 		#print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
-		print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + "\033[0m is now batting for " + home_team + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
+		print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + "\033[0m is now batting for the " + home_team + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 		#print ("Now batting for " + home_team + ": \033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 	else:
 		#print("Now batting for " + away_team + ":")
 		#wait()
 		#print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
-		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + "\033[0m is now batting for " + away_team + ". " + str(home_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + "\033[0m is now batting for the " + away_team + ". " + str(home_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 		#print ("Now batting for " + away_team + ": \033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 
 	redo_pitch_loops = 0
@@ -905,7 +905,7 @@ def pitching_change():
 		wait()
 		print("")
 		wait()
-		print("Now pitching for " + home_team + ": \033[1;93;40m" + current_home_pitcher[0] + "\033[0m")
+		print("Now pitching for the " + home_team + ": \033[1;93;40m" + current_home_pitcher[0] + "\033[0m")
 		wait()
 		print(str(home_year) + " ERA: " + str(format_era(current_home_pitcher[1])))
 		wait()
@@ -922,7 +922,7 @@ def pitching_change():
 
 		print("\nPitching change!\n")
 		wait()
-		print("Now pitching for " + away_team + ": \033[1;93;40m" + current_away_pitcher[0] + "\033[0m")
+		print("Now pitching for the " + away_team + ": \033[1;93;40m" + current_away_pitcher[0] + "\033[0m")
 		wait()
 		print(str(away_year) + " ERA: " + str(format_era(current_away_pitcher[1])))
 		wait()
@@ -960,30 +960,141 @@ def inning_status():
 		print("")
 		wait()
 
+def parse_input(input_team):
+		
+	input_team = input_team.lower().strip()
+
+	if input_team == "arizona diamondbacks" or input_team == "arizona" or input_team == "diamondbacks" or input_team == "ari":
+		return "Diamondbacks,ARI"
+	elif input_team == "atlanta braves" or input_team == "atlanta" or input_team == "braves" or input_team == "atl":
+		return "Braves,ATL"
+	elif input_team == "baltimore" or input_team == "orioles" or input_team == "baltimore" or input_team == "orioles" or input_team == "bal":
+		return "Orioles,BAL"
+	elif input_team == "boston red sox" or input_team == "boston" or input_team == "red sox" or input_team == "bos":
+		return "Red Sox,BOS"
+	elif input_team == "chicago cubs" or input_team == "cubs" or input_team == "chc":
+		return "Cubs,CHC"
+	elif input_team == "chicago white sox" or input_team == "white sox" or input_team == "chw":
+		return "White Sox,CHW"
+	elif input_team == "cincinnati reds" or input_team == "cincinnati" or input_team == "reds" or input_team == "cin":
+		return "Reds,CIN"
+	elif input_team == "cleveland indians" or input_team == "cleveland" or input_team == "indians" or input_team == "cle":
+		return "Indians,CLE"
+	elif input_team == "colorado rockies" or input_team == "colorado" or input_team == "rockies" or input_team == "col":
+		return "Rockies,COL"
+	elif input_team == "detroit tigers" or input_team == "detroit" or input_team == "tigers" or input_team == "det":
+		return "Tigers,DET"
+	elif input_team == "houston astros" or input_team == "houston" or input_team == "astros" or input_team == "hou":
+		return "Astros,HOU"
+	elif input_team == "kansas city royals" or input_team == "kansas city" or input_team == "royals" or input_team == "kcr":
+		return "Royals,KCR"
+	elif input_team == "los angeles angels" or input_team == "anaheim angels" or input_team == "anaheim" or input_team == "angels" or input_team == "ana":
+		return "Angels,ANA"
+	elif input_team == "los angeles dodgers" or input_team == "los angeles" or input_team == "dodgers" or input_team == "lad":
+		return "Dodgers,LAD"
+	elif input_team == "miami marlins" or input_team == "florida marlins" or input_team == "miami" or input_team == "florida" or input_team == "marlins" or input_team == "fla":
+		return "Marlins,FLA"
+	elif input_team == "milwaukee brewers" or input_team == "milwaukee" or input_team == "brewers" or input_team == "mil":
+		return "Brewers,MIL"
+	elif input_team == "minnesota twins" or input_team == "minnesota" or input_team == "twins" or input_team == "min":
+		return "Twins,MIN"
+	elif input_team == "new york mets" or input_team == "mets" or input_team == "nym":
+		return "Mets,NYM"
+	elif input_team == "new york yankees" or input_team == "yankees" or input_team == "nyy":
+		return "Yankees,NYY"
+	elif input_team == "oakland athletics" or input_team == "oakland" or input_team == "athletics" or input_team == "as" or input_team == "a's" or input_team == "oak":
+		return "Athletics,OAK"
+	elif input_team == "philadelphia phillies" or input_team == "philadelphia" or input_team == "phillies" or input_team == "phi":
+		return "Phillies,PHI"
+	elif input_team == "pittsburgh pirates" or input_team == "pittsburgh" or input_team == "pirates" or input_team == "pit":
+		return "Pirates,PIT"
+	elif input_team == "san diego padres" or input_team == "san diego" or input_team == "padres" or input_team == "sdp":
+		return "Padres,SDP"
+	elif input_team == "san francisco giants" or input_team == "san francisco" or input_team == "giants" or input_team == "sfg":
+		return "Giants,SFG"
+	elif input_team == "seattle mariners" or input_team == "seattle" or input_team == "mariners" or input_team == "sea":
+		return "Mariners,SEA"
+	elif input_team == "st louis cardinals" or input_team == "st. louis cardinals" or input_team == "st louis" or input_team == "st. louis" or input_team == "cardinals" or input_team == "stl":
+		return "Cardinals,STL"
+	elif input_team == "tampa bay rays" or input_team == "tampa bay" or input_team == "rays" or input_team == "tampa bay devil rays" or input_team == "devil rays" or input_team == "tbd":
+		return "Rays,TBD"
+	elif input_team == "texas rangers" or input_team == "texas" or input_team == "rangers" or input_team == "tex":
+		return "Rangers,TEX"
+	elif input_team == "toronto blue jays" or input_team == "toronto" or input_team == "blue jays" or input_team == "tor":
+		return "Blue Jays,TOR"
+	elif input_team == "washington nationals" or input_team == "washington" or input_team == "nationals" or input_team == "wsn":
+		return "Nationals,WSN"
+	else:
+		return "invalid"
+
 #######################################################################################################################
 #######################################################################################################################
 
 #program start
 
-home_team = "bos" #debug
-home_year = "2018" #debug
-away_team = "nyy" #debug
-away_year = "2018" #debug
+#home_team = "bos" #debug
+#home_year = "2018" #debug
+#away_team = "nyy" #debug
+#away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
-#home_team = input("Enter the name of the home team: ")
-#home_year = input("Enter year: ")
 
-#away_team = input("Enter the name of the away team: ")
-#away_year = input("Enter year: ")
+home_team = ""
+home_abbr = ""
+home_team_error = True
+while home_team_error == True:
+	home_team = input("Enter the name of the home team: ")
+	if parse_input(home_team) == "invalid":
+		print("Invalid team.")
+		continue
+	else:
+		home_team = parse_input(home_team).split(",")[0]
+		home_abbr = parse_input(home_team).split(",")[1]
+		home_team_error = False
 
+home_year = 0
+home_year_error = True
+while home_year_error == True:
+	home_year = input("Enter year: ")
+	home_page = requests.get("https://www.baseball-reference.com/teams/" + home_abbr + "/" + home_year + ".shtml")
+	if str(home_page) != "<Response [200]>":
+		print("Invalid year.")
+		continue
+	else:
+		home_year_error = False
+
+away_team = ""
+away_abbr = ""
+away_team_error = True
+while away_team_error == True:
+	away_team = input("Enter the name of the away team: ")
+	if parse_input(away_team) == "invalid":
+		print("Invalid team.")
+		continue
+	else:
+		away_team = parse_input(away_team).split(",")[0]
+		away_abbr = parse_input(away_team).split(",")[1]
+		away_team_error = False
+
+away_year = 0
+away_year_error = True
+while away_year_error == True:
+	away_year = input("Enter year: ")
+	away_page = requests.get("https://www.baseball-reference.com/teams/" + away_abbr + "/" + away_year + ".shtml")
+	if str(away_page) != "<Response [200]>":
+		print("Invalid year.")
+		continue
+	else:
+		away_year_error = False
+
+print("")
 print("Loading players...")
 
 #Load baseball-reference page for inputted team/year
 #URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
-home_page = requests.get("https://www.baseball-reference.com/teams/" + home_team + "/" + home_year + ".shtml")
+home_page = requests.get("https://www.baseball-reference.com/teams/" + home_abbr + "/" + home_year + ".shtml")
 home_tree = html.fromstring(home_page.content)
-away_page = requests.get("https://www.baseball-reference.com/teams/" + away_team + "/" + away_year + ".shtml")
+away_page = requests.get("https://www.baseball-reference.com/teams/" + away_abbr + "/" + away_year + ".shtml")
 away_tree = html.fromstring(away_page.content)
 
 home_batters = ["", "", "", "", "", "", "", "", ""]
@@ -1122,13 +1233,13 @@ for x in range (5,9):
 	away_relief_pitchers[x-5] = away_pitchers[x]
 
 
-print("\nStarting lineup for " + home_team + ":")
+print("\nStarting lineup for the " + home_team + ":")
 #wait()
 for x in home_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 #	wait()
 
-print("\nStarting lineup for " + away_team + ":")
+print("\nStarting lineup for the " + away_team + ":")
 #wait()
 for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
@@ -1188,7 +1299,7 @@ wait()
 
 
 
-print("\033[1;93;40m" + home_starting_pitcher[0] + "\033[0m is now pitching for " + home_team)
+print("\033[1;93;40m" + home_starting_pitcher[0] + "\033[0m is now pitching for the " + home_team)
 #print("Starting pitcher for " + home_team + ": \033[1;93;40m" + home_starting_pitcher[0] + "\033[0m")
 wait()
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
