@@ -12,8 +12,6 @@ import requests
 from colorama import init, Fore, Back, Style
 init()
 
-from termcolor import colored, cprint
-
 home_score = 0
 away_score = 0
 half_inning = 1
@@ -323,10 +321,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(2) # 2
+	time.sleep(.01) # 2
 
 def wait_short():
-	time.sleep(.5) # .5
+	time.sleep(.01) # .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -947,7 +945,7 @@ def inning_status():
 		print("")
 		print("")
 		print("------------------------------------")
-		print ("It is now the top of the " + str((half_inning/2) + .5)[0] + x + " inning.")
+		print ("It is now the top of the " + str((half_inning/2) + .5).split(".")[0] + x + " inning.")
 		print("------------------------------------")
 		print("")
 		wait()
@@ -957,7 +955,7 @@ def inning_status():
 		print("")
 		print("")
 		print("---------------------------------------")
-		print ("It is now the bottom of the " + str(half_inning/2)[0] + x + " inning.")
+		print ("It is now the bottom of the " + str(half_inning/2).split(".")[0] + x + " inning.")
 		print("---------------------------------------")
 		print("")
 		#print("")
