@@ -898,6 +898,9 @@ def pitching_change():
 		del home_relief_pitchers[rand]
 		home_pitcher_pitch_count = 0
 
+		if half_inning == 17:
+			current_home_pitcher = home_closer
+
 		wait()
 		print("Pitching change!")
 		wait()
@@ -918,8 +921,11 @@ def pitching_change():
 		del away_relief_pitchers[rand]
 		away_pitcher_pitch_count = 0
 
+		if half_inning == 18:
+			current_away_pitcher = away_closer
+
 		wait()
-		print("\nPitching change!\n")
+		print("Pitching change!")
 		wait()
 		print("")
 		wait()
