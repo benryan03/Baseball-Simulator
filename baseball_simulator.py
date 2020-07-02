@@ -899,12 +899,10 @@ def pitching_change():
 		home_pitcher_pitch_count = 0
 
 		wait()
-		print("")
 		print("Pitching change!")
 		wait()
 		print("")
 		wait()
-		#print("Now pitching for the " + home_team + ": \033[1;93;40m" + current_home_pitcher[0] + "\033[0m"
 		print("\033[1;93;40m" + current_home_pitcher[0] + "\033[0m is now pitching for the " + home_team + ".")
 		wait()
 		print(str(home_year) + " ERA: " + str(format_era(current_home_pitcher[1])))
@@ -920,12 +918,16 @@ def pitching_change():
 		del away_relief_pitchers[rand]
 		away_pitcher_pitch_count = 0
 
+		wait()
 		print("\nPitching change!\n")
 		wait()
-		#print("Now pitching for the " + away_team + ": \033[1;93;40m" + current_away_pitcher[0] + "\033[0m")
+		print("")
+		wait()
 		print("\033[1;93;40m" + current_away_pitcher[0] + "\033[0m is now pitching for the " + away_team + ".")
 		wait()
 		print(str(away_year) + " ERA: " + str(format_era(current_away_pitcher[1])))
+		wait()
+		print("")
 		wait()
 
 def inning_status():
