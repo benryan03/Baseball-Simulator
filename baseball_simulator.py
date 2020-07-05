@@ -54,6 +54,9 @@ redo_pitch_loops = 0
 
 runs_in_current_inning = 0
 
+home_score_by_inning = []
+away_score_by_inning = []
+
 def resetcount():
 	global balls
 	global strikes
@@ -142,7 +145,25 @@ def run(num):
 	global home_score
 	global gameover
 	global runs_in_current_inning
+	global home_score_by_inning
+	global away_score_by_inning
 	for x in range (num):
+		if half_inning % 2 != 0:
+			#run for away - box score
+			inning = int((half_inning/2) + .5)
+			if len(away_score_by_inning) < inning:
+				away_score_by_inning.append(1)
+			else:
+				away_score_by_inning[-1] = away_score_by_inning[-1] + 1
+		elif half_inning % 2 == 0:
+			#run for home - box score
+			inning = int((half_inning/2) + .5)
+			if len(home_score_by_inning) < inning:
+				home_score_by_inning.append(1)
+			else:
+				home_score_by_inning[-1] = home_score_by_inning[-1] + 1
+
+
 		if half_inning < 18 and half_inning % 2 != 0:
 			#normal innings - run for away
 			away_score = away_score + 1
@@ -321,10 +342,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(.01) # 2
+	time.sleep(0) # 2
 
 def wait_short():
-	time.sleep(.01) # .5
+	time.sleep(0) # .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -938,6 +959,26 @@ def pitching_change():
 
 def inning_status():
 	global half_inning
+
+	prev_half_inning = half_inning - 1
+
+
+
+
+
+
+	if prev_half_inning % 2 == 0:
+		#it is now bottom
+		if len(away_score_by_inning) < prev_half_inning-1:
+			away_score_by_inning.append(0)
+
+	elif prev_half_inning % 2 != 0:
+		#it is now top
+		if len(home_score_by_inning) < prev_half_inning-1:
+			home_score_by_inning.append(0)
+
+
+
 
 	if half_inning == 1 or half_inning == 2:
 		x = "st"
@@ -1886,9 +1927,27 @@ elif home_score < away_score:
 	print("Game has ended. " + away_team + " win!")
 
 print("")
-print("---Game Statistics---")
+print("---Box Score---")
 print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M"))) 
 print("")
+
+#Line score
+print(away_abbr + " ",end="")
+for x in away_score_by_inning:
+	print(str(x) + " " ,end="")
+print("- \033[1;93;40m" + str(away_score) + "\033[0m")
+
+print( home_abbr + " ",end="")
+for x in home_score_by_inning:
+	print(str(x) + " " ,end="")
+if len(home_score_by_inning) < len(away_score_by_inning):
+	print("  ",end="")
+print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
+
+
+
+
+
 print(home_team + " batting:")
 print("Strikeouts: " + str(home_strikeout_count))
 print("Walks: " + str(home_walk_count))
