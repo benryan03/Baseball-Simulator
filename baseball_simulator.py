@@ -244,17 +244,11 @@ def now_batting():
 	global redo_pitch_loops
 
 	if half_inning % 2 == 0:
-		#print("Now batting for " + home_team + ":")
-		#wait()
-		#print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
 		print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + "\033[0m is now batting for the " + home_team + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
-		#print ("Now batting for " + home_team + ": \033[1;93;40m" + str(home_batters[current_home_batter][0]) + ".\033[0m " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
+		print(home_batters[current_home_batter])
+		home_batters[current_home_batter][2] = home_batters[current_home_batter][2] + 1
 	else:
-		#print("Now batting for " + away_team + ":")
-		#wait()
-		#print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + "\033[0m is now batting for the " + away_team + ". " + str(home_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
-		#print ("Now batting for " + away_team + ": \033[1;93;40m" + str(away_batters[current_away_batter][0]) + ".\033[0m " + str(away_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 
 	redo_pitch_loops = 0
 
@@ -922,6 +916,8 @@ def pitching_change():
 		if half_inning == 17:
 			current_home_pitcher = home_closer
 
+		home_pitchers_used.append(current_home_pitcher)
+
 		wait()
 		print("Pitching change!")
 		wait()
@@ -944,6 +940,8 @@ def pitching_change():
 
 		if half_inning == 18:
 			current_away_pitcher = away_closer
+
+		away_pitchers_used.append(current_away_pitcher)
 
 		wait()
 		print("Pitching change!")
@@ -1082,13 +1080,16 @@ def parse_input(input_team):
 
 #program start
 
-#home_team = "bos" #debug
-#home_year = "2018" #debug
-#away_team = "nyy" #debug
-#away_year = "2018" #debug
+home_team = "Red Sox" #debug
+home_abbr = "BOS" #debug
+home_year = "2018" #debug
+away_team = "Yankees" #debug
+away_abbr = "NYY" #debug
+away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
 
+"""
 home_team = ""
 home_abbr = ""
 home_team_error = True
@@ -1136,6 +1137,7 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
+"""
 
 print("")
 print("Loading players...")
@@ -1213,6 +1215,16 @@ else:
 home_batters = [[home_batters[0], home_avg[0]], [home_batters[1], home_avg[1]], [home_batters[2], home_avg[2]], [home_batters[3], home_avg[3]], [home_batters[4], home_avg[4]], [home_batters[5], home_avg[5]], [home_batters[6], home_avg[6]], [home_batters[7], home_avg[7]], [home_batters[8], home_avg[8]]]
 away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], [away_batters[2], away_avg[2]], [away_batters[3], away_avg[3]], [away_batters[4], away_avg[4]], [away_batters[5], away_avg[5]], [away_batters[6], away_avg[6]], [away_batters[7], away_avg[7]], [away_batters[8], away_avg[8]]]
 
+#Stats for box score
+for x in range(9):
+	home_batters[x].append(0)
+	home_batters[x].append(0)
+	home_batters[x].append(0)
+	home_batters[x].append(0)
+	home_batters[x].append(0)
+	home_batters[x].append(0)
+	home_batters[x].append(0)
+
 #Sort array by batting average
 home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
 away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
@@ -1225,6 +1237,10 @@ away_relief_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]]]
 
 home_closer = ["", 0]
 away_closer = ["", 0]
+
+home_pitchers_used = []
+away_pitchers_used = []
+
 
 #Scrape names and Earned Run Averages of top 12 pitchers
 for x in range(12):
@@ -1323,21 +1339,9 @@ away_starting_pitcher = away_pitchers[pitcher_rand]
 current_home_pitcher = home_starting_pitcher
 current_away_pitcher = away_starting_pitcher
 
-
-
-
-
-
-
-
-
-#print ("\033[1;97;101mSTRIKEOUT!\033[0m")
-#print ("\033[1;30;102mHIT BY PITCH!\033[0m")
-
-
-
-
-
+#End-of-game box score
+home_pitchers_used.append(home_starting_pitcher)
+away_pitchers_used.append(away_starting_pitcher)
 
 wait()
 print("")
@@ -1346,21 +1350,13 @@ print("PLAY BALL!")
 wait()
 print("")
 wait()
-
-
-
 print("\033[1;93;40m" + home_starting_pitcher[0] + "\033[0m is now pitching for the " + home_team + ".")
-#print("Starting pitcher for " + home_team + ": \033[1;93;40m" + home_starting_pitcher[0] + "\033[0m")
 wait()
 print(str(home_year) + " ERA: " + str(format_era(home_starting_pitcher[1])))
 wait()
 print()
-#print(Fore.RED + "PLAY BALL!" + Fore.RESET)
-#cprint('PLAY BALL!', 'red', 'on_grey')
-#print("\033[1;30;40mPLAY BALL!")
-
-
 wait()
+
 status()
 
 while gameover == False: #main game loop
@@ -1947,7 +1943,30 @@ print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
 
 
+print(away_team + "                  AB R H RBI HR BB SO")
+for x in away_batters:
+	print (str(x[0]))
+print("Totals: \n")
 
+print(home_team + "                  AB R H RBI HR BB SO")
+for x in home_batters:
+	print (str(x[0]) + " " + str(x[2]) + " " + str(x[3]) + " " + str(x[4]) + " " + str(x[5]) + " " + str(x[6]) + " " + str(x[7]) + " " + str(x[8]))
+print("Totals: \n\n")
+
+print("Pitchers\n")
+
+print(away_team)
+for x in away_pitchers_used:
+	print(x[0])
+print("Totals: \n")
+
+print(home_team)
+for x in home_pitchers_used:
+	print(x[0])
+print("Totals: ")
+
+
+"""
 print(home_team + " batting:")
 print("Strikeouts: " + str(home_strikeout_count))
 print("Walks: " + str(home_walk_count))
@@ -2000,3 +2019,4 @@ if save_results == "y" or save_results == "Y":
 	file1.write("Hit by pitch: " + str(away_hbp_count))
 
 	print("Results saved to " + results_filename)
+"""
