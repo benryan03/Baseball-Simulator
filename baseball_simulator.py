@@ -149,14 +149,14 @@ def run(num):
 	global away_score_by_inning
 	for x in range (num):
 		if half_inning % 2 != 0:
-			#run for away - box score
+			#run for away - line score
 			inning = int((half_inning/2) + .5)
 			if len(away_score_by_inning) < inning:
 				away_score_by_inning.append(1)
 			else:
 				away_score_by_inning[-1] = away_score_by_inning[-1] + 1
 		elif half_inning % 2 == 0:
-			#run for home - box score
+			#run for home - line score
 			inning = int((half_inning/2) + .5)
 			if len(home_score_by_inning) < inning:
 				home_score_by_inning.append(1)
@@ -168,6 +168,7 @@ def run(num):
 			#normal innings - run for away
 			away_score = away_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
+			away_batters[current_away_batter][5] = away_batters[current_away_batter][5] + 1 #RBI count for box score
 			print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
 			#print ("Run scored by " + away_team + "!")
 			wait_short()
@@ -175,6 +176,7 @@ def run(num):
 			#normal innings - run for home
 			home_score = home_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
+			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
 			print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
 			#print ("Run scored by " + home_team + "!")
 			wait_short()
@@ -182,12 +184,14 @@ def run(num):
 			#extra innings - run for away
 			away_score = away_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
+			away_batters[current_away_batter][5] = away_batters[current_away_batter][5] + 1 #RBI count for box score
 			print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
 			#print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score: #even/bottom of inning
 			#extra innings - run for home, no walkoff
 			home_score = home_score + 1
+			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
 			print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
 			#print ("Run scored by " + home_team + "!")
 			runs_in_current_inning = runs_in_current_inning + 1
@@ -195,6 +199,7 @@ def run(num):
 		elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score: #even/bottom of inning
 			#walkoff run!
 			home_score = home_score + 1
+			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
 			print ("\033[1;30;102mWALKOFF RUN scored by " + home_team + "!\033[0m")
 			#print ("WALKOFF RUN scored by " + home_team + "!")
 			print("Game has ended. " + home_team + " wins.")
@@ -1794,8 +1799,10 @@ while gameover == False: #main game loop
 				run(3)
 			if half_inning % 2 != 0: #if top of inning
 				away_homerun_count = away_homerun_count + 1
+				away_batters[current_away_batter][6] = away_batters[current_away_batter][6] + 1 #HR count for box score
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_homerun_count = home_homerun_count + 1
+				home_batters[current_home_batter][6] = home_batters[current_home_batter][6] + 1 #HR count for box score
 			resetcount()
 			pitch_result = "Home run"
 
