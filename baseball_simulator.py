@@ -45,7 +45,7 @@ home_homerun_count = 0
 home_hbp_count = 0
 
 current_away_batter = 0
-current_home_batter = 0
+current_home_batter = -1
 
 margin = 0
 edge = ["", 0]
@@ -242,13 +242,19 @@ def now_batting():
 	global edge_pos
 	global margin
 	global redo_pitch_loops
+	
 
-	if half_inning % 2 == 0:
+
+
+
+
+
+	if half_inning % 2 == 0:	
 		print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + "\033[0m is now batting for the " + home_team + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
-		print(home_batters[current_home_batter])
-		home_batters[current_home_batter][2] = home_batters[current_home_batter][2] + 1
+		home_batters[current_home_batter][2] = home_batters[current_home_batter][2] + 1 #At-bat count for box score
 	else:
 		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + "\033[0m is now batting for the " + away_team + ". " + str(home_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+		away_batters[current_away_batter][2] = away_batters[current_away_batter][2] + 1 #At-bat count for box score
 
 	redo_pitch_loops = 0
 
@@ -1224,6 +1230,13 @@ for x in range(9):
 	home_batters[x].append(0)
 	home_batters[x].append(0)
 	home_batters[x].append(0)
+	away_batters[x].append(0)
+	away_batters[x].append(0)
+	away_batters[x].append(0)
+	away_batters[x].append(0)
+	away_batters[x].append(0)
+	away_batters[x].append(0)
+	away_batters[x].append(0)
 
 #Sort array by batting average
 home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
@@ -1394,7 +1407,7 @@ while gameover == False: #main game loop
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_walk_count = home_walk_count + 1
 			resetcount()
-			next_batter()
+			#next_batter()
 
 	elif pitch_result == "Strike":
 		if strikes <2: #Strike
@@ -1408,7 +1421,7 @@ while gameover == False: #main game loop
 			pitch_result = "Strikeout"
 			away_strikeout_count = away_strikeout_count + 1
 			out(1)
-			next_batter()
+			#next_batter()
 
 		elif strikes ==2 and half_inning % 2 == 0: #Strikeout - home
 			pitching_animation()
@@ -1417,7 +1430,7 @@ while gameover == False: #main game loop
 			pitch_result = "Strikeout"
 			home_strikeout_count = home_strikeout_count + 1
 			out(1)
-			next_batter()
+			#next_batter()
 
 	elif pitch_result == "Foul":
 		if strikes < 2: #Foul
@@ -1453,7 +1466,7 @@ while gameover == False: #main game loop
 
 
 			
-			next_batter()
+			#next_batter()
 			if first == False and second == False and third == False:
 				pitching_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
@@ -1547,7 +1560,7 @@ while gameover == False: #main game loop
 
 
 
-			next_batter()
+			#next_batter()
 			if first == False and second == False and third == False:
 				pitching_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
@@ -1626,7 +1639,7 @@ while gameover == False: #main game loop
 
 
 
-			next_batter()
+			#next_batter()
 			pitching_animation()
 			print ("\033[1;30;102mSINGLE!\033[0m")
 			if first == False and second == False and third == False:
@@ -1681,7 +1694,7 @@ while gameover == False: #main game loop
 
 
 
-			next_batter()
+			#next_batter()
 			pitching_animation()
 			print ("\033[1;30;102mDOUBLE!\033[0m")
 			if first == False and second == False and third == False:
@@ -1744,7 +1757,7 @@ while gameover == False: #main game loop
 
 			
 			
-			next_batter()
+			#next_batter()
 			pitching_animation()
 			print ("\033[1;30;102mHOME RUN!\033[0m")
 			if first == False and second == False and third == False:
@@ -1804,7 +1817,7 @@ while gameover == False: #main game loop
 
 
 
-			next_batter()
+			#next_batter()
 			pitching_animation()
 			print ("\033[1;30;102mHIT BY PITCH!\033[0m")
 			if first == False and second == False and third == False:
@@ -1853,7 +1866,7 @@ while gameover == False: #main game loop
 
 
 
-			next_batter()
+			#next_batter()
 			pitching_animation()
 			print ("TRIPLE!")
 			if first == False and second == False and third == False:
@@ -1901,6 +1914,7 @@ while gameover == False: #main game loop
 
 	if pitch_result == "Walk" or pitch_result == "Single" or pitch_result == "Double" or pitch_result == "Triple" or pitch_result == "Home run" or pitch_result == "Hit by pitch" or pitch_result == "Strikeout" or pitch_result == "Grounder" or pitch_result == "Fly" or pitch_result == "Sacrifice fly":
 		#at-bat is over
+		next_batter()
 		atbat_pitch_count = 1
 		print ("")
 
@@ -1943,14 +1957,20 @@ print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
 
 
-print(away_team + "                  AB R H RBI HR BB SO")
+print(away_team + "                    AB R H RBI HR BB SO")
 for x in away_batters:
-	print (str(x[0]))
+	print(x[0] + " ",end="")
+	for y in range(25 - len(str(x[0]))):
+		print(" ",end="")
+	print(str(x[2]) + " " + str(x[3]) + " " + str(x[4]) + "   " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
 print("Totals: \n")
 
 print(home_team + "                  AB R H RBI HR BB SO")
 for x in home_batters:
-	print (str(x[0]) + " " + str(x[2]) + " " + str(x[3]) + " " + str(x[4]) + " " + str(x[5]) + " " + str(x[6]) + " " + str(x[7]) + " " + str(x[8]))
+	print(x[0] + " ",end="")
+	for y in range(25 - len(str(x[0]))):
+		print(" ",end="")
+	print(str(x[2]) + " " + str(x[3]) + " " + str(x[4]) + "   " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
 print("Totals: \n\n")
 
 print("Pitchers\n")
@@ -1984,8 +2004,10 @@ print("Doubles: " + str(away_double_count))
 print("Triples: " + str(away_triple_count))
 print("away runs: " + str(away_homerun_count))
 print("Hit by pitch: " + str(away_hbp_count))
-
+"""
 save_results = input("Save results to a text file? (Y/N)")
+
+"""
 if save_results == "y" or save_results == "Y":
 
 	results_filename = ("Game on " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M")) + ".txt")
