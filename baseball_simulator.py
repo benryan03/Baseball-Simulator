@@ -1957,7 +1957,7 @@ print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
 
 
-print(away_team + "                    AB R H RBI HR BB SO")
+print(away_team + "                  AB R H RBI HR BB SO")
 for x in away_batters:
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
@@ -2005,7 +2005,7 @@ print("Triples: " + str(away_triple_count))
 print("away runs: " + str(away_homerun_count))
 print("Hit by pitch: " + str(away_hbp_count))
 """
-save_results = input("Save results to a text file? (Y/N)")
+save_results = input("Save box score to a text file? (Y/N)")
 
 """
 if save_results == "y" or save_results == "Y":
