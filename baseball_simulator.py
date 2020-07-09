@@ -1404,8 +1404,10 @@ while gameover == False: #main game loop
 				second = True
 			if half_inning % 2 != 0: #if top of inning
 				away_walk_count = away_walk_count + 1
+				away_batters[current_away_batter][7] = away_batters[current_away_batter][7] + 1 #At-bat count for box score
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_walk_count = home_walk_count + 1
+				home_batters[current_home_batter][7] = home_batters[current_home_batter][7] + 1 #At-bat count for box score
 			resetcount()
 			#next_batter()
 
@@ -1420,6 +1422,7 @@ while gameover == False: #main game loop
 			print ("\033[1;97;101mSTRIKEOUT!\033[0m")
 			pitch_result = "Strikeout"
 			away_strikeout_count = away_strikeout_count + 1
+			away_batters[current_away_batter][8] = away_batters[current_away_batter][8] + 1 #At-bat count for box score
 			out(1)
 			#next_batter()
 
@@ -1429,6 +1432,7 @@ while gameover == False: #main game loop
 			#print ("STRIKEOUT!")
 			pitch_result = "Strikeout"
 			home_strikeout_count = home_strikeout_count + 1
+			home_batters[current_home_batter][8] = home_batters[current_home_batter][8] + 1 #At-bat count for box score
 			out(1)
 			#next_batter()
 
