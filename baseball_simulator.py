@@ -1677,8 +1677,10 @@ while gameover == False: #main game loop
 				run(1)
 			if half_inning % 2 != 0: #if top of inning
 				away_single_count = away_single_count + 1
+				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_single_count = home_single_count + 1
+				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 			resetcount()
 			pitch_result = "Single"
 		elif 88 <= rand <= 93: #Double
@@ -1735,8 +1737,10 @@ while gameover == False: #main game loop
 				run(2)
 			if half_inning % 2 != 0: #if top of inning
 				away_double_count = away_double_count + 1
+				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_double_count = home_double_count + 1
+				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				resetcount()
 			pitch_result = "Double"
 
@@ -1799,9 +1803,11 @@ while gameover == False: #main game loop
 				run(3)
 			if half_inning % 2 != 0: #if top of inning
 				away_homerun_count = away_homerun_count + 1
+				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 				away_batters[current_away_batter][6] = away_batters[current_away_batter][6] + 1 #HR count for box score
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_homerun_count = home_homerun_count + 1
+				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				home_batters[current_home_batter][6] = home_batters[current_home_batter][6] + 1 #HR count for box score
 			resetcount()
 			pitch_result = "Home run"
@@ -1910,8 +1916,10 @@ while gameover == False: #main game loop
 				run(2)
 			if half_inning % 2 != 0: #if top of inning
 				away_triple_count = away_triple_count + 1
+				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_triple_count = home_triple_count + 1
+				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 			resetcount()
 			pitch_result = "Triple"
 
