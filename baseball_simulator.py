@@ -77,6 +77,7 @@ def out(num):
 	global balls
 	global strikes
 	global runs_in_current_inning
+	global runners_on_base
 	for x in range (num):
 		if outs <=1:
 			resetcount()
@@ -91,6 +92,7 @@ def out(num):
 			first = False
 			second = False
 			third = False
+			runners_on_base = [-1, -1, -1, -1]
 			balls = 0
 			strikes = 0
 			runs_in_current_inning = 0
@@ -112,6 +114,7 @@ def out(num):
 			first = False
 			second = False
 			third = False
+			runners_on_base = [-1, -1, -1, -1]
 			balls = 0
 			strikes = 0
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score == away_score:
@@ -126,6 +129,7 @@ def out(num):
 			first = False
 			second = False
 			third = False
+			runners_on_base = [-1, -1, -1, -1]
 			balls = 0
 			strikes = 0
 		else:
@@ -158,50 +162,60 @@ def run(num):
 	runner4 = None
 
 	#Determine and print who scored the run
-	if half_inning % 2 != 0:
+	if half_inning % 2 != 0: #Top half
 		if num == 1:
 			if runners_on_base[3] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				runner1 = away_batters[runners_on_base[3]]
+
 			elif runners_on_base[2] > -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				runner1 = away_batters[runners_on_base[2]]
+
 			elif runners_on_base[1] > -1:
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+
 			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
 				runner1 = away_batters[current_away_batter]
+
 		elif num == 2:
 			if runners_on_base[3] > -1 and runners_on_base[2] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				runner1 = away_batters[runners_on_base[3]]
 				runner2 = away_batters[runners_on_base[2]]
+
 			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
 				runner1 = away_batters[runners_on_base[3]]
 				runner2 = away_batters[runners_on_base[1]]
+
 			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
 				runner1 = away_batters[runners_on_base[2]]
 				runner2 = away_batters[runners_on_base[1]]
+
 			elif runners_on_base[3] > -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
 				runner1 = away_batters[runners_on_base[3]]
 				runner2 = away_batters[current_away_batter]
+
 			elif runners_on_base[3] == -1 and runners_on_base[2] > -1 and runners_on_base[1] == -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
 				runner1 = away_batters[runners_on_base[2]]
 				runner2 = away_batters[current_away_batter]
+
 			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
 				runner1 = away_batters[runners_on_base[1]]
 				runner2 = away_batters[current_away_batter]
+
 		elif num == 3:
 			if runners_on_base[3] > -1 and runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
@@ -210,6 +224,7 @@ def run(num):
 				runner1 = away_batters[runners_on_base[3]]
 				runner2 = away_batters[runners_on_base[2]]
 				runner3 = away_batters[runners_on_base[1]]
+
 			elif runners_on_base[3] > -1 and runners_on_base[2] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
@@ -217,6 +232,7 @@ def run(num):
 				runner1 = away_batters[runners_on_base[3]]
 				runner2 = away_batters[runners_on_base[2]]
 				runner3 = away_batters[current_away_batter]
+
 			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
@@ -224,6 +240,7 @@ def run(num):
 				runner1 = away_batters[runners_on_base[3]]
 				runner2 = away_batters[runners_on_base[1]]
 				runner3 = away_batters[current_away_batter]
+
 			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
@@ -231,6 +248,7 @@ def run(num):
 				runner1 = away_batters[runners_on_base[2]]
 				runner2 = away_batters[runners_on_base[1]]
 				runner3 = away_batters[current_away_batter]
+
 		elif num == 4:
 			away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 			away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
@@ -440,6 +458,23 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 	global third
 
 	wait()
+
+	"""
+	global runners_on_base
+	if half_inning % 2 != 0:
+		for x in runners_on_base:
+			if x > -1:
+				print(away_batters[x][0])
+			else:
+				print(str(x))
+	elif half_inning % 2 == 0:
+		for x in runners_on_base:
+			if x > -1:
+				print(home_batters[x][0])
+			else:
+				print(str(x))
+	"""
+
 	print("-------------------------------------------------------------")
 	wait()
 	print ("Outs: " + str(outs) + " | Inning: ", end ="")
@@ -1825,27 +1860,27 @@ while gameover == False: #main game loop
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == False:
 				second = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == False:
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == False and second == False and third == True:
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == False:
 				third = True
@@ -1853,7 +1888,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
@@ -1861,7 +1896,7 @@ while gameover == False: #main game loop
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == True:
 				run(1)
@@ -1869,7 +1904,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
@@ -1878,7 +1913,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
 			if half_inning % 2 != 0: #if top of inning
@@ -1925,6 +1960,7 @@ while gameover == False: #main game loop
 			pitching_animation()
 			print ("Foul. (" + str(balls) + " - " + str(strikes) + ")")
 
+	
 	elif pitch_result == "Ball_in_play":
 		rand = random.randint(1, 100)
 
@@ -1964,6 +2000,8 @@ while gameover == False: #main game loop
 				second = False
 				third = True
 				out(1)
+				runners_on_base[3] = runners_on_base[2]
+				runners_on_base[2] = -1
 			elif first == False and second == True and third == False and outs == 2:
 				pitching_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
@@ -1974,16 +2012,19 @@ while gameover == False: #main game loop
 				third = False
 				out(1)
 				run(1)
+				runners_on_base[3] = -1
 			elif first == False and second == False and third == True and outs == 2:
 				pitching_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == False and outs < 2:
 				pitching_animation()
-				print ("\033[1;30;103mFLY OUT! RUNNERS ADVANCED.\033[0m")
+				print ("\033[1;30;103mFLY OUT! RUNNER ADVANCED.\033[0m")
 				second = False
 				third = True
 				out(1)
+				runners_on_base[3] = runners_on_base[2]
+				runners_on_base[2] = -1
 			elif first == True and second == True and third == False and outs == 2:
 				pitching_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
@@ -1993,7 +2034,8 @@ while gameover == False: #main game loop
 				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
-				run(1)
+				run(1)				
+				runners_on_base[3] = -1
 			elif first == False and second == True and third == True and outs == 2:
 				pitching_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
@@ -2004,6 +2046,7 @@ while gameover == False: #main game loop
 				third = False
 				out(1)
 				run(1)
+				runners_on_base[3] = -1
 			elif first == True and second == False and third == True and outs == 2:
 				pitching_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
@@ -2014,6 +2057,7 @@ while gameover == False: #main game loop
 				third = False
 				out(1)
 				run(1)
+				runners_on_base[3] = -1
 			elif first == True and second == True and third == True and outs < 2:
 				pitching_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
@@ -2049,6 +2093,8 @@ while gameover == False: #main game loop
 				pitching_animation()
 				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
+				first = False
+				runners_on_base[1] = -1
 			elif first == True and second == False and third == False and outs == 2:
 				pitching_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
@@ -2093,6 +2139,8 @@ while gameover == False: #main game loop
 				pitching_animation()
 				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)    
+				first = False
+				runners_on_base[1] = -1
 			elif first == True and second == False and third == True and outs == 2:
 				pitching_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
@@ -2126,14 +2174,14 @@ while gameover == False: #main game loop
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == False:
 				second = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == False:
@@ -2144,7 +2192,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = -1
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = -1
 					runners_on_base[1] = current_home_batter
@@ -2155,7 +2203,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = -1
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = -1
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == False:
@@ -2164,7 +2212,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
@@ -2176,7 +2224,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = -1
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = -1
 					runners_on_base[1] = current_home_batter
@@ -2186,7 +2234,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
@@ -2198,7 +2246,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = -1
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = -1
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
@@ -2239,7 +2287,7 @@ while gameover == False: #main game loop
 				second = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = current_home_batter
 			elif first == True and second == False and third == False:
 				first = False
@@ -2249,7 +2297,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[1]
 					runners_on_base[2] = current_away_batter
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[1]
 					runners_on_base[2] = current_home_batter
 					runners_on_base[1] = -1
@@ -2263,7 +2311,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = -1
 					runners_on_base[2] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = -1
 					runners_on_base[2] = current_home_batter
 			elif first == True and second == True and third == False:
@@ -2272,7 +2320,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = current_away_batter
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = current_home_batter
 					runners_on_base[1] = -1
 			elif first == False and second == True and third == True:
@@ -2280,7 +2328,7 @@ while gameover == False: #main game loop
 				run(2)
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = current_home_batter
 			elif first == True and second == True and third == True:
 				first = False
@@ -2290,7 +2338,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[1]
 					runners_on_base[2] = current_away_batter
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[1]
 					runners_on_base[2] = current_home_batter
 					runners_on_base[1] = -1
@@ -2303,7 +2351,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[1]
 					runners_on_base[2] = current_away_batter
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[1]
 					runners_on_base[2] = current_home_batter
 					runners_on_base[1] = -1
@@ -2412,27 +2460,27 @@ while gameover == False: #main game loop
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == False:
 				second = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == False:
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == False and second == False and third == True:
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == False:
 				third = True
@@ -2440,7 +2488,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
@@ -2448,7 +2496,7 @@ while gameover == False: #main game loop
 				first = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == True:
 				run(1)
@@ -2456,7 +2504,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = runners_on_base[2]
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
@@ -2465,7 +2513,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
 			if half_inning % 2 != 0: #if top of inning
@@ -2503,7 +2551,7 @@ while gameover == False: #main game loop
 				third = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 			elif first == True and second == False and third == False:
 				first = False
@@ -2512,7 +2560,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[1] = -1
 			elif first == False and second == True and third == False:
@@ -2522,14 +2570,14 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
 			elif first == False and second == False and third == True:
 				run(1)
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 			elif first == True and second == True and third == False:
 				third = True
@@ -2540,7 +2588,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
 					runners_on_base[1] = -1
@@ -2550,7 +2598,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
 			elif first == True and second == True and third == True:
@@ -2562,7 +2610,7 @@ while gameover == False: #main game loop
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[2] = -1
 					runners_on_base[1] = -1
@@ -2572,7 +2620,7 @@ while gameover == False: #main game loop
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[1] = -1
-				elif half_inning % 2 != 0: #if bottom of inning
+				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[3] = current_away_batter
 					runners_on_base[1] = -1
 			if half_inning % 2 != 0: #if top of inning
