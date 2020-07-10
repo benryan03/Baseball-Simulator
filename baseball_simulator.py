@@ -57,6 +57,8 @@ runs_in_current_inning = 0
 home_score_by_inning = []
 away_score_by_inning = []
 
+runners_on_base = [-1, -1, -1, -1]
+
 def resetcount():
 	global balls
 	global strikes
@@ -147,6 +149,114 @@ def run(num):
 	global runs_in_current_inning
 	global home_score_by_inning
 	global away_score_by_inning
+
+	print(str(runners_on_base))
+
+	#For Runs column in box score	
+	if half_inning % 2 != 0:
+		if num == 1:
+			if runners_on_base[3] > -1:
+				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+			elif runners_on_base[2] > -1:
+				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+			elif runners_on_base[1] > -1:
+				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+			else:
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+		elif num == 2:
+			if runners_on_base[3] > -1 and runners_on_base[2] > -1:
+				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
+				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
+				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
+				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+			elif runners_on_base[3] == -1 and runners_on_base[2] > -1 and runners_on_base[1] == -1:
+				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] > -1:
+				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+		elif num == 3:
+			if runners_on_base[3] > -1 and runners_on_base[2] > -1 and runners_on_base[1] > -1:
+				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[2] > -1:
+				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
+				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
+				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+		elif num == 4:
+			away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+			away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+			away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+			away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+	elif half_inning % 2 == 0:
+		if num == 1:
+			if runners_on_base[3] > -1:
+				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+			elif runners_on_base[2] > -1:
+				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+			elif runners_on_base[1] > -1:
+				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+			else:
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+		elif num == 2:
+			if runners_on_base[3] > -1 and runners_on_base[2] > -1:
+				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
+				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
+				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
+				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+			elif runners_on_base[3] == -1 and runners_on_base[2] > -1 and runners_on_base[1] == -1:
+				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] > -1:
+				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+		elif num == 3:
+			if runners_on_base[3] > -1 and runners_on_base[2] > -1 and runners_on_base[1] > -1:
+				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[2] > -1:
+				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
+				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
+				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+		elif num == 4:
+			home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+			home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+			home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+			home_batters[current_home_batter][3] = home_batters[current_away_batter][3] + 1
+	
+			
 	for x in range (num):
 		if half_inning % 2 != 0:
 			#run for away - line score
@@ -155,6 +265,9 @@ def run(num):
 				away_score_by_inning.append(1)
 			else:
 				away_score_by_inning[-1] = away_score_by_inning[-1] + 1
+
+
+
 		elif half_inning % 2 == 0:
 			#run for home - line score
 			inning = int((half_inning/2) + .5)
@@ -1226,7 +1339,7 @@ else:
 home_batters = [[home_batters[0], home_avg[0]], [home_batters[1], home_avg[1]], [home_batters[2], home_avg[2]], [home_batters[3], home_avg[3]], [home_batters[4], home_avg[4]], [home_batters[5], home_avg[5]], [home_batters[6], home_avg[6]], [home_batters[7], home_avg[7]], [home_batters[8], home_avg[8]]]
 away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], [away_batters[2], away_avg[2]], [away_batters[3], away_avg[3]], [away_batters[4], away_avg[4]], [away_batters[5], away_avg[5]], [away_batters[6], away_avg[6]], [away_batters[7], away_avg[7]], [away_batters[8], away_avg[8]]]
 
-#Stats for box score
+#Empty stats for box score
 for x in range(9):
 	home_batters[x].append(0)
 	home_batters[x].append(0)
@@ -1348,7 +1461,7 @@ for x in away_batters:
 #print(away_team + " closer: " + away_closer[0] + " - " + str(away_closer[1]))
 
 
-
+#Generate starting pitchers
 pitcher_rand = random.randint(0, 4)
 home_starting_pitcher = home_pitchers[pitcher_rand]
 pitcher_rand = random.randint(0, 4)
@@ -1357,7 +1470,7 @@ away_starting_pitcher = away_pitchers[pitcher_rand]
 current_home_pitcher = home_starting_pitcher
 current_away_pitcher = away_starting_pitcher
 
-#End-of-game box score
+#For end-of-game box score
 home_pitchers_used.append(home_starting_pitcher)
 away_pitchers_used.append(away_starting_pitcher)
 
@@ -1393,25 +1506,69 @@ while gameover == False: #main game loop
 			print ("\033[1;30;102mWALK!\033[0m")
 			if first == False and second == False and third == False:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == False:
 				second = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == False:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == False and third == True:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == False:
 				third = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == True:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == True:
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == True:
 				second = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			if half_inning % 2 != 0: #if top of inning
-				away_walk_count = away_walk_count + 1
+				#away_walk_count = away_walk_count + 1
 				away_batters[current_away_batter][7] = away_batters[current_away_batter][7] + 1 #At-bat count for box score
 			elif half_inning % 2 ==	0: # if bottom of inning
-				home_walk_count = home_walk_count + 1
+				#home_walk_count = home_walk_count + 1
 				home_batters[current_home_batter][7] = home_batters[current_home_batter][7] + 1 #At-bat count for box score
 			resetcount()
 			#next_batter()
@@ -1546,9 +1703,6 @@ while gameover == False: #main game loop
 				out(1)
 			resetcount()
 			pitch_result = "Fly"
-
-
-
 		elif 41 <= rand <= 70: #Ground out
 
 			#print(Style.DIM + "init: ground out" + Style.RESET_ALL) #DEBUG
@@ -1653,28 +1807,84 @@ while gameover == False: #main game loop
 			print ("\033[1;30;102mSINGLE!\033[0m")
 			if first == False and second == False and third == False:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == False:
 				second = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == False:
 				first = True
 				second = False
 				third = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = -1
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = -1
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == False and third == True:
 				first = True
 				third = False
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = -1
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = -1
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == False:
 				third = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == True:
 				first = True
 				second = False
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = -1
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = -1
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == True:
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == True:
 				second = True
 				third = False
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = -1
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = -1
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			if half_inning % 2 != 0: #if top of inning
 				away_single_count = away_single_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
@@ -1710,31 +1920,76 @@ while gameover == False: #main game loop
 			print ("\033[1;30;102mDOUBLE!\033[0m")
 			if first == False and second == False and third == False:
 				second = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = current_home_batter
 			elif first == True and second == False and third == False:
 				first = False
 				second = True
 				third = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[1]
+					runners_on_base[2] = current_away_batter
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[1]
+					runners_on_base[2] = current_home_batter
+					runners_on_base[1] = -1
 			elif first == False and second == True and third == False:
 				run(1)
+				runners_on_base[2] = -1
 			elif first == False and second == False and third == True:
 				run(1)
 				third = False
 				second = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = -1
+					runners_on_base[2] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = -1
+					runners_on_base[2] = current_home_batter
 			elif first == True and second == True and third == False:
 				first = False
 				run(2)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = current_away_batter
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = current_home_batter
+					runners_on_base[1] = -1
 			elif first == False and second == True and third == True:
 				third = False
 				run(2)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = current_home_batter
 			elif first == True and second == True and third == True:
 				first = False
 				third = False
 				run(3)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[1]
+					runners_on_base[2] = current_away_batter
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[1]
+					runners_on_base[2] = current_home_batter
+					runners_on_base[1] = -1
 			elif first == True and second == False and third == True:
 				second = True
 				first = False
 				third = False
 				run(2)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[1]
+					runners_on_base[2] = current_away_batter
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[1]
+					runners_on_base[2] = current_home_batter
+					runners_on_base[1] = -1
 			if half_inning % 2 != 0: #if top of inning
 				away_double_count = away_double_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
@@ -1743,9 +1998,6 @@ while gameover == False: #main game loop
 				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				resetcount()
 			pitch_result = "Double"
-
-
-
 		elif 94 <= rand <= 98: #Home run
 			
 			
@@ -1768,7 +2020,7 @@ while gameover == False: #main game loop
 
 
 
-			
+
 			
 			#next_batter()
 			pitching_animation()
@@ -1812,7 +2064,9 @@ while gameover == False: #main game loop
 			resetcount()
 			pitch_result = "Home run"
 
-
+			runners_on_base[1] = -1
+			runners_on_base[2] = -1
+			runners_on_base[3] = -1
 
 		elif 97 <= rand <= 99: #Hit by pitch
 			
@@ -1839,28 +2093,70 @@ while gameover == False: #main game loop
 			print ("\033[1;30;102mHIT BY PITCH!\033[0m")
 			if first == False and second == False and third == False:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == False:
 				second = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == False:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == False and third == True:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == False:
 				third = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == False and second == True and third == True:
 				first = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == True and third == True:
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = runners_on_base[2]
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			elif first == True and second == False and third == True:
 				second = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[2] = runners_on_base[1]
+					runners_on_base[1] = current_home_batter
 			if half_inning % 2 != 0: #if top of inning
 				away_hbp_count = away_hbp_count + 1
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_hbp_count = home_hbp_count + 1
 			resetcount()
 			pitch_result = "Hit by pitch"
-
-
 		elif rand == 100: #Triple
 			
 			
@@ -1888,32 +2184,80 @@ while gameover == False: #main game loop
 			print ("TRIPLE!")
 			if first == False and second == False and third == False:
 				third = True
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
 			elif first == True and second == False and third == False:
 				first = False
 				third = True
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[1] = -1
 			elif first == False and second == True and third == False:
 				third = True
 				second = False
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
 			elif first == False and second == False and third == True:
 				run(1)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
 			elif first == True and second == True and third == False:
 				third = True
 				first = False
 				second = False
 				run(2)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
+					runners_on_base[1] = -1
 			elif first == False and second == True and third == True:
 				second = False
 				run(2)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
 			elif first == True and second == True and third == True:
 				first = False
 				second = False
 				third = True
 				run(3)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[2] = -1
+					runners_on_base[1] = -1
 			elif first == True and second == False and third == True:
 				first = False
 				run(2)
+				if half_inning % 2 != 0: #if top of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[1] = -1
+				elif half_inning % 2 != 0: #if bottom of inning
+					runners_on_base[3] = current_away_batter
+					runners_on_base[1] = -1
 			if half_inning % 2 != 0: #if top of inning
 				away_triple_count = away_triple_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
@@ -1957,7 +2301,7 @@ elif home_score < away_score:
 
 print("")
 print("---Box Score---")
-print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M"))) 
+print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M"))) 
 print("")
 
 #Line score
@@ -2003,6 +2347,8 @@ print(home_team)
 for x in home_pitchers_used:
 	print(x[0])
 print("Totals: ")
+
+print("")
 
 
 """
