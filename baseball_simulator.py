@@ -157,7 +157,7 @@ def run(num):
 	runner3 = None
 	runner4 = None
 
-	#Determine who scored the run
+	#Determine and print who scored the run
 	if half_inning % 2 != 0:
 		if num == 1:
 			if runners_on_base[3] > -1:
@@ -365,7 +365,6 @@ def run(num):
 			print("")
 			wait_short()
 			print ("\033[1;30;102m" + runner4[0] + " scored a run for the " + home_team + "!\033[0m")
-
 			
 	for x in range (num):
 		if half_inning % 2 != 0:
@@ -573,10 +572,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(0) # 2
+	time.sleep(2) # 2
 
 def wait_short():
-	time.sleep(0) # .5
+	time.sleep(.5) # .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -1529,11 +1528,10 @@ home_abbr = "BOS" #debug
 home_year = "2018" #debug
 away_team = "Yankees" #debug
 away_abbr = "NYY" #debug
-away_year = "2018" #debug
+way_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
 
-"""
 home_team = ""
 home_abbr = ""
 home_team_error = True
@@ -1581,7 +1579,6 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
-"""
 
 print("")
 print("Loading players...")
@@ -2355,11 +2352,11 @@ while gameover == False: #main game loop
 				run(2)
 			elif first == False and second == False and third == True:
 				third = False
-				run(1)
+				run(2)
 			elif first == True and second == True and third == False:
 				first = False
 				second = False
-				run(2)
+				run(3)
 			elif first == False and second == True and third == True:
 				third = False
 				second = False
@@ -2619,27 +2616,39 @@ if home_score > away_score:
 elif home_score < away_score:
 	print("Game has ended. " + away_team + " win!")
 
+wait_short()
 print("")
+wait_short()
 print("---Box Score---")
+wait_short()
 print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M"))) 
+wait_short()
 print("")
+wait_short()
 
 #Line score
 print(away_abbr + " ",end="")
 for x in away_score_by_inning:
+	wait_short()
 	print(str(x) + " " ,end="")
+wait_short()
 print("- \033[1;93;40m" + str(away_score) + "\033[0m")
 
+wait_short()
 print( home_abbr + " ",end="")
 for x in home_score_by_inning:
+	wait_short()
 	print(str(x) + " " ,end="")
 if len(home_score_by_inning) < len(away_score_by_inning):
 	print("  ",end="")
+wait_short()
 print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
 #Away batting
+wait_short()
 print(away_team + "                  AB  R  H RBI HR BB SO")
 for x in away_batters:
+	wait_short()
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
@@ -2662,16 +2671,19 @@ for x in range (0, 8):
 	away_bb_total = away_bb_total + away_batters[x][7]
 	away_so_total = away_so_total + away_batters[x][8]
 
+wait_short()
 print("Totals:                  " + str(away_ab_total) + "  " + str(away_r_total) + "  " + str(away_h_total) + "  " + str(away_rbi_total) + "  " + str(away_hr_total) + "  " + str(away_bb_total) + "  " + str(away_so_total))
 print("")
 
 #Home batting
 print(home_team + "                  AB  R  H RBI HR BB SO")
 for x in home_batters:
+	wait_short()
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
 	print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
+
 home_ab_total = 0
 home_r_total = 0
 home_h_total = 0
@@ -2689,26 +2701,39 @@ for x in range (0, 8):
 	home_bb_total = home_bb_total + home_batters[x][7]
 	home_so_total = home_so_total + home_batters[x][8]
 
+wait_short()
 print("Totals:                  " + str(home_ab_total) + "  " + str(home_r_total) + "  " + str(home_h_total) + "  " + str(home_rbi_total) + "  " + str(home_hr_total) + "  " + str(home_bb_total) + "  " + str(home_so_total))
+wait_short()
 print("")
+wait_short()
 print("")
+wait_short()
 
 
 
 
-
-print("Pitchers\n")
+print("Pitchers")
+wait_short()
+print("")
+wait_short
 
 print(away_team)
+wait_short()
 for x in away_pitchers_used:
 	print(x[0])
-print("Totals: \n")
+	wait_short()
+print("Totals: ")
+wait_short()
+print("")
+wait_short()
 
 print(home_team)
+wait_short()
 for x in home_pitchers_used:
 	print(x[0])
+wait_short()
 print("Totals: ")
-
+wait_short()
 print("")
 
 
