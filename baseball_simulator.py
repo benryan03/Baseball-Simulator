@@ -150,112 +150,222 @@ def run(num):
 	global home_score_by_inning
 	global away_score_by_inning
 
-	print(str(runners_on_base))
+	#print(str(runners_on_base)) #DEBUG
 
-	#For Runs column in box score	
+	runner1 = None
+	runner2 = None
+	runner3 = None
+	runner4 = None
+
+	#Determine who scored the run
 	if half_inning % 2 != 0:
 		if num == 1:
 			if runners_on_base[3] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
+				runner1 = away_batters[runners_on_base[3]]
 			elif runners_on_base[2] > -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+				runner1 = away_batters[runners_on_base[2]]
 			elif runners_on_base[1] > -1:
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
-			else:
+			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				runner1 = away_batters[current_away_batter]
 		elif num == 2:
 			if runners_on_base[3] > -1 and runners_on_base[2] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
+				runner1 = away_batters[runners_on_base[3]]
+				runner2 = away_batters[runners_on_base[2]]
 			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+				runner1 = away_batters[runners_on_base[3]]
+				runner2 = away_batters[runners_on_base[1]]
 			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+				runner1 = away_batters[runners_on_base[2]]
+				runner2 = away_batters[runners_on_base[1]]
 			elif runners_on_base[3] > -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				runner1 = away_batters[runners_on_base[3]]
+				runner2 = away_batters[current_away_batter]
 			elif runners_on_base[3] == -1 and runners_on_base[2] > -1 and runners_on_base[1] == -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				runner1 = away_batters[runners_on_base[2]]
+				runner2 = away_batters[current_away_batter]
 			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				runner1 = away_batters[runners_on_base[1]]
+				runner2 = away_batters[current_away_batter]
 		elif num == 3:
 			if runners_on_base[3] > -1 and runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
-				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
+				runner1 = away_batters[runners_on_base[3]]
+				runner2 = away_batters[runners_on_base[2]]
+				runner3 = away_batters[runners_on_base[1]]
 			elif runners_on_base[3] > -1 and runners_on_base[2] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				runner1 = away_batters[runners_on_base[3]]
+				runner2 = away_batters[runners_on_base[2]]
+				runner3 = away_batters[current_away_batter]
 			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				runner1 = away_batters[runners_on_base[3]]
+				runner2 = away_batters[runners_on_base[1]]
+				runner3 = away_batters[current_away_batter]
 			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 				away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
 				away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+				runner1 = away_batters[runners_on_base[2]]
+				runner2 = away_batters[runners_on_base[1]]
+				runner3 = away_batters[current_away_batter]
 		elif num == 4:
 			away_batters[runners_on_base[3]][3] = away_batters[runners_on_base[3]][3] + 1
 			away_batters[runners_on_base[2]][3] = away_batters[runners_on_base[2]][3] + 1
 			away_batters[runners_on_base[1]][3] = away_batters[runners_on_base[1]][3] + 1
 			away_batters[current_away_batter][3] = away_batters[current_away_batter][3] + 1
+			runner1 = away_batters[runners_on_base[3]]
+			runner2 = away_batters[runners_on_base[2]]
+			runner3 = away_batters[runners_on_base[1]]
+			runner4 = away_batters[current_away_batter]
+
+		if runner1 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner1[0] + " scored a run for the " + away_team + "!\033[0m")
+		if runner2 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner2[0] + " scored a run for the " + away_team + "!\033[0m")
+		if runner3 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner3[0] + " scored a run for the " + away_team + "!\033[0m")
+		if runner4 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner4[0] + " scored a run for the " + away_team + "!\033[0m")
+
 	elif half_inning % 2 == 0:
 		if num == 1:
 			if runners_on_base[3] > -1:
 				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
+				runner1 = home_batters[runners_on_base[3]]
 			elif runners_on_base[2] > -1:
 				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+				runner1 = home_batters[runners_on_base[2]]
 			elif runners_on_base[1] > -1:
 				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
-			else:
+			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
 				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				runner1 = home_batters[current_home_batter]
 		elif num == 2:
 			if runners_on_base[3] > -1 and runners_on_base[2] > -1:
 				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
 				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
+				runner1 = home_batters[runners_on_base[3]]
+				runner2 = home_batters[runners_on_base[2]]
 			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
 				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
 				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+				runner1 = home_batters[runners_on_base[3]]
+				runner2 = home_batters[runners_on_base[1]]
 			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
 				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+				runner1 = home_batters[runners_on_base[2]]
+				runner2 = home_batters[runners_on_base[1]]
 			elif runners_on_base[3] > -1 and runners_on_base[2] == -1 and runners_on_base[1] == -1:
 				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
 				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				runner1 = home_batters[runners_on_base[3]]
+				runner2 = home_batters[current_home_batter]
 			elif runners_on_base[3] == -1 and runners_on_base[2] > -1 and runners_on_base[1] == -1:
 				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
 				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				runner1 = home_batters[runners_on_base[2]]
+				runner2 = home_batters[current_home_batter]
 			elif runners_on_base[3] == -1 and runners_on_base[2] == -1 and runners_on_base[1] > -1:
 				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
 				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				runner1 = home_batters[runners_on_base[1]]
+				runner2 = home_batters[current_home_batter]
 		elif num == 3:
 			if runners_on_base[3] > -1 and runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
 				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
-				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
+				runner1 = home_batters[runners_on_base[3]]
+				runner2 = home_batters[runners_on_base[2]]
+				runner3 = home_batters[runners_on_base[1]]
 			elif runners_on_base[3] > -1 and runners_on_base[2] > -1:
 				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
 				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
 				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				runner1 = home_batters[runners_on_base[3]]
+				runner2 = home_batters[runners_on_base[2]]
+				runner3 = home_batters[current_home_batter]
 			elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
 				home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
 				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
 				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				runner1 = home_batters[runners_on_base[3]]
+				runner2 = home_batters[runners_on_base[1]]
+				runner3 = home_batters[current_home_batter]
 			elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
 				home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
 				home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
 				home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+				runner1 = home_batters[runners_on_base[2]]
+				runner2 = home_batters[runners_on_base[1]]
+				runner3 = home_batters[current_home_batter]
 		elif num == 4:
 			home_batters[runners_on_base[3]][3] = home_batters[runners_on_base[3]][3] + 1
 			home_batters[runners_on_base[2]][3] = home_batters[runners_on_base[2]][3] + 1
 			home_batters[runners_on_base[1]][3] = home_batters[runners_on_base[1]][3] + 1
-			home_batters[current_home_batter][3] = home_batters[current_away_batter][3] + 1
-	
+			home_batters[current_home_batter][3] = home_batters[current_home_batter][3] + 1
+			runner1 = home_batters[runners_on_base[3]]
+			runner2 = home_batters[runners_on_base[2]]
+			runner3 = home_batters[runners_on_base[1]]
+			runner4 = home_batters[current_home_batter]
+
+		if runner1 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner1[0] + " scored a run for the " + home_team + "!\033[0m")
+		if runner2 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner2[0] + " scored a run for the " + home_team + "!\033[0m")
+		if runner3 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner3[0] + " scored a run for the " + home_team + "!\033[0m")
+		if runner4 != None:
+			wait_short()
+			print("")
+			wait_short()
+			print ("\033[1;30;102m" + runner4[0] + " scored a run for the " + home_team + "!\033[0m")
+
 			
 	for x in range (num):
 		if half_inning % 2 != 0:
@@ -282,7 +392,7 @@ def run(num):
 			away_score = away_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
 			away_batters[current_away_batter][5] = away_batters[current_away_batter][5] + 1 #RBI count for box score
-			print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
+			#print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
 			#print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning < 18 and half_inning % 2 == 0:
@@ -290,7 +400,7 @@ def run(num):
 			home_score = home_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
 			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
-			print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
+			#print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
 			#print ("Run scored by " + home_team + "!")
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 != 0: #odd/top of inning
@@ -298,14 +408,14 @@ def run(num):
 			away_score = away_score + 1
 			runs_in_current_inning = runs_in_current_inning + 1
 			away_batters[current_away_batter][5] = away_batters[current_away_batter][5] + 1 #RBI count for box score
-			print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
+			#print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
 			#print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score: #even/bottom of inning
 			#extra innings - run for home, no walkoff
 			home_score = home_score + 1
 			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
-			print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
+			#print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
 			#print ("Run scored by " + home_team + "!")
 			runs_in_current_inning = runs_in_current_inning + 1
 			wait_short()
@@ -313,7 +423,10 @@ def run(num):
 			#walkoff run!
 			home_score = home_score + 1
 			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
-			print ("\033[1;30;102mWALKOFF RUN scored by " + home_team + "!\033[0m")
+			print ("\033[1;30;102mWALKOFF for the " + home_team + "!\033[0m")
+			wait()
+			print("")
+			wait()
 			#print ("WALKOFF RUN scored by " + home_team + "!")
 			print("Game has ended. " + home_team + " wins.")
 			gameover = True
