@@ -2710,7 +2710,7 @@ away_hr_total = 0
 away_bb_total = 0
 away_so_total = 0
 
-for x in range (0, 8):
+for x in range (0, 9):
 	away_ab_total = away_ab_total + away_batters[x][2]
 	away_r_total = away_r_total + away_batters[x][3]
 	away_h_total = away_h_total + away_batters[x][4]
@@ -2740,7 +2740,7 @@ home_hr_total = 0
 home_bb_total = 0
 home_so_total = 0
 
-for x in range (0, 8):
+for x in range (0, 9):
 	home_ab_total = home_ab_total + home_batters[x][2]
 	home_r_total = home_r_total + home_batters[x][3]
 	home_h_total = home_h_total + home_batters[x][4]
