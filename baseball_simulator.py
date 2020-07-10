@@ -2433,20 +2433,20 @@ print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
 
 
-print(away_team + "                  AB R H RBI HR BB SO")
+print(away_team + "                  AB  R  H RBI HR BB SO")
 for x in away_batters:
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
-	print(str(x[2]) + " " + str(x[3]) + " " + str(x[4]) + "   " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
+	print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
 print("Totals: \n")
 
-print(home_team + "                  AB R H RBI HR BB SO")
+print(home_team + "                  AB  R  H RBI HR BB SO")
 for x in home_batters:
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
-	print(str(x[2]) + " " + str(x[3]) + " " + str(x[4]) + "   " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
+	print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
 print("Totals: \n\n")
 
 print("Pitchers\n")
