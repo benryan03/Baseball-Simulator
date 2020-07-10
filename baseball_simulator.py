@@ -2430,24 +2430,65 @@ if len(home_score_by_inning) < len(away_score_by_inning):
 	print("  ",end="")
 print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
-
-
-
+#Away batting
 print(away_team + "                  AB  R  H RBI HR BB SO")
 for x in away_batters:
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
 	print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
-print("Totals: \n")
 
+away_ab_total = 0
+away_r_total = 0
+away_h_total = 0
+away_rbi_total = 0
+away_hr_total = 0
+away_bb_total = 0
+away_so_total = 0
+
+for x in range (0, 8):
+	away_ab_total = away_ab_total + away_batters[x][2]
+	away_r_total = away_r_total + away_batters[x][3]
+	away_h_total = away_h_total + away_batters[x][4]
+	away_rbi_total = away_rbi_total + away_batters[x][5]
+	away_hr_total = away_hr_total + away_batters[x][6]
+	away_bb_total = away_bb_total + away_batters[x][7]
+	away_so_total = away_so_total + away_batters[x][8]
+
+print("Totals:                  " + str(away_ab_total) + "  " + str(away_r_total) + "  " + str(away_h_total) + "  " + str(away_rbi_total) + "  " + str(away_hr_total) + "  " + str(away_bb_total) + "  " + str(away_so_total))
+print("")
+
+#Home batting
 print(home_team + "                  AB  R  H RBI HR BB SO")
 for x in home_batters:
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
 	print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
-print("Totals: \n\n")
+home_ab_total = 0
+home_r_total = 0
+home_h_total = 0
+home_rbi_total = 0
+home_hr_total = 0
+home_bb_total = 0
+home_so_total = 0
+
+for x in range (0, 8):
+	home_ab_total = home_ab_total + home_batters[x][2]
+	home_r_total = home_r_total + home_batters[x][3]
+	home_h_total = home_h_total + home_batters[x][4]
+	home_rbi_total = home_rbi_total + home_batters[x][5]
+	home_hr_total = home_hr_total + home_batters[x][6]
+	home_bb_total = home_bb_total + home_batters[x][7]
+	home_so_total = home_so_total + home_batters[x][8]
+
+print("Totals:                  " + str(home_ab_total) + "  " + str(home_r_total) + "  " + str(home_h_total) + "  " + str(home_rbi_total) + "  " + str(home_hr_total) + "  " + str(home_bb_total) + "  " + str(home_so_total))
+print("")
+print("")
+
+
+
+
 
 print("Pitchers\n")
 
