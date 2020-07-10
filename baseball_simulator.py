@@ -1842,6 +1842,9 @@ wait()
 
 status()
 
+first_pitch_time = ((datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M")))
+
+
 while gameover == False: #main game loop
 
 	pitch_result = calculate_pitch_outcome(atbat_pitch_count, False)
@@ -2546,8 +2549,8 @@ while gameover == False: #main game loop
 
 			#next_batter()
 			pitching_animation()
-			print ("TRIPLE!")
-			if first == False and second == False and third == False:
+			print ("\033[1;30;102mTRIPLE!\033[0m")
+ 			if first == False and second == False and third == False:
 				third = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
@@ -2669,7 +2672,8 @@ print("")
 wait_short()
 print("---Box Score---")
 wait_short()
-print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M"))) 
+#print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M"))) 
+print("First pitch: " + str(first_pitch_time)) 
 wait_short()
 print("")
 wait_short()
