@@ -1347,6 +1347,7 @@ def check_if_pitching_change():
 	global second
 	global third
 
+	global runs_in_current_inning
 
 	if half_inning % 2 != 0: #Top half
 		if current_home_pitcher == home_starting_pitcher:
@@ -1356,13 +1357,16 @@ def check_if_pitching_change():
 				pitching_change()
 			if away_score > 4:
 				pitching_change()
+
 		elif current_home_pitcher != home_starting_pitcher:
 			if outs == 0 and first == False and second == False and third == False:
 				if len(home_relief_pitchers) > 0:
 					pitching_change()
-			if runs_in_current_inning > 2:
-				if len(home_relief_pitchers) > 0:
-					pitching_change()
+			else:
+				if runs_in_current_inning > 2:
+					if len(home_relief_pitchers) > 0:
+						runs_in_current_inning = 0
+						pitching_change()
 
 	elif half_inning % 2 == 0: #Bottom half
 		if current_away_pitcher == away_starting_pitcher:
@@ -1372,13 +1376,16 @@ def check_if_pitching_change():
 				pitching_change()
 			if home_score > 4:
 				pitching_change()
+
 		elif current_away_pitcher != away_starting_pitcher:
 			if outs == 0 and first == False and second == False and third == False:
 				if len(away_relief_pitchers) > 0:
 					pitching_change()
-			if runs_in_current_inning > 2:
-				if len(away_relief_pitchers) > 0:
-					pitching_change()
+			else:
+				if runs_in_current_inning > 2:
+					if len(away_relief_pitchers) > 0:
+						runs_in_current_inning = 0
+						pitching_change()
 
 	#else:
 
@@ -2971,6 +2978,8 @@ if len(str(home_r_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
+print(str(home_r_total),end="")
+
 
 if len(str(home_h_total)) > 1:
 	print("  ",end="")
