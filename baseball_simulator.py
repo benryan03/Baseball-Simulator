@@ -1359,14 +1359,19 @@ def check_if_pitching_change():
 				pitching_change()
 
 		elif current_home_pitcher != home_starting_pitcher:
-			if outs == 0 and first == False and second == False and third == False:
-				if len(home_relief_pitchers) > 0:
-					pitching_change()
-			else:
+			if half_inning <= 9:
 				if runs_in_current_inning > 2:
 					if len(home_relief_pitchers) > 0:
-						runs_in_current_inning = 0
 						pitching_change()
+			else:
+				if outs == 0 and first == False and second == False and third == False:
+					if len(home_relief_pitchers) > 0:
+						pitching_change()
+			
+				else:
+					if runs_in_current_inning > 2:
+						if len(home_relief_pitchers) > 0:
+							pitching_change()
 
 	elif half_inning % 2 == 0: #Bottom half
 		if current_away_pitcher == away_starting_pitcher:
@@ -1378,14 +1383,19 @@ def check_if_pitching_change():
 				pitching_change()
 
 		elif current_away_pitcher != away_starting_pitcher:
-			if outs == 0 and first == False and second == False and third == False:
-				if len(away_relief_pitchers) > 0:
-					pitching_change()
-			else:
+			if half_inning <= 10:
 				if runs_in_current_inning > 2:
 					if len(away_relief_pitchers) > 0:
-						runs_in_current_inning = 0
 						pitching_change()
+			else:
+				if outs == 0 and first == False and second == False and third == False:
+					if len(away_relief_pitchers) > 0:
+						pitching_change()
+			
+				else:
+					if runs_in_current_inning > 2:
+						if len(away_relief_pitchers) > 0:
+							pitching_change()
 
 	#else:
 
@@ -1396,6 +1406,9 @@ def pitching_change():
 	global away_relief_pitchers
 	global current_away_pitcher
 	global away_pitcher_pitch_count
+	global runs_in_current_inning
+
+	runs_in_current_inning = 0
 
 	if half_inning % 2 != 0: #Top half
 
