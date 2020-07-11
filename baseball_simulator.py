@@ -139,7 +139,15 @@ def out(num):
 			balls = 0
 			strikes = 0
 		else:
+		#Game over
+			
+			if half_inning % 2 != 0 and home_score > away_score and len(away_score_by_inning) == len(home_score_by_inning):
+				#Previous half inning was top
+				if len(away_score_by_inning) < half_inning-1:
+					away_score_by_inning.append(0)
+
 			gameover = True
+
 
 		#elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0 and home_score > away_score:
 		# if 2 outs and 9th inning or later and end of top of inning and home team is ahead
@@ -1468,12 +1476,6 @@ def inning_status():
 	global half_inning
 
 	prev_half_inning = half_inning - 1
-
-
-
-
-
-
 	if prev_half_inning % 2 == 0:
 		#it is now bottom
 		if len(away_score_by_inning) < prev_half_inning-1:
