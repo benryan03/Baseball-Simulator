@@ -79,6 +79,10 @@ def out(num):
 	global runs_in_current_inning
 	global runners_on_base
 	for x in range (num):
+		
+		if half_inning % 2 == 0:
+			away_pitchers_used[-1][2] = away_pitchers_used[-1][2] + .3333
+
 		if outs <=1:
 			resetcount()
 			outs = outs + 1
@@ -607,10 +611,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(2) # 2
+	time.sleep(0) # 2
 
 def wait_short():
-	time.sleep(.5) # .5
+	time.sleep(0) # .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -1420,6 +1424,8 @@ def pitching_change():
 			current_away_pitcher = away_closer
 
 		away_pitchers_used.append(current_away_pitcher)
+		for x in range(10):
+			away_pitchers_used[-1].append(0)
 
 		wait()
 		print("Pitching change!")
@@ -1563,10 +1569,10 @@ home_abbr = "BOS" #debug
 home_year = "2018" #debug
 away_team = "Yankees" #debug
 away_abbr = "NYY" #debug
-way_year = "2018" #debug
+away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
-
+"""
 home_team = ""
 home_abbr = ""
 home_team_error = True
@@ -1614,7 +1620,7 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
-
+"""
 print("")
 print("Loading players...")
 
@@ -1824,7 +1830,10 @@ current_away_pitcher = away_starting_pitcher
 
 #For end-of-game box score
 home_pitchers_used.append(home_starting_pitcher)
+
 away_pitchers_used.append(away_starting_pitcher)
+for x in range(10):
+	away_pitchers_used[-1].append(0)
 
 wait()
 print("")
@@ -2550,7 +2559,7 @@ while gameover == False: #main game loop
 			#next_batter()
 			pitching_animation()
 			print ("\033[1;30;102mTRIPLE!\033[0m")
- 			if first == False and second == False and third == False:
+			if first == False and second == False and third == False:
 				third = True
 				if half_inning % 2 != 0: #if top of inning
 					runners_on_base[3] = current_away_batter
@@ -2672,7 +2681,6 @@ print("")
 wait_short()
 print("---Box Score---")
 wait_short()
-#print("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M"))) 
 print("First pitch: " + str(first_pitch_time)) 
 wait_short()
 print("")
@@ -2698,13 +2706,65 @@ print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
 #Away batting
 wait_short()
-print(away_team + "                  AB  R  H RBI HR BB SO")
+print(away_team + "                  AB   R   H  RBI HR  BB  SO")
 for x in away_batters:
 	wait_short()
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
-	print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
+
+
+
+
+
+	#Make sure the columns align
+	#This is messy :(
+	print(str(x[2]),end="")
+	
+	if len(str(x[3])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[3]),end="")
+	if len(str(x[4])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+	
+	print(str(x[4]),end="")
+	if len(str(x[5])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[5]),end="")
+	if len(str(x[6])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[6]),end="")
+	if len(str(x[7])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[7]),end="")
+	if len(str(x[8])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[8]))
+
+
+
+
+
+
+
+
 
 away_ab_total = 0
 away_r_total = 0
@@ -2724,17 +2784,102 @@ for x in range (0, 9):
 	away_so_total = away_so_total + away_batters[x][8]
 
 wait_short()
-print("Totals:                  " + str(away_ab_total) + "  " + str(away_r_total) + "  " + str(away_h_total) + "  " + str(away_rbi_total) + "  " + str(away_hr_total) + "  " + str(away_bb_total) + "  " + str(away_so_total))
+print("Totals:                  " + str(away_ab_total),end="")
+
+if len(str(away_r_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_r_total),end="")
+
+if len(str(away_h_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_h_total),end="")
+
+if len(str(away_rbi_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_rbi_total),end="")
+
+if len(str(away_hr_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_hr_total),end="")
+
+if len(str(away_bb_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_bb_total),end="")
+
+if len(str(away_so_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_so_total))
+
 print("")
 
 #Home batting
-print(home_team + "                  AB  R  H RBI HR BB SO")
+print(home_team + "                  AB   R   H  RBI HR  BB  SO")
 for x in home_batters:
 	wait_short()
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
-	print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
+	
+	
+	#Make sure the columns align
+	#This is messy :(
+	print(str(x[2]),end="")
+	
+	if len(str(x[3])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[3]),end="")
+	if len(str(x[4])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+	
+	print(str(x[4]),end="")
+	if len(str(x[5])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[5]),end="")
+	if len(str(x[6])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[6]),end="")
+	if len(str(x[7])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[7]),end="")
+	if len(str(x[8])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[8]))
+
+	
+	
+	
+	
+	
+	#print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
 
 home_ab_total = 0
 home_r_total = 0
@@ -2754,7 +2899,44 @@ for x in range (0, 9):
 	home_so_total = home_so_total + home_batters[x][8]
 
 wait_short()
-print("Totals:                  " + str(home_ab_total) + "  " + str(home_r_total) + "  " + str(home_h_total) + "  " + str(home_rbi_total) + "  " + str(home_hr_total) + "  " + str(home_bb_total) + "  " + str(home_so_total))
+print("Totals:                  " + str(away_ab_total),end="")
+
+if len(str(away_r_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_r_total),end="")
+
+if len(str(away_h_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_h_total),end="")
+
+if len(str(away_rbi_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_rbi_total),end="")
+
+if len(str(away_hr_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_hr_total),end="")
+
+if len(str(away_bb_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_bb_total),end="")
+
+if len(str(away_so_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_so_total))
+
 wait_short()
 print("")
 wait_short()
@@ -2769,17 +2951,21 @@ wait_short()
 print("")
 wait_short
 
-print(away_team)
+print(away_team + "                   IP   H R ER HR BB SO HR")
 wait_short()
 for x in away_pitchers_used:
-	print(x[0])
+	print(x[0] + " ",end="")
+	for y in range(25 - len(str(x[0]))):
+		print(" ",end="")
+	print(str(round(x[2],1)) + "  " + str(x[3]) + " " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]) + "  " + str(x[9]))
+
 	wait_short()
 print("Totals: ")
 wait_short()
 print("")
 wait_short()
 
-print(home_team)
+print(home_team + "                   IP   H R ER HR BB SO HR")
 wait_short()
 for x in home_pitchers_used:
 	print(x[0])
