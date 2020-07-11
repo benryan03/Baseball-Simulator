@@ -82,6 +82,8 @@ def out(num):
 		
 		if half_inning % 2 == 0:
 			away_pitchers_used[-1][2] = away_pitchers_used[-1][2] + .3333
+		elif half_inning % 2 != 0:
+			home_pitchers_used[-1][2] = home_pitchers_used[-1][2] + .3333
 
 		if outs <=1:
 			resetcount()
@@ -1399,6 +1401,8 @@ def pitching_change():
 			current_home_pitcher = home_closer
 
 		home_pitchers_used.append(current_home_pitcher)
+		for x in range(10):
+			home_pitchers_used[-1].append(0)
 
 		wait()
 		print("Pitching change!")
@@ -1830,6 +1834,8 @@ current_away_pitcher = away_starting_pitcher
 
 #For end-of-game box score
 home_pitchers_used.append(home_starting_pitcher)
+for x in range(10):
+	home_pitchers_used[-1].append(0)
 
 away_pitchers_used.append(away_starting_pitcher)
 for x in range(10):
@@ -2262,12 +2268,16 @@ while gameover == False: #main game loop
 					runners_on_base[3] = -1
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
+
 			if half_inning % 2 != 0: #if top of inning
 				away_single_count = away_single_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
+				home_pitchers_used[-1][4] = home_pitchers_used[-1][3] + 1
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_single_count = home_single_count + 1
 				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
+				away_pitchers_used[-1][4] = away_pitchers_used[-1][3] + 1
+
 			resetcount()
 			pitch_result = "Single"
 		elif 88 <= rand <= 93: #Double
@@ -2879,7 +2889,6 @@ for x in home_batters:
 	
 	
 	
-	#print(str(x[2]) + "  " + str(x[3]) + "  " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]))
 
 home_ab_total = 0
 home_r_total = 0
@@ -2899,43 +2908,43 @@ for x in range (0, 9):
 	home_so_total = home_so_total + home_batters[x][8]
 
 wait_short()
-print("Totals:                  " + str(away_ab_total),end="")
+print("Totals:                  " + str(home_ab_total),end="")
 
-if len(str(away_r_total)) > 1:
+if len(str(home_r_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_r_total),end="")
+print(str(home_r_total),end="")
 
-if len(str(away_h_total)) > 1:
+if len(str(home_h_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_h_total),end="")
+print(str(home_h_total),end="")
 
-if len(str(away_rbi_total)) > 1:
+if len(str(home_rbi_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_rbi_total),end="")
+print(str(home_rbi_total),end="")
 
-if len(str(away_hr_total)) > 1:
+if len(str(home_hr_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_hr_total),end="")
+print(str(home_hr_total),end="")
 
-if len(str(away_bb_total)) > 1:
+if len(str(home_bb_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_bb_total),end="")
+print(str(home_bb_total),end="")
 
-if len(str(away_so_total)) > 1:
+if len(str(home_so_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_so_total))
+print(str(home_so_total))
 
 wait_short()
 print("")
@@ -2951,13 +2960,75 @@ wait_short()
 print("")
 wait_short
 
-print(away_team + "                   IP   H R ER HR BB SO HR")
+print(away_team + "                  IP   R   H  ER  HR  BB  SO")
 wait_short()
 for x in away_pitchers_used:
 	print(x[0] + " ",end="")
-	for y in range(25 - len(str(x[0]))):
+	for y in range(23 - len(str(x[0]))):
 		print(" ",end="")
-	print(str(round(x[2],1)) + "  " + str(x[3]) + " " + str(x[4]) + "  " + str(x[5]) + "  " + str(x[6]) + "  " + str(x[7]) + "  " + str(x[8]) + "  " + str(x[9]))
+	
+	#Make sure the columns align
+	#This is messy :(
+	if len(str(round(x[2],1))) == 1:
+		print("  ",end="")
+	print(str(round(x[2],1)),end="")
+
+	if len(str(x[3])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[3]),end="")
+	if len(str(x[4])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+	
+	print(str(x[4]),end="")
+	if len(str(x[5])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[5]),end="")
+	if len(str(x[6])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[6]),end="")
+	if len(str(x[7])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[7]),end="")
+	if len(str(x[8])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[8]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	wait_short()
 print("Totals: ")
@@ -2965,10 +3036,56 @@ wait_short()
 print("")
 wait_short()
 
-print(home_team + "                   IP   H R ER HR BB SO HR")
+print(home_team + "                  IP   R   H  ER  HR  BB  SO")
 wait_short()
 for x in home_pitchers_used:
-	print(x[0])
+	print(x[0] + " ",end="")
+	for y in range(23 - len(str(x[0]))):
+		print(" ",end="")
+
+	#Make sure the columns align
+	#This is messy :(
+	if len(str(round(x[2],1))) == 1:
+		print("  ",end="")
+	print(str(round(x[2],1)),end="")
+
+	if len(str(x[3])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[3]),end="")
+	if len(str(x[4])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+	
+	print(str(x[4]),end="")
+	if len(str(x[5])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[5]),end="")
+	if len(str(x[6])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[6]),end="")
+	if len(str(x[7])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[7]),end="")
+	if len(str(x[8])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	print(str(x[8]))
+
 wait_short()
 print("Totals: ")
 wait_short()
