@@ -2734,50 +2734,71 @@ for x in away_batters:
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
 
-
-
-
-
 	#Make sure the columns align
 	#This is messy :(
-	print(str(x[2]),end="")
+
+	print("\033[1;93;40m" + str(x[2]) + "\033[0m",end="")
 	
 	if len(str(x[3])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[3]),end="")
+	if x[3] > 0:
+		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
+	else:
+		print(str(x[3]),end="")
+
+
 	if len(str(x[4])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 	
-	print(str(x[4]),end="")
+	if x[4] > 0:
+		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
+	else:
+		print(str(x[4]),end="")
+
 	if len(str(x[5])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[5]),end="")
+	if x[5] > 0:
+		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
+	else:
+		print(str(x[5]),end="")
+
 	if len(str(x[6])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[6]),end="")
+	if x[6] > 0:
+		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
+	else:
+		print(str(x[6]),end="")
+	
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[7]),end="")
-	if len(str(x[8])) > 1:
+	if x[7] > 0:
+		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
+	else:
+		print(str(x[7]),end="")
+	
+	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[8]))
+	if x[8] > 0:
+		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
+	else:
+		print(str(x[8]))
 
 
 
@@ -2856,44 +2877,69 @@ for x in home_batters:
 	
 	#Make sure the columns align
 	#This is messy :(
-	print(str(x[2]),end="")
+
+	print("\033[1;93;40m" + str(x[2]) + "\033[0m",end="")
 	
 	if len(str(x[3])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[3]),end="")
+	if x[3] > 0:
+		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
+	else:
+		print(str(x[3]),end="")
+
+
 	if len(str(x[4])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 	
-	print(str(x[4]),end="")
+	if x[4] > 0:
+		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
+	else:
+		print(str(x[4]),end="")
+
 	if len(str(x[5])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[5]),end="")
+	if x[5] > 0:
+		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
+	else:
+		print(str(x[5]),end="")
+
 	if len(str(x[6])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[6]),end="")
+	if x[6] > 0:
+		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
+	else:
+		print(str(x[6]),end="")
+	
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[7]),end="")
-	if len(str(x[8])) > 1:
+	if x[7] > 0:
+		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
+	else:
+		print(str(x[7]),end="")
+	
+	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[8]))
+	if x[8] > 0:
+		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
+	else:
+		print(str(x[8]))
 
 	
 	
@@ -2925,7 +2971,6 @@ if len(str(home_r_total)) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(home_r_total),end="")
 
 if len(str(home_h_total)) > 1:
 	print("  ",end="")
@@ -2982,44 +3027,68 @@ for x in away_pitchers_used:
 	#This is messy :(
 	if len(str(round(x[2],1))) == 1:
 		print("  ",end="")
-	print(str(round(x[2],1)),end="")
+	print("\033[1;93;40m" + str(round(x[2],1)) + "\033[0m",end="")
 
 	if len(str(x[3])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[3]),end="")
+	if x[3] > 0:
+		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
+	else:
+		print(str(x[3]),end="")
+
+
 	if len(str(x[4])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 	
-	print(str(x[4]),end="")
+	if x[4] > 0:
+		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
+	else:
+		print(str(x[4]),end="")
+
 	if len(str(x[5])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[5]),end="")
+	if x[5] > 0:
+		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
+	else:
+		print(str(x[5]),end="")
+
 	if len(str(x[6])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[6]),end="")
+	if x[6] > 0:
+		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
+	else:
+		print(str(x[6]),end="")
+	
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[7]),end="")
-	if len(str(x[8])) > 1:
+	if x[7] > 0:
+		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
+	else:
+		print(str(x[7]),end="")
+	
+	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[8]))
+	if x[8] > 0:
+		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
+	else:
+		print(str(x[8]))
 
 
 
@@ -3058,44 +3127,68 @@ for x in home_pitchers_used:
 	#This is messy :(
 	if len(str(round(x[2],1))) == 1:
 		print("  ",end="")
-	print(str(round(x[2],1)),end="")
+	print("\033[1;93;40m" + str(round(x[2],1)) + "\033[0m",end="")
 
 	if len(str(x[3])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[3]),end="")
+	if x[3] > 0:
+		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
+	else:
+		print(str(x[3]),end="")
+
+
 	if len(str(x[4])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 	
-	print(str(x[4]),end="")
+	if x[4] > 0:
+		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
+	else:
+		print(str(x[4]),end="")
+
 	if len(str(x[5])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[5]),end="")
+	if x[5] > 0:
+		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
+	else:
+		print(str(x[5]),end="")
+
 	if len(str(x[6])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[6]),end="")
+	if x[6] > 0:
+		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
+	else:
+		print(str(x[6]),end="")
+	
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[7]),end="")
-	if len(str(x[8])) > 1:
+	if x[7] > 0:
+		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
+	else:
+		print(str(x[7]),end="")
+	
+	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
 
-	print(str(x[8]))
+	if x[8] > 0:
+		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
+	else:
+		print(str(x[8]))
 
 wait_short()
 print("Totals: ")
