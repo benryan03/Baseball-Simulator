@@ -141,6 +141,7 @@ def out(num):
 		else:
 		#Game over
 			
+			#This fixes a bug where sometimes the top of the 9th would not be shown in the line score
 			if half_inning % 2 != 0 and home_score > away_score and len(away_score_by_inning) == len(home_score_by_inning):
 				#Previous half inning was top
 				if len(away_score_by_inning) < half_inning-1:
@@ -1344,11 +1345,13 @@ def check_if_pitching_change():
 	global home_starting_pitcher
 	global home_pitcher_pitch_count
 	global home_score
+	global home_closer
 	
 	global current_away_pitcher
 	global away_starting_pitcher
 	global away_pitcher_pitch_count
 	global away_score
+	global away_closer
 
 	global outs
 	global first
@@ -1371,8 +1374,11 @@ def check_if_pitching_change():
 				if runs_in_current_inning > 2:
 					if len(home_relief_pitchers) > 0:
 						pitching_change()
+			elif half_inning == 17 and current_home_pitcher != home_closer:
+				pitching_change()
+
 			else:
-				if outs == 0 and first == False and second == False and third == False:
+				if outs == 0 and first == False and second == False and third == False and runs_in_current_inning == 0:
 					if len(home_relief_pitchers) > 0:
 						pitching_change()
 			
@@ -1395,8 +1401,10 @@ def check_if_pitching_change():
 				if runs_in_current_inning > 2:
 					if len(away_relief_pitchers) > 0:
 						pitching_change()
+			elif half_inning == 18 and current_away_pitcher != away_closer:
+				pitching_change()
 			else:
-				if outs == 0 and first == False and second == False and third == False:
+				if outs == 0 and first == False and second == False and third == False and runs_in_current_inning == 0:
 					if len(away_relief_pitchers) > 0:
 						pitching_change()
 			
@@ -1420,14 +1428,16 @@ def pitching_change():
 
 	if half_inning % 2 != 0: #Top half
 
-		x = len(home_relief_pitchers)
-		rand = random.randint(0, x-1)
-		current_home_pitcher = home_relief_pitchers[rand]
-		del home_relief_pitchers[rand]
-		home_pitcher_pitch_count = 0
-
 		if half_inning == 17:
 			current_home_pitcher = home_closer
+		else:
+			x = len(home_relief_pitchers)
+			rand = random.randint(0, x-1)
+			current_home_pitcher = home_relief_pitchers[rand]
+			del home_relief_pitchers[rand]
+			home_pitcher_pitch_count = 0
+
+
 
 		home_pitchers_used.append(current_home_pitcher)
 		for x in range(10):
@@ -1447,14 +1457,16 @@ def pitching_change():
 
 	elif half_inning % 2 == 0: #Bottom half
 
-		x = len(away_relief_pitchers)
-		rand = random.randint(0, x-1)
-		current_away_pitcher = away_relief_pitchers[rand]
-		del away_relief_pitchers[rand]
-		away_pitcher_pitch_count = 0
-
 		if half_inning == 18:
 			current_away_pitcher = away_closer
+		else:
+			x = len(away_relief_pitchers)
+			rand = random.randint(0, x-1)
+			current_away_pitcher = away_relief_pitchers[rand]
+			del away_relief_pitchers[rand]
+			away_pitcher_pitch_count = 0
+
+
 
 		away_pitchers_used.append(current_away_pitcher)
 		for x in range(10):
