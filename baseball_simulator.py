@@ -276,24 +276,24 @@ def run(num):
 			runner4 = away_batters[current_away_batter]
 
 		if runner1 != None:
-			wait_short()
+			wait()
 			print("")
-			wait_short()
+			wait()
 			print ("\033[1;30;102m" + runner1[0] + " scored a run for the " + away_team + "!\033[0m")
 		if runner2 != None:
-			wait_short()
+			wait()
 			print("")
-			wait_short()
+			wait()
 			print ("\033[1;30;102m" + runner2[0] + " scored a run for the " + away_team + "!\033[0m")
 		if runner3 != None:
-			wait_short()
+			wait()
 			print("")
-			wait_short()
+			wait()
 			print ("\033[1;30;102m" + runner3[0] + " scored a run for the " + away_team + "!\033[0m")
 		if runner4 != None:
-			wait_short()
+			wait()
 			print("")
-			wait_short()
+			wait()
 			print ("\033[1;30;102m" + runner4[0] + " scored a run for the " + away_team + "!\033[0m")
 	elif half_inning % 2 == 0:
 		if num == 1:
@@ -632,7 +632,7 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(0) # 2
+	time.sleep(2) # 2
 
 def wait_short():
 	time.sleep(.5) # .5
@@ -1348,6 +1348,14 @@ def pitching_animation():
 
 	print("")
 
+def ball_in_play_animation():
+
+	print ("Ball in play!", end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
+	for x in range (0, 6):
+		wait_short()
+		print (" .", end="", flush=True)
+	print("")
+
 def check_if_pitching_change(): #Needs cleanup
 	global half_inning
 	global current_home_pitcher
@@ -1846,16 +1854,16 @@ for x in range (5,9):
 
 
 print("\nStarting lineup for the " + home_team + ":")
-#wait()
+wait()
 for x in home_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
-#	wait()
+	wait_short()
 
 print("\nStarting lineup for the " + away_team + ":")
-#wait()
+wait()
 for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
-#	wait()
+	wait_short()
 
 #print("")
 #for x in home_pitchers:
@@ -2062,14 +2070,17 @@ while gameover == False: #main game loop
 			#next_batter()
 			if first == False and second == False and third == False:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == False and third == False:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == False and second == True and third == False and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;30;103mFLY OUT! RUNNER ADVANCED.\033[0m")
 				second = False
 				third = True
@@ -2078,10 +2089,12 @@ while gameover == False: #main game loop
 				runners_on_base[2] = -1
 			elif first == False and second == True and third == False and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == False and second == False and third == True and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
@@ -2089,10 +2102,12 @@ while gameover == False: #main game loop
 				runners_on_base[3] = -1
 			elif first == False and second == False and third == True and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == False and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;30;103mFLY OUT! RUNNER ADVANCED.\033[0m")
 				second = False
 				third = True
@@ -2101,10 +2116,12 @@ while gameover == False: #main game loop
 				runners_on_base[2] = -1
 			elif first == True and second == True and third == False and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == False and second == True and third == True and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
@@ -2112,10 +2129,12 @@ while gameover == False: #main game loop
 				runners_on_base[3] = -1
 			elif first == False and second == True and third == True and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == False and third == True and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
@@ -2123,10 +2142,12 @@ while gameover == False: #main game loop
 				runners_on_base[3] = -1
 			elif first == True and second == False and third == True and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == True and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				third = False
 				out(1)
@@ -2134,6 +2155,7 @@ while gameover == False: #main game loop
 				runners_on_base[3] = -1
 			elif first == True and second == True and third == True and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			resetcount()
@@ -2161,62 +2183,76 @@ while gameover == False: #main game loop
 			#next_batter()
 			if first == False and second == False and third == False:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)	
 			elif first == True and second == False and third == False and outs < 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 				first = False
 				runners_on_base[1] = -1
 			elif first == True and second == False and third == False and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == False and second == True and third == False:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)	
 			elif first == False and second == False and third == True:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == False and outs == 0:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mTRIPLE PLAY\033[0m")
 				out(3)
 			elif first == True and second == True and third == False and outs == 1:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 			elif first == True and second == True and third == False and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)	
 			elif first == False and second == True and third == True:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == True and second == True and third == True and outs == 0:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mTRIPLE PLAY!\033[0m")
 				out(3)
 			elif first == True and second == True and third == True and outs == 1:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 			elif first == True and second == True and third == True and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif first == True and second == False and third == True and outs <2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)    
 				first = False
 				runners_on_base[1] = -1
 			elif first == True and second == False and third == True and outs == 2:
 				pitching_animation()
+				ball_in_play_animation()
 				print ("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			resetcount()
@@ -2243,6 +2279,7 @@ while gameover == False: #main game loop
 
 			#next_batter()
 			pitching_animation()
+			ball_in_play_animation()
 			print ("\033[1;30;102mSINGLE!\033[0m")
 			if first == False and second == False and third == False:
 				first = True
@@ -2360,6 +2397,7 @@ while gameover == False: #main game loop
 
 			#next_batter()
 			pitching_animation()
+			ball_in_play_animation()
 			print ("\033[1;30;102mDOUBLE!\033[0m")
 			if first == False and second == False and third == False:
 				second = True
@@ -2467,6 +2505,7 @@ while gameover == False: #main game loop
 			
 			#next_batter()
 			pitching_animation()
+			ball_in_play_animation()
 			print ("\033[1;30;102mHOME RUN!\033[0m")
 			if first == False and second == False and third == False:
 				run(1)
@@ -2629,6 +2668,7 @@ while gameover == False: #main game loop
 
 			#next_batter()
 			pitching_animation()
+			ball_in_play_animation()
 			print ("\033[1;30;102mTRIPLE!\033[0m")
 			if first == False and second == False and third == False:
 				third = True
