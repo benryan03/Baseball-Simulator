@@ -59,6 +59,8 @@ away_score_by_inning = []
 
 runners_on_base = [-1, -1, -1, -1]
 
+earned_runs = 0
+
 def resetcount():
 	global balls
 	global strikes
@@ -168,8 +170,7 @@ def run(num):
 	global runs_in_current_inning
 	global home_score_by_inning
 	global away_score_by_inning
-
-	#print(str(runners_on_base)) #DEBUG
+	global earned_runs
 
 	runner1 = None
 	runner2 = None
@@ -408,7 +409,11 @@ def run(num):
 			else:
 				away_score_by_inning[-1] = away_score_by_inning[-1] + 1
 
-
+			if earned_runs < 0:
+				earned_runs = earned_runs + 1
+			else:
+				home_pitchers_used[-1][5] = home_pitchers_used[-1][5] + 1
+			
 
 		elif half_inning % 2 == 0:
 			#run for home - line/box score
@@ -419,6 +424,10 @@ def run(num):
 			else:
 				home_score_by_inning[-1] = home_score_by_inning[-1] + 1
 
+			if earned_runs < 0:
+				earned_runs = earned_runs + 1
+			else:
+				away_pitchers_used[-1][5] = away_pitchers_used[-1][5] + 1
 
 		if half_inning < 18 and half_inning % 2 != 0:
 			#normal innings - run for away
@@ -1339,7 +1348,7 @@ def pitching_animation():
 
 	print("")
 
-def check_if_pitching_change():
+def check_if_pitching_change(): #Needs cleanup
 	global half_inning
 	global current_home_pitcher
 	global home_starting_pitcher
@@ -1423,8 +1432,17 @@ def pitching_change():
 	global current_away_pitcher
 	global away_pitcher_pitch_count
 	global runs_in_current_inning
+	global earned_runs
 
 	runs_in_current_inning = 0
+
+	earned_runs = 0
+	if first == True:
+		earned_runs = earned_runs - 1
+	if second == True:
+		earned_runs = earned_runs - 1
+	if third == True:
+		earned_runs = earned_runs - 1
 
 	if half_inning % 2 != 0: #Top half
 
