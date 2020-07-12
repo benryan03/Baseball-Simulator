@@ -635,7 +635,7 @@ def wait(): #change these wait times to 0 for game to complete immediately
 	time.sleep(0) # 2
 
 def wait_short():
-	time.sleep(0) # .5
+	time.sleep(.5) # .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -2779,6 +2779,10 @@ print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
 #Away batting
 wait_short()
+print("Batting")
+wait_short()
+print("")
+wait_short()
 print(away_team + "                  AB   R   H  RBI HR  BB  SO")
 for x in away_batters:
 	wait_short()
@@ -3065,7 +3069,7 @@ wait_short()
 
 
 
-print("Pitchers")
+print("Pitching")
 wait_short()
 print("")
 wait_short
@@ -3161,14 +3165,65 @@ for x in away_pitchers_used:
 
 
 
+away_ip_total = 0
+away_r_total = 0
+away_h_total = 0
+away_er_total = 0
+away_hr_total = 0
+away_bb_total = 0
+away_so_total = 0
 
+for x in range (0, len(away_pitchers_used)):
+	away_ip_total = away_ip_total + away_pitchers_used[x][2]
+	away_r_total = away_r_total + away_pitchers_used[x][3]
+	away_h_total = away_h_total + away_pitchers_used[x][4]
+	away_er_total = away_er_total + away_pitchers_used[x][5]
+	away_hr_total = away_hr_total + away_pitchers_used[x][6]
+	away_bb_total = away_bb_total + away_pitchers_used[x][7]
+	away_so_total = away_so_total + away_pitchers_used[x][8]
 
-
-	wait_short()
-print("Totals: ")
 wait_short()
+print("Totals:                 " + str(round(away_ip_total,1)),end="")
+
+if len(str(away_r_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_r_total),end="")
+
+if len(str(away_h_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_h_total),end="")
+
+if len(str(away_er_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_er_total),end="")
+
+if len(str(away_hr_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_hr_total),end="")
+
+if len(str(away_bb_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_bb_total),end="")
+
+if len(str(away_so_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(away_so_total))
+
 print("")
 wait_short()
+
 
 print(home_team + "                  IP   R   H  ER  HR  BB  SO")
 wait_short()
@@ -3245,7 +3300,65 @@ for x in home_pitchers_used:
 		print(str(x[8]))
 
 wait_short()
-print("Totals: ")
+
+home_ip_total = 0
+home_r_total = 0
+home_h_total = 0
+home_er_total = 0
+home_hr_total = 0
+home_bb_total = 0
+home_so_total = 0
+
+for x in range (0, len(home_pitchers_used)):
+	home_ip_total = home_ip_total + home_pitchers_used[x][2]
+	home_r_total = home_r_total + home_pitchers_used[x][3]
+	home_h_total = home_h_total + home_pitchers_used[x][4]
+	home_er_total = home_er_total + home_pitchers_used[x][5]
+	home_hr_total = home_hr_total + home_pitchers_used[x][6]
+	home_bb_total = home_bb_total + home_pitchers_used[x][7]
+	home_so_total = home_so_total + home_pitchers_used[x][8]
+
+wait_short()
+print("Totals:                 " + str(round(home_ip_total,1)),end="")
+
+if len(str(home_r_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(home_r_total),end="")
+
+if len(str(home_h_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(home_h_total),end="")
+
+if len(str(home_er_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(home_er_total),end="")
+
+if len(str(home_hr_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(home_hr_total),end="")
+
+if len(str(home_bb_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(home_bb_total),end="")
+
+if len(str(home_so_total)) > 1:
+	print("  ",end="")
+else:
+	print("   ",end="")
+print(str(home_so_total))
+
+print("")
+wait_short()
 wait_short()
 print("")
 
