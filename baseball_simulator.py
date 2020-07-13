@@ -1905,6 +1905,8 @@ status()
 
 first_pitch_time = ((datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M")))
 
+#######################################################################################################################
+#######################################################################################################################
 
 while gameover == False: #main game loop
 
@@ -2698,10 +2700,22 @@ while gameover == False: #main game loop
 
 #Game over
 
+wait_short()
+print("")
+wait_short()
+print("")
+wait_short()
+print("")
+
 if home_score > away_score:
-	print("Game has ended. " + home_team + " win!")
+	print("Game has ended. \033[1;93;40m" + home_team + " win!\033[0m")
 elif home_score < away_score:
-	print("Game has ended. " + away_team + " win!")
+	print("Game has ended. \033[1;93;40m" + away_team + " win!\033[0m")
+
+wait()
+print("")
+wait_short()
+print("")
 
 wait_short()
 print("")
@@ -2810,14 +2824,6 @@ for x in away_batters:
 	else:
 		print(str(x[8]))
 
-
-
-
-
-
-
-
-
 away_ab_total = 0
 away_r_total = 0
 away_h_total = 0
@@ -2883,7 +2889,6 @@ for x in home_batters:
 	print(x[0] + " ",end="")
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
-	
 	
 	#Make sure the columns align
 	#This is messy :(
@@ -2951,12 +2956,6 @@ for x in home_batters:
 	else:
 		print(str(x[8]))
 
-	
-	
-	
-	
-	
-
 home_ab_total = 0
 home_r_total = 0
 home_h_total = 0
@@ -2982,7 +2981,6 @@ if len(str(home_r_total)) > 1:
 else:
 	print("   ",end="")
 print(str(home_r_total),end="")
-
 
 if len(str(home_h_total)) > 1:
 	print("  ",end="")
@@ -3019,9 +3017,6 @@ print("")
 wait_short()
 print("")
 wait_short()
-
-
-
 
 print("Pitching")
 wait_short()
@@ -3103,22 +3098,6 @@ for x in away_pitchers_used:
 		print(str(x[8]))
 
 	wait_short()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 away_ip_total = 0
 away_r_total = 0
