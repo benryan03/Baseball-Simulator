@@ -1606,7 +1606,7 @@ away_abbr = "NYY" #debug
 away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
-
+"""
 home_team = ""
 home_abbr = ""
 home_team_error = True
@@ -1654,7 +1654,7 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
-
+"""
 print("")
 print("Loading players...")
 
@@ -1833,25 +1833,6 @@ wait()
 for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 	wait_short()
-
-#print("")
-#for x in home_pitchers:
-#	print(x)
-#print("")
-#for x in away_pitchers:
-#	print(x)
-
-#print("")
-#for x in home_relief_pitchers:
-#	print(x)
-#print("")
-#for x in away_relief_pitchers:
-#	print(x)
-
-#print("")
-#print(home_team + " closer: " + home_closer[0] + " - " + str(home_closer[1]))
-#print(away_team + " closer: " + away_closer[0] + " - " + str(away_closer[1]))
-
 
 #Generate starting pitchers
 pitcher_rand = random.randint(0, 4)
@@ -2695,7 +2676,8 @@ wait_short()
 print("")
 wait_short()
 
-#Line score
+###########################################################
+##Line score
 print(away_abbr + " ",end="")
 for x in away_score_by_inning:
 	wait_short()
@@ -2714,294 +2696,180 @@ if len(home_score_by_inning) < len(away_score_by_inning):
 wait_short()
 print("- \033[1;93;40m" + str(home_score) + "\033[0m\n")
 
-#Away batting
 wait_short()
 print("Batting")
 wait_short()
 print("")
 wait_short()
+
+###########################################################
+#Box score - Away batting
 print(away_team.upper(),end="")
 for y in range(25 - len(away_team)):
 		print(" ",end="")
 print("AB   R   H  RBI HR  BB  SO")
 
-
 for x in away_batters:
+	#Player name
 	wait_short()
 	print(x[0] + " ",end="")
+
+	#Print correct amount of spaces
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
 
-	#Make sure the columns align
-	#This is messy :(
-
+	#First column
 	print("\033[1;93;40m" + str(x[2]) + "\033[0m",end="")
 	
-	if len(str(x[3])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
+	#Columns 2-6
+	for z in range(3,8):
+		if len(str(x[z])) > 1:
+			print("  ",end="")
+		else:
+			print("   ",end="")
+		if x[z] > 0:
+			print("\033[1;93;40m" + str(x[z]) + "\033[0m",end="")
+		else:
+			print(str(x[z]),end="")
 
-	if x[3] > 0:
-		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
-	else:
-		print(str(x[3]),end="")
-
-
-	if len(str(x[4])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-	
-	if x[4] > 0:
-		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
-	else:
-		print(str(x[4]),end="")
-
-	if len(str(x[5])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[5] > 0:
-		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
-	else:
-		print(str(x[5]),end="")
-
-	if len(str(x[6])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[6] > 0:
-		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
-	else:
-		print(str(x[6]),end="")
-	
+	#Last column
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
-
-	if x[7] > 0:
-		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
-	else:
-		print(str(x[7]),end="")
-	
-	if len(str(x[7])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
 	if x[8] > 0:
 		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
 	else:
 		print(str(x[8]))
 
-away_ab_total = 0
-away_r_total = 0
-away_h_total = 0
-away_rbi_total = 0
-away_hr_total = 0
-away_bb_total = 0
-away_so_total = 0
-
+#Add up away batting totals
+away_total = [0, 0, 0, 0, 0, 0, 0]
 for x in range (0, 9):
-	away_ab_total = away_ab_total + away_batters[x][2]
-	away_r_total = away_r_total + away_batters[x][3]
-	away_h_total = away_h_total + away_batters[x][4]
-	away_rbi_total = away_rbi_total + away_batters[x][5]
-	away_hr_total = away_hr_total + away_batters[x][6]
-	away_bb_total = away_bb_total + away_batters[x][7]
-	away_so_total = away_so_total + away_batters[x][8]
+	away_total[0] = away_total[0] + away_batters[x][2] #AB
+	away_total[1] = away_total[1] + away_batters[x][3] #R
+	away_total[2] = away_total[2] + away_batters[x][4] #H
+	away_total[3] = away_total[3] + away_batters[x][5] #RBI
+	away_total[4] = away_total[4] + away_batters[x][6] #HR
+	away_total[5] = away_total[5] + away_batters[x][7] #BB
+	away_total[6] = away_total[6] + away_batters[x][8] #SO
 
 wait_short()
-print("Totals:                  " + str(away_ab_total),end="")
+print("Totals:                  " + str(away_total[0]),end="")
 
-if len(str(away_r_total)) > 1:
+#Totals, Columns 1-6
+for z in range(1,6):
+	if len(str(away_total[z])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	if away_total[z] > 0:
+		print("\033[1;93;40m" + str(away_total[z]) + "\033[0m",end="")
+	else:
+		print(str(away_total[z]),end="")
+
+#Totals, Column 7
+if len(str(away_total[6])) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_r_total),end="")
 
-if len(str(away_h_total)) > 1:
-	print("  ",end="")
+if away_total[6] > 0:
+	print("\033[1;93;40m" + str(away_total[6]) + "\033[0m")
 else:
-	print("   ",end="")
-print(str(away_h_total),end="")
-
-if len(str(away_rbi_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_rbi_total),end="")
-
-if len(str(away_hr_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_hr_total),end="")
-
-if len(str(away_bb_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_bb_total),end="")
-
-if len(str(away_so_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_so_total))
+	print(str(away_total[6]))
 
 print("")
 
-#Home batting
+###########################################################
+#Box score - Home batting
 print(home_team.upper(),end="")
 for y in range(25 - len(home_team)):
 		print(" ",end="")
 print("AB   R   H  RBI HR  BB  SO")
 
-
 for x in home_batters:
+	#Player name
 	wait_short()
 	print(x[0] + " ",end="")
+
+	#Print correct amount of spaces
 	for y in range(25 - len(str(x[0]))):
 		print(" ",end="")
-	
-	#Make sure the columns align
-	#This is messy :(
 
+	#First column
 	print("\033[1;93;40m" + str(x[2]) + "\033[0m",end="")
 	
-	if len(str(x[3])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
+	#Columns 2-6
+	for z in range(3,8):
+		if len(str(x[z])) > 1:
+			print("  ",end="")
+		else:
+			print("   ",end="")
+		if x[z] > 0:
+			print("\033[1;93;40m" + str(x[z]) + "\033[0m",end="")
+		else:
+			print(str(x[z]),end="")
 
-	if x[3] > 0:
-		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
-	else:
-		print(str(x[3]),end="")
-
-
-	if len(str(x[4])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-	
-	if x[4] > 0:
-		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
-	else:
-		print(str(x[4]),end="")
-
-	if len(str(x[5])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[5] > 0:
-		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
-	else:
-		print(str(x[5]),end="")
-
-	if len(str(x[6])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[6] > 0:
-		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
-	else:
-		print(str(x[6]),end="")
-	
+	#Last column
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
-
-	if x[7] > 0:
-		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
-	else:
-		print(str(x[7]),end="")
-	
-	if len(str(x[7])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
 	if x[8] > 0:
 		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
 	else:
 		print(str(x[8]))
 
-home_ab_total = 0
-home_r_total = 0
-home_h_total = 0
-home_rbi_total = 0
-home_hr_total = 0
-home_bb_total = 0
-home_so_total = 0
-
+#Add up home batting totals
+home_total = [0, 0, 0, 0, 0, 0, 0]
 for x in range (0, 9):
-	home_ab_total = home_ab_total + home_batters[x][2]
-	home_r_total = home_r_total + home_batters[x][3]
-	home_h_total = home_h_total + home_batters[x][4]
-	home_rbi_total = home_rbi_total + home_batters[x][5]
-	home_hr_total = home_hr_total + home_batters[x][6]
-	home_bb_total = home_bb_total + home_batters[x][7]
-	home_so_total = home_so_total + home_batters[x][8]
+	home_total[0] = home_total[0] + home_batters[x][2] #AB
+	home_total[1] = home_total[1] + home_batters[x][3] #R
+	home_total[2] = home_total[2] + home_batters[x][4] #H
+	home_total[3] = home_total[3] + home_batters[x][5] #RBI
+	home_total[4] = home_total[4] + home_batters[x][6] #HR
+	home_total[5] = home_total[5] + home_batters[x][7] #BB
+	home_total[6] = home_total[6] + home_batters[x][8] #SO
 
 wait_short()
-print("Totals:                  " + str(home_ab_total),end="")
+print("Totals:                  " + str(home_total[0]),end="")
 
-if len(str(home_r_total)) > 1:
+#Totals, columns 1-6
+for z in range(1,6):
+	if len(str(home_total[z])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	if home_total[z] > 0:
+		print("\033[1;93;40m" + str(home_total[z]) + "\033[0m",end="")
+	else:
+		print(str(home_total[z]),end="")
+
+#Totals, column 7
+if len(str(home_total[6])) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(home_r_total),end="")
-
-if len(str(home_h_total)) > 1:
-	print("  ",end="")
+if home_total[6] > 0:
+	print("\033[1;93;40m" + str(home_total[6]) + "\033[0m")
 else:
-	print("   ",end="")
-print(str(home_h_total),end="")
+	print(str(home_total[6]))
 
-if len(str(home_rbi_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_rbi_total),end="")
-
-if len(str(home_hr_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_hr_total),end="")
-
-if len(str(home_bb_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_bb_total),end="")
-
-if len(str(home_so_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_so_total))
-
+print("")
 wait_short()
 print("")
 wait_short()
 print("")
 wait_short()
-
 print("Pitching")
 wait_short()
 print("")
 wait_short
 
+###########################################################
+#Box score - Away pitching
 print(away_team.upper(),end="")
 for y in range(25 - len(away_team)):
 		print(" ",end="")
@@ -3009,72 +2877,35 @@ print("IP   R   H  ER  HR  BB  SO")
 
 wait_short()
 for x in away_pitchers_used:
+	#Player name
 	print(x[0] + " ",end="")
+
+	#Print correct amount of spaces
 	for y in range(23 - len(str(x[0]))):
 		print(" ",end="")
 	
-	#Make sure the columns align
-	#This is messy :(
+	#Column 1
 	if len(str(round(x[2],1))) == 1:
 		print("  ",end="")
 	print("\033[1;93;40m" + str(round(x[2],1)) + "\033[0m",end="")
 
-	if len(str(x[3])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
+	#Columns 2-6
+	for z in range (3, 8):
+		if len(str(x[z])) > 1:
+			print("  ",end="")
+		else:
+			print("   ",end="")
 
-	if x[3] > 0:
-		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
-	else:
-		print(str(x[3]),end="")
+		if x[3] > 0:
+			print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
+		else:
+			print(str(x[3]),end="")
 
-
-	if len(str(x[4])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-	
-	if x[4] > 0:
-		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
-	else:
-		print(str(x[4]),end="")
-
-	if len(str(x[5])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[5] > 0:
-		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
-	else:
-		print(str(x[5]),end="")
-
-	if len(str(x[6])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[6] > 0:
-		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
-	else:
-		print(str(x[6]),end="")
-	
+	#Last column
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
-
-	if x[7] > 0:
-		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
-	else:
-		print(str(x[7]),end="")
-	
-	if len(str(x[7])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
 	if x[8] > 0:
 		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
 	else:
@@ -3082,66 +2913,48 @@ for x in away_pitchers_used:
 
 	wait_short()
 
-away_ip_total = 0
-away_r_total = 0
-away_h_total = 0
-away_er_total = 0
-away_hr_total = 0
-away_bb_total = 0
-away_so_total = 0
-
+#Add up away pitching totals
+away_total = [0, 0, 0, 0, 0, 0, 0]
 for x in range (0, len(away_pitchers_used)):
-	away_ip_total = away_ip_total + away_pitchers_used[x][2]
-	away_r_total = away_r_total + away_pitchers_used[x][3]
-	away_h_total = away_h_total + away_pitchers_used[x][4]
-	away_er_total = away_er_total + away_pitchers_used[x][5]
-	away_hr_total = away_hr_total + away_pitchers_used[x][6]
-	away_bb_total = away_bb_total + away_pitchers_used[x][7]
-	away_so_total = away_so_total + away_pitchers_used[x][8]
+	away_total[0] = away_total[0] + away_pitchers_used[x][2] #IP
+	away_total[1] = away_total[1] + away_pitchers_used[x][3] #R
+	away_total[2] = away_total[2] + away_pitchers_used[x][4] #H
+	away_total[3] = away_total[3] + away_pitchers_used[x][5] #ER
+	away_total[4] = away_total[4] + away_pitchers_used[x][6] #HR
+	away_total[5] = away_total[5] + away_pitchers_used[x][7] #BB
+	away_total[6] = away_total[6] + away_pitchers_used[x][8] #SO
 
 wait_short()
-print("Totals:                 " + str(round(away_ip_total,1)),end="")
+print("Totals:                 " + str(round(away_total[0],1)),end="")
 
-if len(str(away_r_total)) > 1:
+#Totals, columns 2-6
+for z in range(1,6):
+	if len(str(away_total[z])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	if away_total[z] > 0:
+		print("\033[1;93;40m" + str(away_total[z]) + "\033[0m",end="")
+	else:
+		print(str(away_total[z]),end="")
+
+#Totals, column 7
+if len(str(away_total[6])) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(away_r_total),end="")
-
-if len(str(away_h_total)) > 1:
-	print("  ",end="")
+if away_total[6] > 0:
+	print("\033[1;93;40m" + str(away_total[6]) + "\033[0m")
 else:
-	print("   ",end="")
-print(str(away_h_total),end="")
-
-if len(str(away_er_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_er_total),end="")
-
-if len(str(away_hr_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_hr_total),end="")
-
-if len(str(away_bb_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_bb_total),end="")
-
-if len(str(away_so_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(away_so_total))
+	print(str(away_total[6]))
 
 print("")
 wait_short()
 
 
+###########################################################
+#Box score - Home pitching
 print(home_team.upper(),end="")
 for y in range(25 - len(home_team)):
 		print(" ",end="")
@@ -3149,72 +2962,35 @@ print("IP   R   H  ER  HR  BB  SO")
 
 wait_short()
 for x in home_pitchers_used:
+	#Player name
 	print(x[0] + " ",end="")
+
+	#Print correct amount of spaces
 	for y in range(23 - len(str(x[0]))):
 		print(" ",end="")
-
-	#Make sure the columns align
-	#This is messy :(
+	
+	#Column 1
 	if len(str(round(x[2],1))) == 1:
 		print("  ",end="")
 	print("\033[1;93;40m" + str(round(x[2],1)) + "\033[0m",end="")
 
-	if len(str(x[3])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
+	#Columns 2-6
+	for z in range (3, 8):
+		if len(str(x[z])) > 1:
+			print("  ",end="")
+		else:
+			print("   ",end="")
 
-	if x[3] > 0:
-		print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
-	else:
-		print(str(x[3]),end="")
+		if x[3] > 0:
+			print("\033[1;93;40m" + str(x[3]) + "\033[0m",end="")
+		else:
+			print(str(x[3]),end="")
 
-
-	if len(str(x[4])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-	
-	if x[4] > 0:
-		print("\033[1;93;40m" + str(x[4]) + "\033[0m",end="")
-	else:
-		print(str(x[4]),end="")
-
-	if len(str(x[5])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[5] > 0:
-		print("\033[1;93;40m" + str(x[5]) + "\033[0m",end="")
-	else:
-		print(str(x[5]),end="")
-
-	if len(str(x[6])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
-	if x[6] > 0:
-		print("\033[1;93;40m" + str(x[6]) + "\033[0m",end="")
-	else:
-		print(str(x[6]),end="")
-	
+	#Last column
 	if len(str(x[7])) > 1:
 		print("  ",end="")
 	else:
 		print("   ",end="")
-
-	if x[7] > 0:
-		print("\033[1;93;40m" + str(x[7]) + "\033[0m",end="")
-	else:
-		print(str(x[7]),end="")
-	
-	if len(str(x[7])) > 1:
-		print("  ",end="")
-	else:
-		print("   ",end="")
-
 	if x[8] > 0:
 		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
 	else:
@@ -3222,63 +2998,44 @@ for x in home_pitchers_used:
 
 	wait_short()
 
-wait_short()
-
-home_ip_total = 0
-home_r_total = 0
-home_h_total = 0
-home_er_total = 0
-home_hr_total = 0
-home_bb_total = 0
-home_so_total = 0
-
+#Add up home pitching totals
+home_total = [0, 0, 0, 0, 0, 0, 0]
 for x in range (0, len(home_pitchers_used)):
-	home_ip_total = home_ip_total + home_pitchers_used[x][2]
-	home_r_total = home_r_total + home_pitchers_used[x][3]
-	home_h_total = home_h_total + home_pitchers_used[x][4]
-	home_er_total = home_er_total + home_pitchers_used[x][5]
-	home_hr_total = home_hr_total + home_pitchers_used[x][6]
-	home_bb_total = home_bb_total + home_pitchers_used[x][7]
-	home_so_total = home_so_total + home_pitchers_used[x][8]
+	home_total[0] = home_total[0] + home_pitchers_used[x][2] #IP
+	home_total[1] = home_total[1] + home_pitchers_used[x][3] #R
+	home_total[2] = home_total[2] + home_pitchers_used[x][4] #H
+	home_total[3] = home_total[3] + home_pitchers_used[x][5] #ER
+	home_total[4] = home_total[4] + home_pitchers_used[x][6] #HR
+	home_total[5] = home_total[5] + home_pitchers_used[x][7] #BB
+	home_total[6] = home_total[6] + home_pitchers_used[x][8] #SO
 
 wait_short()
-print("Totals:                 " + str(round(home_ip_total,1)),end="")
+print("Totals:                 " + str(round(home_total[0],1)),end="")
 
-if len(str(home_r_total)) > 1:
+#Totals, columns 2-6
+for z in range(1,6):
+	if len(str(home_total[z])) > 1:
+		print("  ",end="")
+	else:
+		print("   ",end="")
+
+	if home_total[z] > 0:
+		print("\033[1;93;40m" + str(home_total[z]) + "\033[0m",end="")
+	else:
+		print(str(home_total[z]),end="")
+
+#Totals, column 7
+if len(str(home_total[6])) > 1:
 	print("  ",end="")
 else:
 	print("   ",end="")
-print(str(home_r_total),end="")
-
-if len(str(home_h_total)) > 1:
-	print("  ",end="")
+if home_total[6] > 0:
+	print("\033[1;93;40m" + str(home_total[6]) + "\033[0m")
 else:
-	print("   ",end="")
-print(str(home_h_total),end="")
+	print(str(home_total[6]))
 
-if len(str(home_er_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_er_total),end="")
-
-if len(str(home_hr_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_hr_total),end="")
-
-if len(str(home_bb_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_bb_total),end="")
-
-if len(str(home_so_total)) > 1:
-	print("  ",end="")
-else:
-	print("   ",end="")
-print(str(home_so_total))
+print("")
+wait_short()
 
 print("")
 wait_short()
