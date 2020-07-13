@@ -616,10 +616,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(2) # 2
+	time.sleep(0) # 2
 
 def wait_short():
-	time.sleep(.5) # .5
+	time.sleep(0) # .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	global edge_pos
@@ -2740,6 +2740,7 @@ print( home_abbr + " ",end="")
 for x in home_score_by_inning:
 	wait_short()
 	print(str(x) + " " ,end="")
+
 if len(home_score_by_inning) < len(away_score_by_inning):
 	print("  ",end="")
 wait_short()
@@ -2751,7 +2752,12 @@ print("Batting")
 wait_short()
 print("")
 wait_short()
-print(away_team + "                  AB   R   H  RBI HR  BB  SO")
+print(away_team.upper(),end="")
+for y in range(25 - len(away_team)):
+		print(" ",end="")
+print("AB   R   H  RBI HR  BB  SO")
+
+
 for x in away_batters:
 	wait_short()
 	print(x[0] + " ",end="")
@@ -2883,7 +2889,12 @@ print(str(away_so_total))
 print("")
 
 #Home batting
-print(home_team + "                  AB   R   H  RBI HR  BB  SO")
+print(home_team.upper(),end="")
+for y in range(25 - len(home_team)):
+		print(" ",end="")
+print("AB   R   H  RBI HR  BB  SO")
+
+
 for x in home_batters:
 	wait_short()
 	print(x[0] + " ",end="")
@@ -3023,7 +3034,11 @@ wait_short()
 print("")
 wait_short
 
-print(away_team + "                  IP   R   H  ER  HR  BB  SO")
+print(away_team.upper(),end="")
+for y in range(25 - len(away_team)):
+		print(" ",end="")
+print("IP   R   H  ER  HR  BB  SO")
+
 wait_short()
 for x in away_pitchers_used:
 	print(x[0] + " ",end="")
@@ -3159,7 +3174,11 @@ print("")
 wait_short()
 
 
-print(home_team + "                  IP   R   H  ER  HR  BB  SO")
+print(home_team.upper(),end="")
+for y in range(25 - len(home_team)):
+		print(" ",end="")
+print("IP   R   H  ER  HR  BB  SO")
+
 wait_short()
 for x in home_pitchers_used:
 	print(x[0] + " ",end="")
