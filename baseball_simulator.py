@@ -3044,37 +3044,311 @@ print("")
 
 save_results = input("Save box score to a text file? (Y/N)")
 
-"""
+#######################################################################################################################
+#######################################################################################################################
+
 if save_results == "y" or save_results == "Y":
 
 	results_filename = ("Game on " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + (datetime.strftime(datetime.now(), "%M")) + ".txt")
-	
 	file1 = open(results_filename, "w+")
+	file1.write("---Box Score---\n")
+	file1.write("First pitch: " + str(first_pitch_time) + "\n\n") 		
 
-	if home_score > away_score:
-		file1.write(home_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
-	elif away_score > home_score:
-		file1.write(away_team + " won with a score of " + str(home_score) + "-" + str(away_score) + ".\n")
+	###########################################################
+	##Line score
+	file1.write(away_abbr + " ")
+	for x in away_score_by_inning:
+		file1.write(str(x) + " " )
+	file1.write("- " + str(away_score) + "\n")
 
-	file1.write("\n")
-	file1.write("First pitch: " + (datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.strftime(datetime.now(), "%m")) + "-" + (datetime.strftime(datetime.now(), "%d")) + " at " + (datetime.strftime(datetime.now(), "%H")) + ":" + (datetime.strftime(datetime.now(), "%M\n")))
-	file1.write("\n")
-	file1.write(home_team + " batting:\n")
-	file1.write("Strikeouts: " + str(home_strikeout_count) + "\n")
-	file1.write("Walks: " + str(home_walk_count) + "\n")
-	file1.write("Singles: " + str(home_single_count) + "\n")
-	file1.write("Doubles: " + str(home_double_count) + "\n")
-	file1.write("Triples: " + str(home_triple_count) + "\n")
-	file1.write("Home runs: " + str(home_homerun_count) + "\n")
-	file1.write("Hit by pitch: " + str(home_hbp_count) + "\n")
-	file1.write("\n")
-	file1.write(away_team + " batting:" + "\n")
-	file1.write("Walks: " + str(away_walk_count) + "\n")
-	file1.write("Singles: " + str(away_single_count) + "\n")
-	file1.write("Doubles: " + str(away_double_count) + "\n")
-	file1.write("Triples: " + str(away_triple_count) + "\n")
-	file1.write("away runs: " + str(away_homerun_count) + "\n")
-	file1.write("Hit by pitch: " + str(away_hbp_count))
+	file1.write( home_abbr + " ")
+	for x in home_score_by_inning:	
+		file1.write(str(x) + " " )
+	if len(home_score_by_inning) < len(away_score_by_inning):
+		file1.write("  ")
+	file1.write("- " + str(home_score) + "\n\n")
 
-	print("Results saved to " + results_filename)
-"""
+	file1.write("Batting\n\n")
+		
+	###########################################################
+	#Box score - Away batting
+	file1.write(away_team.upper())
+	for y in range(25 - len(away_team)):
+			file1.write(" ")
+	file1.write("AB   R   H  RBI HR  BB  SO\n")
+
+	for x in away_batters:
+		#Player name
+		
+		file1.write(x[0] + " ")
+
+		#Print correct amount of spaces
+		for y in range(25 - len(str(x[0]))):
+			file1.write(" ")
+
+		#First column
+		file1.write( str(x[2]) )
+		
+		#Columns 2-6
+		for z in range(3,8):
+			if len(str(x[z])) > 1:
+				file1.write("  ")
+			else:
+				file1.write("   ")
+			if x[z] > 0:
+				file1.write( str(x[z]) )
+			else:
+				file1.write(str(x[z]))
+
+		#Last column
+		if len(str(x[7])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+		file1.write(str(x[8]) + "\n")
+
+	#Add up away batting totals
+	away_total = [0, 0, 0, 0, 0, 0, 0]
+	for x in range (0, 9):
+		away_total[0] = away_total[0] + away_batters[x][2] #AB
+		away_total[1] = away_total[1] + away_batters[x][3] #R
+		away_total[2] = away_total[2] + away_batters[x][4] #H
+		away_total[3] = away_total[3] + away_batters[x][5] #RBI
+		away_total[4] = away_total[4] + away_batters[x][6] #HR
+		away_total[5] = away_total[5] + away_batters[x][7] #BB
+		away_total[6] = away_total[6] + away_batters[x][8] #SO
+	
+	file1.write("Totals:                  " + str(away_total[0]))
+
+	#Totals, Columns 1-6
+	for z in range(1,6):
+		if len(str(away_total[z])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+
+		if away_total[z] > 0:
+			file1.write( str(away_total[z]) )
+		else:
+			file1.write(str(away_total[z]))
+
+	#Totals, Column 7
+	if len(str(away_total[6])) > 1:
+		file1.write("  ")
+	else:
+		file1.write("   ")
+	file1.write(str(away_total[6]) + "\n\n")
+
+	###########################################################
+	#Box score - Home batting
+	file1.write(home_team.upper())
+	for y in range(25 - len(home_team)):
+			file1.write(" ")
+	file1.write("AB   R   H  RBI HR  BB  SO\n")
+
+	for x in home_batters:
+		#Player name
+		
+		file1.write(x[0] + " ")
+
+		#Print correct amount of spaces
+		for y in range(25 - len(str(x[0]))):
+			file1.write(" ")
+
+		#First column
+		file1.write( str(x[2]) )
+		
+		#Columns 2-6
+		for z in range(3,8):
+			if len(str(x[z])) > 1:
+				file1.write("  ")
+			else:
+				file1.write("   ")
+			if x[z] > 0:
+				file1.write( str(x[z]) )
+			else:
+				file1.write(str(x[z]))
+
+		#Last column
+		if len(str(x[7])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+		file1.write(str(x[8]) + "\n")
+
+	#Add up home batting totals
+	home_total = [0, 0, 0, 0, 0, 0, 0]
+	for x in range (0, 9):
+		home_total[0] = home_total[0] + home_batters[x][2] #AB
+		home_total[1] = home_total[1] + home_batters[x][3] #R
+		home_total[2] = home_total[2] + home_batters[x][4] #H
+		home_total[3] = home_total[3] + home_batters[x][5] #RBI
+		home_total[4] = home_total[4] + home_batters[x][6] #HR
+		home_total[5] = home_total[5] + home_batters[x][7] #BB
+		home_total[6] = home_total[6] + home_batters[x][8] #SO
+
+	file1.write("Totals:                  " + str(home_total[0]))
+
+	#Totals, columns 1-6
+	for z in range(1,6):
+		if len(str(home_total[z])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+
+		if home_total[z] > 0:
+			file1.write( str(home_total[z]) )
+		else:
+			file1.write(str(home_total[z]))
+
+	#Totals, column 7
+	if len(str(home_total[6])) > 1:
+		file1.write("  ")
+	else:
+		file1.write("   ")
+	file1.write(str(home_total[6]) + "\n\n")
+	
+	file1.write("Pitching\n\n")
+
+	###########################################################
+	#Box score - Away pitching
+	file1.write(away_team.upper())
+	for y in range(25 - len(away_team)):
+			file1.write(" ")
+	file1.write("IP   R   H  ER  HR  BB  SO\n")
+
+	for x in away_pitchers_used:
+		#Player name
+		file1.write(x[0] + " ")
+
+		#Print correct amount of spaces
+		for y in range(23 - len(str(x[0]))):
+			file1.write(" ")
+		
+		#Column 1
+		if len(str(round(x[2],1))) == 1:
+			file1.write("  ")
+		file1.write( str(round(x[2],1)) )
+
+		#Columns 2-6
+		for z in range (3, 8):
+			if len(str(x[z])) > 1:
+				file1.write("  ")
+			else:
+				file1.write("   ")
+
+			if x[3] > 0:
+				file1.write( str(x[3]) )
+			else:
+				file1.write(str(x[3]))
+
+		#Last column
+		if len(str(x[7])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+		file1.write(str(x[8]) + "\n")
+
+	#Add up away pitching totals
+	away_total = [0, 0, 0, 0, 0, 0, 0]
+	for x in range (0, len(away_pitchers_used)):
+		away_total[0] = away_total[0] + away_pitchers_used[x][2] #IP
+		away_total[1] = away_total[1] + away_pitchers_used[x][3] #R
+		away_total[2] = away_total[2] + away_pitchers_used[x][4] #H
+		away_total[3] = away_total[3] + away_pitchers_used[x][5] #ER
+		away_total[4] = away_total[4] + away_pitchers_used[x][6] #HR
+		away_total[5] = away_total[5] + away_pitchers_used[x][7] #BB
+		away_total[6] = away_total[6] + away_pitchers_used[x][8] #SO
+
+	file1.write("Totals:                 " + str(round(away_total[0],1)))
+
+	#Totals, columns 2-6
+	for z in range(1,6):
+		if len(str(away_total[z])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+
+		if away_total[z] > 0:
+			file1.write( str(away_total[z]) )
+		else:
+			file1.write(str(away_total[z]))
+
+	#Totals, column 7
+	if len(str(away_total[6])) > 1:
+		file1.write("  ")
+	else:
+		file1.write("   ")
+	file1.write(str(away_total[6]) + "\n\n")
+
+	###########################################################
+	#Box score - Home pitching
+	file1.write(home_team.upper())
+	for y in range(25 - len(home_team)):
+			file1.write(" ")
+	file1.write("IP   R   H  ER  HR  BB  SO\n")
+
+	for x in home_pitchers_used:
+		#Player name
+		file1.write(x[0] + " ")
+
+		#Print correct amount of spaces
+		for y in range(23 - len(str(x[0]))):
+			file1.write(" ")
+		
+		#Column 1
+		if len(str(round(x[2],1))) == 1:
+			file1.write("  ")
+		file1.write( str(round(x[2],1)) )
+
+		#Columns 2-6
+		for z in range (3, 8):
+			if len(str(x[z])) > 1:
+				file1.write("  ")
+			else:
+				file1.write("   ")
+
+			if x[3] > 0:
+				file1.write( str(x[3]) )
+			else:
+				file1.write(str(x[3]))
+
+		#Last column
+		if len(str(x[7])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+		file1.write(str(x[8]) + "\n")
+
+	#Add up home pitching totals
+	home_total = [0, 0, 0, 0, 0, 0, 0]
+	for x in range (0, len(home_pitchers_used)):
+		home_total[0] = home_total[0] + home_pitchers_used[x][2] #IP
+		home_total[1] = home_total[1] + home_pitchers_used[x][3] #R
+		home_total[2] = home_total[2] + home_pitchers_used[x][4] #H
+		home_total[3] = home_total[3] + home_pitchers_used[x][5] #ER
+		home_total[4] = home_total[4] + home_pitchers_used[x][6] #HR
+		home_total[5] = home_total[5] + home_pitchers_used[x][7] #BB
+		home_total[6] = home_total[6] + home_pitchers_used[x][8] #SO
+
+	file1.write("Totals:                 " + str(round(home_total[0],1)))
+
+	#Totals, columns 2-6
+	for z in range(1,6):
+		if len(str(home_total[z])) > 1:
+			file1.write("  ")
+		else:
+			file1.write("   ")
+
+		if home_total[z] > 0:
+			file1.write( str(home_total[z]) )
+		else:
+			file1.write(str(home_total[z]))
+
+	#Totals, column 7
+	if len(str(home_total[6])) > 1:
+		file1.write("  ")
+	else:
+		file1.write("   ")
+	file1.write(str(home_total[6]))
+	print("Box score saved to " + results_filename)
