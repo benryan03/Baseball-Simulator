@@ -28,22 +28,6 @@ atbat_pitch_count = 1
 home_pitcher_pitch_count = 1
 away_pitcher_pitch_count = 0
 
-away_strikeout_count = 0
-away_walk_count = 0
-away_single_count = 0
-away_double_count = 0
-away_triple_count = 0
-away_homerun_count = 0
-away_hbp_count = 0
-
-home_strikeout_count = 0
-home_walk_count = 0
-home_single_count = 0
-home_double_count = 0
-home_triple_count = 0
-home_homerun_count = 0
-home_hbp_count = 0
-
 current_away_batter = 0
 current_home_batter = -1
 
@@ -1983,11 +1967,9 @@ while gameover == False: #main game loop
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
 			if half_inning % 2 != 0: #if top of inning
-				#away_walk_count = away_walk_count + 1
 				away_batters[current_away_batter][7] = away_batters[current_away_batter][7] + 1 #At-bat count for box score
 				home_pitchers_used[-1][7] = home_pitchers_used[-1][7] + 1
 			elif half_inning % 2 ==	0: # if bottom of inning
-				#home_walk_count = home_walk_count + 1
 				home_batters[current_home_batter][7] = home_batters[current_home_batter][7] + 1 #At-bat count for box score
 				away_pitchers_used[-1][7] = away_pitchers_used[-1][7] + 1
 			resetcount()
@@ -2003,7 +1985,6 @@ while gameover == False: #main game loop
 			pitching_animation()
 			print ("\033[1;97;101mSTRIKEOUT!\033[0m")
 			pitch_result = "Strikeout"
-			away_strikeout_count = away_strikeout_count + 1
 			away_batters[current_away_batter][8] = away_batters[current_away_batter][8] + 1 #At-bat count for box score
 			home_pitchers_used[-1][8] = home_pitchers_used[-1][8] + 1
 			out(1)
@@ -2014,7 +1995,6 @@ while gameover == False: #main game loop
 			print ("\033[1;97;101mSTRIKEOUT!\033[0m")
 			#print ("STRIKEOUT!")
 			pitch_result = "Strikeout"
-			home_strikeout_count = home_strikeout_count + 1
 			home_batters[current_home_batter][8] = home_batters[current_home_batter][8] + 1 #At-bat count for box score
 			away_pitchers_used[-1][8] = away_pitchers_used[-1][8] + 1
 			out(1)
@@ -2322,11 +2302,9 @@ while gameover == False: #main game loop
 					runners_on_base[1] = current_home_batter
 
 			if half_inning % 2 != 0: #if top of inning
-				away_single_count = away_single_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 				home_pitchers_used[-1][4] = home_pitchers_used[-1][4] + 1
 			elif half_inning % 2 ==	0: # if bottom of inning
-				home_single_count = home_single_count + 1
 				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				away_pitchers_used[-1][4] = away_pitchers_used[-1][4] + 1
 
@@ -2420,11 +2398,9 @@ while gameover == False: #main game loop
 					runners_on_base[2] = current_home_batter
 					runners_on_base[1] = -1
 			if half_inning % 2 != 0: #if top of inning
-				away_double_count = away_double_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 				home_pitchers_used[-1][4] = home_pitchers_used[-1][4] + 1
 			elif half_inning % 2 ==	0: # if bottom of inning
-				home_double_count = home_double_count + 1
 				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				away_pitchers_used[-1][4] = away_pitchers_used[-1][4] + 1
 				resetcount()
@@ -2473,13 +2449,11 @@ while gameover == False: #main game loop
 				third = False
 				run(3)
 			if half_inning % 2 != 0: #if top of inning
-				away_homerun_count = away_homerun_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 				away_batters[current_away_batter][6] = away_batters[current_away_batter][6] + 1 #HR count for box score
 				home_pitchers_used[-1][4] = home_pitchers_used[-1][4] + 1
 				home_pitchers_used[-1][6] = home_pitchers_used[-1][6] + 1
 			elif half_inning % 2 ==	0: # if bottom of inning
-				home_homerun_count = home_homerun_count + 1
 				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				home_batters[current_home_batter][6] = home_batters[current_home_batter][6] + 1 #HR count for box score
 				away_pitchers_used[-1][4] = away_pitchers_used[-1][4] + 1
@@ -2565,10 +2539,6 @@ while gameover == False: #main game loop
 				elif half_inning % 2 == 0: #if bottom of inning
 					runners_on_base[2] = runners_on_base[1]
 					runners_on_base[1] = current_home_batter
-			if half_inning % 2 != 0: #if top of inning
-				away_hbp_count = away_hbp_count + 1
-			elif half_inning % 2 ==	0: # if bottom of inning
-				home_hbp_count = home_hbp_count + 1
 			resetcount()
 			pitch_result = "Hit by pitch"
 		else: #Triple
@@ -2663,11 +2633,9 @@ while gameover == False: #main game loop
 					runners_on_base[3] = current_away_batter
 					runners_on_base[1] = -1
 			if half_inning % 2 != 0: #if top of inning
-				away_triple_count = away_triple_count + 1
 				away_batters[current_away_batter][4] = away_batters[current_away_batter][4] + 1 #Hit count for box score
 				home_pitchers_used[-1][4] = home_pitchers_used[-1][4] + 1
 			elif half_inning % 2 ==	0: # if bottom of inning
-				home_triple_count = home_triple_count + 1
 				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				away_pitchers_used[-1][4] = away_pitchers_used[-1][4] + 1
 			resetcount()
@@ -3317,26 +3285,6 @@ wait_short()
 wait_short()
 print("")
 
-
-"""
-print(home_team + " batting:")
-print("Strikeouts: " + str(home_strikeout_count))
-print("Walks: " + str(home_walk_count))
-print("Singles: " + str(home_single_count))
-print("Doubles: " + str(home_double_count))
-print("Triples: " + str(home_triple_count))
-print("Home runs: " + str(home_homerun_count))
-print("Hit by pitch: " + str(home_hbp_count))
-print("")
-print(away_team + " batting:")
-print("Strikeouts: " + str(away_strikeout_count))
-print("Walks: " + str(away_walk_count))
-print("Singles: " + str(away_single_count))
-print("Doubles: " + str(away_double_count))
-print("Triples: " + str(away_triple_count))
-print("away runs: " + str(away_homerun_count))
-print("Hit by pitch: " + str(away_hbp_count))
-"""
 save_results = input("Save box score to a text file? (Y/N)")
 
 """
@@ -3364,7 +3312,6 @@ if save_results == "y" or save_results == "Y":
 	file1.write("Hit by pitch: " + str(home_hbp_count) + "\n")
 	file1.write("\n")
 	file1.write(away_team + " batting:" + "\n")
-	file1.write("Strikeouts: " + str(away_strikeout_count) + "\n")
 	file1.write("Walks: " + str(away_walk_count) + "\n")
 	file1.write("Singles: " + str(away_single_count) + "\n")
 	file1.write("Doubles: " + str(away_double_count) + "\n")
