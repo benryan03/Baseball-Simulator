@@ -484,22 +484,6 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 
 	wait()
 
-	"""
-	global runners_on_base
-	if half_inning % 2 != 0:
-		for x in runners_on_base:
-			if x > -1:
-				print(away_batters[x][0])
-			else:
-				print(str(x))
-	elif half_inning % 2 == 0:
-		for x in runners_on_base:
-			if x > -1:
-				print(home_batters[x][0])
-			else:
-				print(str(x))
-	"""
-
 	print("-------------------------------------------------------------")
 	wait()
 	print ("Outs: " + str(outs) + " | Inning: ", end ="")
@@ -509,15 +493,15 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 		print ("Bot ", end ="")
 	print (str(math.ceil(half_inning / 2)) + " | " + home_abbr + ": " + str(home_score) + " | " + away_abbr + ": " + str(away_score) + " | 3B: ", end ="")
 	if third == True:
-		print ("X 2B: ", end ="")
+		print ("\033[1;93;40mX\033[0m 2B: ", end ="")
 	elif third == False:
 		print ("  2B: ", end ="")
 	if second == True:
-		print ("X 1B: ", end ="")
+		print ("\033[1;93;40mX\033[0m 1B: ", end ="")
 	elif second == False:
 		print ("  1B: ", end ="")
 	if first == True:
-		print ("X")
+		print ("\033[1;93;40mX\033[0m")
 	elif first == False:
 		print (" ")
 
@@ -1637,7 +1621,7 @@ away_abbr = "NYY" #debug
 away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
-"""
+
 home_team = ""
 home_abbr = ""
 home_team_error = True
@@ -1685,7 +1669,7 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
-"""
+
 print("")
 print("Loading players...")
 
@@ -3188,6 +3172,7 @@ for x in away_pitchers_used:
 	else:
 		print(str(x[8]))
 
+	wait_short()
 
 
 
@@ -3338,6 +3323,8 @@ for x in home_pitchers_used:
 		print("\033[1;93;40m" + str(x[8]) + "\033[0m")
 	else:
 		print(str(x[8]))
+
+	wait_short()
 
 wait_short()
 
