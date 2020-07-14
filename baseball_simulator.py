@@ -560,10 +560,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(2) # default 2
+	time.sleep(0) # default 2
 
 def wait_short():
-	time.sleep(.5) # default .5
+	time.sleep(0) # default .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	
@@ -1227,60 +1227,53 @@ def ball_in_play_animation():
 		print ("\033[1;97;100m .\033[0m", end="", flush=True)
 	print("")
 
-def check_if_pitching_change(): #Needs cleanup
+def check_if_pitching_change():
 
-	if half_inning % 2 != 0: #Top half
-		if current_home_pitcher == home_starting_pitcher:
-			if home_pitcher_pitch_count >= 100:
-				pitching_change()
-			if half_inning >= 13:
-				pitching_change()
-			if away_score > 4:
-				pitching_change()
+	# Top half of inning
+	if half_inning % 2 != 0 and current_home_pitcher == home_starting_pitcher and home_pitcher_pitch_count >= 100:
+		# Starter is still in and has thrown 100 pitches
+		pitching_change()
+	elif half_inning % 2 != 0 and current_home_pitcher == home_starting_pitcher and half_inning >= 13:
+		# Starter is still in and it is the top of the 7th inning
+		pitching_change()
+	elif half_inning % 2 != 0 and current_home_pitcher == home_starting_pitcher and away_score > 4:
+		# Starter is still in and has allowed more than 4 runs
+		pitching_change()
+	elif half_inning % 2 != 0 and current_home_pitcher != home_starting_pitcher and half_inning <= 9 and runs_in_current_inning > 2 and len(home_relief_pitchers) > 0:
+		# A reliever is in and has allowed more than 2 runs and it is before the 6th inning
+		pitching_change()
+	elif half_inning % 2 != 0 and current_home_pitcher != home_starting_pitcher and half_inning == 17 and current_home_pitcher != home_closer:
+		# Top of 9th inning (Send in closer)
+		pitching_change()
+	elif half_inning % 2 != 0 and current_home_pitcher != home_starting_pitcher and half_inning > 9 and outs == 0 and first == False and second == False and third == False and runs_in_current_inning == 0 and len(home_relief_pitchers) > 0:
+		# A reliever is in and it is the start of an inning, 6th or later
+		pitching_change()
+	elif half_inning % 2 != 0 and current_home_pitcher != home_starting_pitcher and runs_in_current_inning > 2 and len(home_relief_pitchers) > 0:
+		# A reliever is in and has allowed more than 2 runs
+		pitching_change()
 
-		elif current_home_pitcher != home_starting_pitcher:
-			if half_inning <= 9:
-				if runs_in_current_inning > 2:
-					if len(home_relief_pitchers) > 0:
-						pitching_change()
-			elif half_inning == 17 and current_home_pitcher != home_closer:
-				pitching_change()
-
-			else:
-				if outs == 0 and first == False and second == False and third == False and runs_in_current_inning == 0:
-					if len(home_relief_pitchers) > 0:
-						pitching_change()
-			
-				else:
-					if runs_in_current_inning > 2:
-						if len(home_relief_pitchers) > 0:
-							pitching_change()
-
-	elif half_inning % 2 == 0: #Bottom half
-		if current_away_pitcher == away_starting_pitcher:
-			if away_pitcher_pitch_count >= 100:
-				pitching_change()
-			if half_inning >= 14:
-				pitching_change()
-			if home_score > 4:
-				pitching_change()
-
-		elif current_away_pitcher != away_starting_pitcher:
-			if half_inning <= 10:
-				if runs_in_current_inning > 2:
-					if len(away_relief_pitchers) > 0:
-						pitching_change()
-			elif half_inning == 18 and current_away_pitcher != away_closer:
-				pitching_change()
-			else:
-				if outs == 0 and first == False and second == False and third == False and runs_in_current_inning == 0:
-					if len(away_relief_pitchers) > 0:
-						pitching_change()
-			
-				else:
-					if runs_in_current_inning > 2:
-						if len(away_relief_pitchers) > 0:
-							pitching_change()
+	# Bottom half of inning
+	if half_inning % 2 == 0 and current_away_pitcher == away_starting_pitcher and away_pitcher_pitch_count >= 100:
+		# Starter is still in and has thrown 100 pitches
+		pitching_change()
+	elif half_inning % 2 == 0 and current_away_pitcher == away_starting_pitcher and half_inning >= 14:
+		# Starter is still in and it is the bottom of the 7th inning
+		pitching_change()
+	elif half_inning % 2 == 0 and current_away_pitcher == away_starting_pitcher and home_score > 4:
+		# Starter is still in and has allowed more than 4 runs
+		pitching_change()
+	elif half_inning % 2 == 0 and current_away_pitcher != away_starting_pitcher and half_inning <= 10 and runs_in_current_inning > 2 and len(away_relief_pitchers) > 0:
+		# A reliever is in and has allowed more than 2 runs and it is before the 6th inning
+		pitching_change()
+	elif half_inning % 2 == 0 and current_away_pitcher != away_starting_pitcher and half_inning == 17 and current_away_pitcher != away_closer:
+		# Bottom of 9th inning (Send in closer)
+		pitching_change()
+	elif half_inning % 2 == 0 and current_away_pitcher != away_starting_pitcher and half_inning > 10 and outs == 0 and first == False and second == False and third == False and runs_in_current_inning == 0 and len(away_relief_pitchers) > 0:
+		# A reliever is in and it is the start of an inning, 6th or later
+		pitching_change()
+	elif half_inning % 2 == 0 and current_away_pitcher != away_starting_pitcher and runs_in_current_inning > 2 and len(away_relief_pitchers) > 0:
+		# A reliever is in and has allowed more than 2 runs
+		pitching_change()
 
 def pitching_change():
 	global home_relief_pitchers
