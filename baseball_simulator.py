@@ -1471,14 +1471,7 @@ def parse_input(input_team):
 #######################################################################################################################
 #######################################################################################################################
 
-#program start
-
-home_team = "Red Sox" #debug
-home_abbr = "BOS" #debug
-home_year = "2018" #debug
-away_team = "Yankees" #debug
-away_abbr = "NYY" #debug
-away_year = "2018" #debug
+# Program start
 
 print ("Welcome to Baseball Simulator")
 
@@ -1539,8 +1532,8 @@ print("Loading players...")
 ###########################################################
 # Scrape top 9 batters and batting averages for specified team/year
 
-#Load baseball-reference page for inputted team/year
-#URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
+# Load baseball-reference page for inputted team/year
+# URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
 home_page = requests.get("https://www.baseball-reference.com/teams/" + home_abbr + "/" + home_year + ".shtml")
 home_tree = html.fromstring(home_page.content)
 away_page = requests.get("https://www.baseball-reference.com/teams/" + away_abbr + "/" + away_year + ".shtml")
@@ -1549,22 +1542,22 @@ away_tree = html.fromstring(away_page.content)
 home_batters = ["", "", "", "", "", "", "", "", ""]
 away_batters = ["", "", "", "", "", "", "", "", ""]
 
-#Scrape names of top 8 batters
+# Scrape names of top 8 batters
 for x in range(8):
-	#Home
+	# Home
     fullname = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
     fname = str(fullname).partition(",")[2]
     lname = str(fullname).partition(",")[0]
     home_batters[x] = fname.strip("[],'") + " " + lname.strip("[],'")
 
-	#Away
+	# Away
     fullname = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
     fname = str(fullname).partition(",")[2]
     lname = str(fullname).partition(",")[0]
     away_batters[x] = fname.strip("[],'") + " " + lname.strip("[],'")
 
-#Scrape name of 9th batter (sometimes the formatting on baseball-reference skips the 9th row)
-#Home
+# Scrape name of 9th batter (sometimes the formatting on baseball-reference skips the 9th row)
+# Home
 fullname = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[2]/@csk')
 if fullname == []:
     fullname = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[2]/@csk')
@@ -1573,7 +1566,7 @@ fname = str(fullname).partition(",")[2]
 lname = str(fullname).partition(",")[0]
 home_batters[8] = fname.strip("[],'") + " " + lname.strip("[],'")
 
-#Away
+# Away
 fullname = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[2]/@csk')
 if fullname == []:
     fullname = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[2]/@csk')
@@ -1582,18 +1575,18 @@ fname = str(fullname).partition(",")[2]
 lname = str(fullname).partition(",")[0]
 away_batters[8] = fname.strip("[],'") + " " + lname.strip("[],'")
 
-#Batting averages
+# Batting averages
 home_avg = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 away_avg = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-#Scrape batting averages of first 8 batters
+# Scrape batting averages of first 8 batters
 for x in range(8):
 	avg = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
 	home_avg[x] = float(str(avg).strip("[]'"))
 	avg = away_tree.xpath('//table[@id="team_batting"]/tbody/tr[' + str(x+1) + ']/td[17]/text()')
 	away_avg[x] = float(str(avg).strip("[]'"))
 
-#Scrape batting average of 9th batter
+# Scrape batting average of 9th batter
 avg = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[9]/td[17]/text()')
 if avg == []:
 	avg = home_tree.xpath('//table[@id="team_batting"]/tbody/tr[10]/td[17]/text()')
@@ -1608,11 +1601,11 @@ if avg == []:
 else:
 	away_avg[8] = float(str(avg).strip("[]'"))
 
-#Add batting averages to batters array
+# Add batting averages to batters array
 home_batters = [[home_batters[0], home_avg[0]], [home_batters[1], home_avg[1]], [home_batters[2], home_avg[2]], [home_batters[3], home_avg[3]], [home_batters[4], home_avg[4]], [home_batters[5], home_avg[5]], [home_batters[6], home_avg[6]], [home_batters[7], home_avg[7]], [home_batters[8], home_avg[8]]]
 away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], [away_batters[2], away_avg[2]], [away_batters[3], away_avg[3]], [away_batters[4], away_avg[4]], [away_batters[5], away_avg[5]], [away_batters[6], away_avg[6]], [away_batters[7], away_avg[7]], [away_batters[8], away_avg[8]]]
 
-#Fill in empty stats for box score
+# Fill in empty stats for box score
 for x in range(9):
 	home_batters[x].append(0)
 	home_batters[x].append(0)
@@ -1629,7 +1622,7 @@ for x in range(9):
 	away_batters[x].append(0)
 	away_batters[x].append(0)
 
-#Sort array by batting average to determine batting order
+# Sort array by batting average to determine batting order
 home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
 away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
 
@@ -1693,7 +1686,7 @@ for x in range(12):
 		# Blank/header line
 		away_pitchers[x][0] = "_EMPTY_"
 
-#For some reason, these loops need to be run twice each to remove empty array elements
+# For some reason, these loops need to be run twice each to remove empty array elements
 for x in home_pitchers:
 	if "_EMPTY_" in x:
 		home_pitchers.remove(x)
@@ -1719,14 +1712,14 @@ for x in home_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 	wait_short()
 
-#Print sorted batters for Away
+# Print sorted batters for Away
 print("\nStarting lineup for the " + away_team + ":")
 wait()
 for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 	wait_short()
 
-#Choose a random starting pitcher for each team
+# Choose a random starting pitcher for each team
 pitcher_rand = random.randint(0, 4)
 home_starting_pitcher = home_pitchers[pitcher_rand]
 current_home_pitcher = home_starting_pitcher
@@ -1735,7 +1728,7 @@ pitcher_rand = random.randint(0, 4)
 away_starting_pitcher = away_pitchers[pitcher_rand]
 current_away_pitcher = away_starting_pitcher
 
-#Keep track of what starting pitchers were used, for end-of-game box score
+# Keep track of what starting pitchers were used, for end-of-game box score
 home_pitchers_used.append(home_starting_pitcher)
 for x in range(10):
 	home_pitchers_used[-1].append(0)
@@ -1765,7 +1758,7 @@ first_pitch_time = ((datetime.strftime(datetime.now(), "%Y")) + "-" + (datetime.
 #######################################################################################################################
 #######################################################################################################################
 
-while gameover == False: #main game loop
+while gameover == False: # Main game loop
 
 	pitch_result = calculate_pitch_outcome(atbat_pitch_count, False)
 
