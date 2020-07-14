@@ -1253,7 +1253,7 @@ def check_if_pitching_change():
 		pitching_change()
 
 	# Bottom half of inning
-	if half_inning % 2 == 0 and current_away_pitcher == away_starting_pitcher and away_pitcher_pitch_count >= 100:
+	elif half_inning % 2 == 0 and current_away_pitcher == away_starting_pitcher and away_pitcher_pitch_count >= 100:
 		# Starter is still in and has thrown 100 pitches
 		pitching_change()
 	elif half_inning % 2 == 0 and current_away_pitcher == away_starting_pitcher and half_inning >= 14:
