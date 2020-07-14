@@ -57,8 +57,6 @@ def out(num):
 	global first
 	global second
 	global third
-	global home_score
-	global away_score
 	global gameover
 	global balls
 	global strikes
@@ -66,6 +64,8 @@ def out(num):
 	global runners_on_base
 	for x in range (num):
 		
+		#For box score
+		#Totals will get rounded to 1 decimal so .3333 is accurate enough :)
 		if half_inning % 2 == 0:
 			away_pitchers_used[-1][2] = away_pitchers_used[-1][2] + .3333
 		elif half_inning % 2 != 0:
@@ -90,14 +90,12 @@ def out(num):
 			runs_in_current_inning = 0
 			if half_inning == 2:
 				print("\033[1;93;40m" + away_starting_pitcher[0] + "\033[0m is now pitching for the " + away_team + ".")
-				#print("Starting pitcher for " + away_team + ": \033[1;93;40m" + away_starting_pitcher[0] + "\033[0m")
 				wait()
 				print(str(away_year) + " ERA: " + str(format_era(away_starting_pitcher[1])))
 				wait()
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0 and home_score <= away_score:
 		# if 2 outs and 9th inning or later and end of top of inning and away team is ahead or tied
 			outs = 3
-			#print ("Half-inning has ended.")
 			print("")
 			wait()
 			half_inning = half_inning + 1
@@ -112,7 +110,6 @@ def out(num):
 		elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score == away_score:
 		# if 2 outs and 9th inning or later and end of bottom of inning and score is tied
 			outs = 3
-			#print ("Half-inning has ended.")
 			print("")
 			wait()
 			half_inning = half_inning + 1
@@ -135,18 +132,7 @@ def out(num):
 
 			gameover = True
 
-
-		#elif outs == 2 and half_inning >= 17 and half_inning % 2 != 0 and home_score > away_score:
-		# if 2 outs and 9th inning or later and end of top of inning and home team is ahead
-		#	gameover = True
-		#elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score > away_score:
-		# if 2 outs and 9th inning or later and end of bottom of inning and home team is ahead
-		#	gameover = True
-		#elif outs == 2 and half_inning >= 17 and half_inning % 2 == 0 and home_score < away_score:
-		# if 2 outs and 9th inning or later and end of bottom of inning and away team is ahead
-		#	gameover = True
-
-def run(num):
+def run(num): #Needs cleanup
 	global half_inning
 	global away_score
 	global home_score
@@ -162,6 +148,7 @@ def run(num):
 	runner4 = None
 
 	#Determine and print who scored the run
+
 	if half_inning % 2 != 0: #Top half
 		if num == 1:
 			if runners_on_base[3] > -1:
@@ -416,36 +403,28 @@ def run(num):
 		if half_inning < 18 and half_inning % 2 != 0:
 			#normal innings - run for away
 			away_score = away_score + 1
-			runs_in_current_inning = runs_in_current_inning + 1
+			runs_in_current_inning = runs_in_current_inning + 1 							#For determining if there should be a pitching change
 			away_batters[current_away_batter][5] = away_batters[current_away_batter][5] + 1 #RBI count for box score
-			#print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
-			#print ("Run scored by " + away_team + "!")
 			wait_short()
 		elif half_inning < 18 and half_inning % 2 == 0:
 			#normal innings - run for home
 			home_score = home_score + 1
-			runs_in_current_inning = runs_in_current_inning + 1
+			runs_in_current_inning = runs_in_current_inning + 1 							#For determining if there should be a pitching change
 			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
-			#print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
-			#print ("Run scored by " + home_team + "!")
 			wait_short()
-		elif half_inning >= 18 and half_inning % 2 != 0: #odd/top of inning
+		elif half_inning >= 18 and half_inning % 2 != 0:
 			#extra innings - run for away
 			away_score = away_score + 1
-			runs_in_current_inning = runs_in_current_inning + 1
+			runs_in_current_inning = runs_in_current_inning + 1 							#For determining if there should be a pitching change
 			away_batters[current_away_batter][5] = away_batters[current_away_batter][5] + 1 #RBI count for box score
-			#print ("\033[1;30;102mRun scored by " + away_team + "!\033[0m")
-			#print ("Run scored by " + away_team + "!")
 			wait_short()
-		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score: #even/bottom of inning
+		elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score:
 			#extra innings - run for home, no walkoff
 			home_score = home_score + 1
 			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
-			#print ("\033[1;30;102mRun scored by " + home_team + "!\033[0m")
-			#print ("Run scored by " + home_team + "!")
-			runs_in_current_inning = runs_in_current_inning + 1
+			runs_in_current_inning = runs_in_current_inning + 1 							#For determining if there should be a pitching change
 			wait_short()
-		elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score: #even/bottom of inning
+		elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score:
 			#walkoff run!
 			home_score = home_score + 1
 			home_batters[current_home_batter][5] = home_batters[current_home_batter][5] + 1 #RBI count for box score
@@ -453,23 +432,15 @@ def run(num):
 			wait()
 			print("")
 			wait()
-			#print ("WALKOFF RUN scored by " + home_team + "!")
 			print("Game has ended. " + home_team + " wins.")
 			gameover = True
 
 def status(): #print number of outs, inning number, score, and on-base statuses
-	global outs
-	global half_inning
-	global home_score
-	global away_score
-	global first
-	global second
-	global third
 
 	wait()
-
 	print("-------------------------------------------------------------")
 	wait()
+	
 	print ("Outs: " + str(outs) + " | Inning: ", end ="")
 	if half_inning % 2 != 0:
 		print ("Top ", end ="")
@@ -490,9 +461,7 @@ def status(): #print number of outs, inning number, score, and on-base statuses
 		print (" ")
 
 	wait()
-
 	now_batting()
-	
 	wait()
 
 def now_batting():
@@ -500,19 +469,22 @@ def now_batting():
 	global edge_pos
 	global margin
 	global redo_pitch_loops
+	global home_batters
+	global away_batters
 	
-
-
-
-
-
-
+	#Print name and average of current batter
 	if half_inning % 2 == 0:	
-		print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + "\033[0m is now batting for the " + home_team + ". " + str(home_year) + " AVG: " + format_batting_average(home_batters[current_home_batter][1]))
-		home_batters[current_home_batter][2] = home_batters[current_home_batter][2] + 1 #At-bat count for box score
+		print ("\033[1;93;40m" + str(home_batters[current_home_batter][0]) + 
+		"\033[0m is now batting for the " + home_team + ". " + str(home_year) + 
+		" AVG: " + format_batting_average(home_batters[current_home_batter][1]))
+
+		home_batters[current_home_batter][2] = home_batters[current_home_batter][2] + 1 #Update at-bat count for box score
 	else:
-		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + "\033[0m is now batting for the " + away_team + ". " + str(home_year) + " AVG: " + format_batting_average(away_batters[current_away_batter][1]))
-		away_batters[current_away_batter][2] = away_batters[current_away_batter][2] + 1 #At-bat count for box score
+		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + 
+		"\033[0m is now batting for the " + away_team + ". " + str(home_year) + 
+		" AVG: " + format_batting_average(away_batters[current_away_batter][1]))
+
+		away_batters[current_away_batter][2] = away_batters[current_away_batter][2] + 1 #Update at-bat count for box score
 
 	redo_pitch_loops = 0
 
@@ -545,7 +517,6 @@ def now_batting():
 		era = current_home_pitcher[1]
 		
 		x = avg / .250
-		#x = 1000
 		y = (2 - (era / 4)) - (home_pitcher_pitch_count * .005)
 
 		if x > y:
@@ -560,27 +531,16 @@ def now_batting():
 			edge_pos = "Pitcher"
 			margin = y - x
 
+		#Print edge
 		wait()
 		margin = round(margin*50,1)
 		print("Edge: " + edge + " - " + str(margin) + "%")
 
-def next_batter():
-	global half_inning
-	global current_home_batter
-	global current_away_batter
-
-	if half_inning % 2 == 0 and current_home_batter < 8:
-		current_home_batter = current_home_batter + 1
-	elif half_inning % 2 == 0 and current_home_batter == 8:
-		current_home_batter = 0
-	elif half_inning % 2 != 0 and current_away_batter < 8:
-		current_away_batter = current_away_batter + 1
-	elif half_inning % 2 != 0 and current_away_batter == 8:
-		current_away_batter = 0
-
 def format_batting_average(avg):
 	avg_string = str(avg)
-	avg_string = avg_string[1:] # Remove leading 0
+
+	 # Remove leading 0
+	avg_string = avg_string[1:]
 
 	# Add trailing 0s if necessary
 	if len(avg_string) == 2:
@@ -600,131 +560,74 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(0) # 2
+	time.sleep(2) # default 2
 
 def wait_short():
-	time.sleep(0) # .5
+	time.sleep(.5) # default .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
-	global edge_pos
-	global margin
+	
+	# This function attempts to replicate real-world outcomes as accurately as possible.
+	# Probability data was taken from this post: 
+	# https://www.baseball-fever.com/forum/general-baseball/statistics-analysis-sabermetrics/81427-pitch-outcome-distribution-over-25-years
+	# Pitches 1-12 of each at bat match the probability data.
+	# If pitch 13 is reached, there is no foul outcome, to help prevent infinite at-bats.
+
+	# For each pitch, a random number between from 1 to 100 is generated. That number is used to determine the pitch outcome.
+	# If the pitcher has the "edge", and the outcome is a ball or a ball in play (or vice versa), a second random number from 1 to 100 is generated.
+	# If the second random number is between 0 and the edge %, the pitch outcome is disregarded and starts over.
+
+	# So, if the pitcher has a 20% edge over the batter, and the initial outcome was a ball, there is a 20% chance of a do-over.
+
 	global redo_pitch_loops
 	
 	rand = random.randint(1, 100)
 
-
-
-	"""
-	pitch = 1
 	if pitch == 1:
-		if rand >= 1 and rand <= 25: #Ball
-			#print(Style.DIM + "init: ball" + Style.RESET_ALL)
-			if edge_pos == "Pitcher":
-				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
-				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
-					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
-					redo_pitch_loops = redo_pitch_loops + 1
-					return calculate_pitch_outcome(pitch, True)
-				else:
-					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
-					return "Ball"
-			else:
-				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
-				return "Ball"
-		elif rand >=26 and rand <= 50: #Called Strike
-			#print(Style.DIM + "init: called strike" + Style.RESET_ALL)
-			if edge_pos == "Batter":
-				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
-				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
-					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
-					redo_pitch_loops = redo_pitch_loops + 1
-					return calculate_pitch_outcome(pitch, True)
-				else:
-					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
-					return "Strike"
-			else:
-				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
-				return "Strike"
-		elif rand >= 51 and rand <= 75: #Foul
-			#print(Style.DIM + "init: foul" + Style.RESET_ALL)
-			if edge_pos == "Batter":
-				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
-				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
-					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
-					redo_pitch_loops = redo_pitch_loops + 1
-					return calculate_pitch_outcome(pitch, True)
-				else:
-					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
-					return "Foul"
-			else:
-				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
-				return "Foul"
-		else: #Ball in play
-			#print(Style.DIM + "init: ballinplay" + Style.RESET_ALL)
-			if edge_pos == "Pitcher":
-				#print(Style.DIM + "Calculating whether to redo" + Style.RESET_ALL)
-				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
-					#print(Style.DIM + "Redo pitch SUCCEEDED" + Style.RESET_ALL)
-					redo_pitch_loops = redo_pitch_loops + 1
-					return calculate_pitch_outcome(pitch, True)
-				else:
-					#print(Style.DIM + "Redo pitch FAILED - " + str(rand) + ", " + str(round(margin,0)) + Style.RESET_ALL)
-					return "Ball_in_play"
-			else:
-				#print(Style.DIM + "No redo attempt" + Style.RESET_ALL)
-				return "Ball_in_play"
-	"""
-
-	
-	if pitch == 1:
-		if rand >= 1 and rand <= 43: #Ball
+		if rand >= 1 and rand <= 43: 							# Ball
 			if edge_pos == "Pitcher":
 				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
+				if 1 <= rand <= round(margin,0): 				# Do-over?
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					return "Ball"
 			else:
 				return "Ball"
-		elif rand >=44 and rand <= 72: #Called Strike
+		elif rand >=44 and rand <= 72: 							# Called Strike
 			if edge_pos == "Batter":
 				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
+				if 1 <= rand <= round(margin,0): 				# Do-over?
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					return "Strike"
 			else:
 				return "Strike"
-		elif rand >= 73 and rand <= 82: #Foul
+		elif rand >= 73 and rand <= 82: 						# Foul
 			if edge_pos == "Batter":
 				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
+				if 1 <= rand <= round(margin,0): 				# Do-over?
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					return "Foul"
 			else:
 				return "Foul"
-		elif rand <= 83 and rand <= 88: #Swinging Strike
+		elif rand <= 83 and rand <= 88: 						# Swinging Strike
 			if edge_pos == "Batter":
 				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
+				if 1 <= rand <= round(margin,0): 				# Do-over?
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
 					return "Strike"
 			else:
 				return "Strike"
-		else: #Ball in play
+		else: 													# Ball in play
 			if edge_pos == "Pitcher":
 				rand = random.randint(1, 100)
-				if 1 <= rand <= round(margin,0):
+				if 1 <= rand <= round(margin,0): 				# Do-over?
 					redo_pitch_loops = redo_pitch_loops + 1
 					return calculate_pitch_outcome(pitch, True)
 				else:
@@ -1297,7 +1200,7 @@ def pitching_animation():
 	global current_home_pitcher
 	global away_pitcher_pitch_count
 	global home_pitcher_pitch_count
-
+	
 	if half_inning % 2 == 0:
 		current_pitcher = current_away_pitcher
 		current_pitcher_pitch_count = away_pitcher_pitch_count
@@ -1305,7 +1208,7 @@ def pitching_animation():
 		current_pitcher = current_home_pitcher
 		current_pitcher_pitch_count = home_pitcher_pitch_count
 
-	print ("\033[1;30;40mPitch " + str(current_pitcher_pitch_count) + " (" + current_pitcher[0] + ") \033[0m", end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
+	print ("\033[1;30;40mPitch " + str(current_pitcher_pitch_count) + " (" + current_pitcher[0] + ") \033[0m", end="", flush=True)	# flush=True makes sure time.sleep instances do not occur all at once
 	for x in range (0, 3):
 		wait_short()
 		print ("\033[1;30;40m. \033[0m", end="", flush=True)
@@ -1318,33 +1221,13 @@ def pitching_animation():
 
 def ball_in_play_animation():
 
-	#print ("\033[1;30;103mFLY OUT! RUNNER ADVANCED.\033[0m")
-	print ("\033[1;97;100mBall in play!\033[0m", end="", flush=True)	# flush=True needs to be included, otherwise time.sleep instances will occur all at once
+	print ("\033[1;97;100mBall in play!\033[0m", end="", flush=True)	# flush=True makes sure time.sleep instances do not occur all at once
 	for x in range (0, 6):
 		wait_short()
 		print ("\033[1;97;100m .\033[0m", end="", flush=True)
 	print("")
 
 def check_if_pitching_change(): #Needs cleanup
-	global half_inning
-	global current_home_pitcher
-	global home_starting_pitcher
-	global home_pitcher_pitch_count
-	global home_score
-	global home_closer
-	
-	global current_away_pitcher
-	global away_starting_pitcher
-	global away_pitcher_pitch_count
-	global away_score
-	global away_closer
-
-	global outs
-	global first
-	global second
-	global third
-
-	global runs_in_current_inning
 
 	if half_inning % 2 != 0: #Top half
 		if current_home_pitcher == home_starting_pitcher:
@@ -1399,8 +1282,6 @@ def check_if_pitching_change(): #Needs cleanup
 						if len(away_relief_pitchers) > 0:
 							pitching_change()
 
-	#else:
-
 def pitching_change():
 	global home_relief_pitchers
 	global current_home_pitcher
@@ -1411,8 +1292,10 @@ def pitching_change():
 	global runs_in_current_inning
 	global earned_runs
 
+	#For determining if there should be a pitching change
 	runs_in_current_inning = 0
 
+	#Used for Earned Runs in box score
 	earned_runs = 0
 	if first == True:
 		earned_runs = earned_runs - 1
@@ -1421,23 +1304,25 @@ def pitching_change():
 	if third == True:
 		earned_runs = earned_runs - 1
 
-	if half_inning % 2 != 0: #Top half
+
+	if half_inning % 2 != 0: #Top of inning
 
 		if half_inning == 17:
+			 #Top of 9th inning
 			current_home_pitcher = home_closer
 		else:
+			#Choose a random relief pitcher
 			x = len(home_relief_pitchers)
 			rand = random.randint(0, x-1)
 			current_home_pitcher = home_relief_pitchers[rand]
 			del home_relief_pitchers[rand]
 			home_pitcher_pitch_count = 0
 
-
-
-		home_pitchers_used.append(current_home_pitcher)
-		for x in range(10):
+		home_pitchers_used.append(current_home_pitcher)		#Add pitcher to array for box score
+		for x in range(10): 								#Generate blank stats for box score
 			home_pitchers_used[-1].append(0)
 
+		# Print new pitcher
 		wait()
 		print("Pitching change!")
 		wait()
@@ -1450,23 +1335,24 @@ def pitching_change():
 		print("")
 		wait()
 
-	elif half_inning % 2 == 0: #Bottom half
+	elif half_inning % 2 == 0: #Bottom of inning
 
 		if half_inning == 18:
+			 #Bottom of 9th inning
 			current_away_pitcher = away_closer
 		else:
+			#Choose a random relief pitcher
 			x = len(away_relief_pitchers)
 			rand = random.randint(0, x-1)
 			current_away_pitcher = away_relief_pitchers[rand]
 			del away_relief_pitchers[rand]
 			away_pitcher_pitch_count = 0
 
-
-
-		away_pitchers_used.append(current_away_pitcher)
-		for x in range(10):
+		away_pitchers_used.append(current_away_pitcher)		#Add pitcher to array for box score
+		for x in range(10):									#Generate blank stats for box score
 			away_pitchers_used[-1].append(0)
 
+		# Print new pitcher
 		wait()
 		print("Pitching change!")
 		wait()
@@ -1482,20 +1368,16 @@ def pitching_change():
 def inning_status():
 	global half_inning
 
+	# Update line score
 	prev_half_inning = half_inning - 1
-	if prev_half_inning % 2 == 0:
-		#it is now bottom
+	if prev_half_inning % 2 == 0: # it is now bottom of inning
 		if len(away_score_by_inning) < prev_half_inning-1:
 			away_score_by_inning.append(0)
-
-	elif prev_half_inning % 2 != 0:
-		#it is now top
+	elif prev_half_inning % 2 != 0 : # it is now top of inning
 		if len(home_score_by_inning) < prev_half_inning-1:
 			home_score_by_inning.append(0)
 
-
-
-
+	# This will be accurate until the 21st inning - will fix eventually
 	if half_inning == 1 or half_inning == 2:
 		x = "st"
 	elif half_inning == 3  or half_inning == 4:
@@ -1505,6 +1387,7 @@ def inning_status():
 	else:
 		x = "th"
 
+	# Print inning status
 	if half_inning % 2 != 0:
 		wait()
 		print("")
@@ -1523,7 +1406,6 @@ def inning_status():
 		print ("It is now the bottom of the " + str(half_inning/2).split(".")[0] + x + " inning.")
 		print("---------------------------------------")
 		print("")
-		#print("")
 		wait()
 
 def parse_input(input_team):
@@ -1606,7 +1488,10 @@ away_abbr = "NYY" #debug
 away_year = "2018" #debug
 
 print ("Welcome to Baseball Simulator")
-"""
+
+###########################################################
+# Get user inputs to choose teams
+
 home_team = ""
 home_abbr = ""
 home_team_error = True
@@ -1654,9 +1539,12 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
-"""
+
 print("")
 print("Loading players...")
+
+###########################################################
+# Scrape top 9 batters and batting averages for specified team/year
 
 #Load baseball-reference page for inputted team/year
 #URL format: https://www.baseball-reference.com/teams/BOS/2004.shtml
@@ -1731,7 +1619,7 @@ else:
 home_batters = [[home_batters[0], home_avg[0]], [home_batters[1], home_avg[1]], [home_batters[2], home_avg[2]], [home_batters[3], home_avg[3]], [home_batters[4], home_avg[4]], [home_batters[5], home_avg[5]], [home_batters[6], home_avg[6]], [home_batters[7], home_avg[7]], [home_batters[8], home_avg[8]]]
 away_batters = [[away_batters[0], away_avg[0]], [away_batters[1], away_avg[1]], [away_batters[2], away_avg[2]], [away_batters[3], away_avg[3]], [away_batters[4], away_avg[4]], [away_batters[5], away_avg[5]], [away_batters[6], away_avg[6]], [away_batters[7], away_avg[7]], [away_batters[8], away_avg[8]]]
 
-#Empty stats for box score
+#Fill in empty stats for box score
 for x in range(9):
 	home_batters[x].append(0)
 	home_batters[x].append(0)
@@ -1748,9 +1636,12 @@ for x in range(9):
 	away_batters[x].append(0)
 	away_batters[x].append(0)
 
-#Sort array by batting average
+#Sort array by batting average to determine batting order
 home_batters = sorted(home_batters, key=lambda x: x[1], reverse=True)
 away_batters = sorted(away_batters, key=lambda x: x[1], reverse=True)
+
+###########################################################
+# Scrape top 9 batters and batting averages for specified team/year
 
 home_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
 away_pitchers = [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]], ]
@@ -1765,45 +1656,51 @@ home_pitchers_used = []
 away_pitchers_used = []
 
 
-#Scrape names and Earned Run Averages of top 12 pitchers
+# Scrape names and Earned Run Averages of top 12 pitchers
+# (Some extras because there are a variable number of blank/header lines mixed in)
 for x in range(12):
-	#Home
+	# Home
 	fullname = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
 	position = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[1]/descendant::strong/text()')
 	if str(fullname).strip("[],'") != "":
 		fname = str(fullname).partition(",")[2]
 		lname = str(fullname).partition(",")[0]
 		if str(position).strip("[],'") == "CL":
+			# Home closer detected
 			home_closer[0] = fname.strip("[],'") + " " + lname.strip("[],'")
 			era = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
 			home_closer[1] = float(str(era).strip("[]'"))
 			home_pitchers[x][0] = "_EMPTY_"
-		else: #Not Closer
+		else:
+			# Not closer
 			home_pitchers[x][0] = fname.strip("[],'") + " " + lname.strip("[],'")
 			era = home_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
 			home_pitchers[x][1] = float(str(era).strip("[]'"))
 	else:
+		# Blank/header line
 		home_pitchers[x][0] = "_EMPTY_"
 
-	#away
+	# Away
 	fullname = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[2]/@csk')
 	position = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[1]/descendant::strong/text()')
 	if str(fullname).strip("[],'") != "":
 		fname = str(fullname).partition(",")[2]
 		lname = str(fullname).partition(",")[0]
 		if str(position).strip("[],'") == "CL":
+			# Away closer detected
 			away_closer[0] = fname.strip("[],'") + " " + lname.strip("[],'")
 			era = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
 			away_closer[1] = float(str(era).strip("[]'"))
 			away_pitchers[x][0] = "_EMPTY_"
-		else: #Not Closer
+		else: # Not closer
 			away_pitchers[x][0] = fname.strip("[],'") + " " + lname.strip("[],'")
 			era = away_tree.xpath('//table[@id="team_pitching"]/tbody/tr[' + str(x+1) + ']/td[7]/text()')
 			away_pitchers[x][1] = float(str(era).strip("[]'"))
 	else:
+		# Blank/header line
 		away_pitchers[x][0] = "_EMPTY_"
 
-#For some reason, these loops need to be run twice each
+#For some reason, these loops need to be run twice each to remove empty array elements
 for x in home_pitchers:
 	if "_EMPTY_" in x:
 		home_pitchers.remove(x)
@@ -1817,33 +1714,35 @@ for x in away_pitchers:
 	if "_EMPTY_" in x:
 		away_pitchers.remove(x)
 
+# Pitchers 5 through 9 are relief pitchers
 for x in range (5,9):
 	home_relief_pitchers[x-5] = home_pitchers[x]
 	away_relief_pitchers[x-5] = away_pitchers[x]
 
-
+# Print sorterd batters for Home
 print("\nStarting lineup for the " + home_team + ":")
 wait()
 for x in home_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 	wait_short()
 
+#Print sorted batters for Away
 print("\nStarting lineup for the " + away_team + ":")
 wait()
 for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 	wait_short()
 
-#Generate starting pitchers
+#Choose a random starting pitcher for each team
 pitcher_rand = random.randint(0, 4)
 home_starting_pitcher = home_pitchers[pitcher_rand]
+current_home_pitcher = home_starting_pitcher
+
 pitcher_rand = random.randint(0, 4)
 away_starting_pitcher = away_pitchers[pitcher_rand]
-
-current_home_pitcher = home_starting_pitcher
 current_away_pitcher = away_starting_pitcher
 
-#For end-of-game box score
+#Keep track of what starting pitchers were used, for end-of-game box score
 home_pitchers_used.append(home_starting_pitcher)
 for x in range(10):
 	home_pitchers_used[-1].append(0)
@@ -1954,7 +1853,6 @@ while gameover == False: #main game loop
 				home_batters[current_home_batter][7] = home_batters[current_home_batter][7] + 1 #At-bat count for box score
 				away_pitchers_used[-1][7] = away_pitchers_used[-1][7] + 1
 			resetcount()
-			#next_batter()
 
 	elif pitch_result == "Strike":
 		if strikes <2: #Strike
@@ -1969,7 +1867,6 @@ while gameover == False: #main game loop
 			away_batters[current_away_batter][8] = away_batters[current_away_batter][8] + 1 #At-bat count for box score
 			home_pitchers_used[-1][8] = home_pitchers_used[-1][8] + 1
 			out(1)
-			#next_batter()
 
 		elif strikes ==2 and half_inning % 2 == 0: #Strikeout - home
 			pitching_animation()
@@ -1979,7 +1876,6 @@ while gameover == False: #main game loop
 			home_batters[current_home_batter][8] = home_batters[current_home_batter][8] + 1 #At-bat count for box score
 			away_pitchers_used[-1][8] = away_pitchers_used[-1][8] + 1
 			out(1)
-			#next_batter()
 
 	elif pitch_result == "Foul":
 		if strikes < 2: #Foul
@@ -2631,15 +2527,27 @@ while gameover == False: #main game loop
 		home_pitcher_pitch_count = home_pitcher_pitch_count + 1
 
 	if pitch_result == "Walk" or pitch_result == "Single" or pitch_result == "Double" or pitch_result == "Triple" or pitch_result == "Home run" or pitch_result == "Hit by pitch" or pitch_result == "Strikeout" or pitch_result == "Grounder" or pitch_result == "Fly" or pitch_result == "Sacrifice fly":
-		#at-bat is over
-		next_batter()
+		#At-bat is over
+		
+		#Determine and set who the next batter is
+		if half_inning % 2 == 0 and current_home_batter < 8:
+			current_home_batter = current_home_batter + 1
+		elif half_inning % 2 == 0 and current_home_batter == 8:
+			current_home_batter = 0
+		elif half_inning % 2 != 0 and current_away_batter < 8:
+			current_away_batter = current_away_batter + 1
+		elif half_inning % 2 != 0 and current_away_batter == 8:
+			current_away_batter = 0
+		
 		atbat_pitch_count = 1
+		
 		print ("")
 
 		if gameover == True:
 			break
 
 		check_if_pitching_change()
+		
 		status()
 
 	wait()
@@ -2857,10 +2765,6 @@ if home_total[6] > 0:
 else:
 	print(str(home_total[6]))
 
-print("")
-wait_short()
-print("")
-wait_short()
 print("")
 wait_short()
 print("Pitching")
