@@ -560,10 +560,10 @@ def format_era(era):
 	return era_string
 
 def wait(): #change these wait times to 0 for game to complete immediately
-	time.sleep(0) # default 2
+	time.sleep(2) # default 2
 
 def wait_short():
-	time.sleep(0) # default .5
+	time.sleep(.5) # default .5
 
 def calculate_pitch_outcome(pitch, redo_pitch):
 	
@@ -1309,7 +1309,7 @@ def pitching_change():
 			rand = random.randint(0, x-1)
 			current_home_pitcher = home_relief_pitchers[rand]
 			del home_relief_pitchers[rand]
-			home_pitcher_pitch_count = 0
+			home_pitcher_pitch_count = 1
 
 		home_pitchers_used.append(current_home_pitcher)		#Add pitcher to array for box score
 		for x in range(10): 								#Generate blank stats for box score
@@ -1339,7 +1339,7 @@ def pitching_change():
 			rand = random.randint(0, x-1)
 			current_away_pitcher = away_relief_pitchers[rand]
 			del away_relief_pitchers[rand]
-			away_pitcher_pitch_count = 0
+			away_pitcher_pitch_count = 1
 
 		away_pitchers_used.append(current_away_pitcher)		#Add pitcher to array for box score
 		for x in range(10):									#Generate blank stats for box score
@@ -1706,14 +1706,14 @@ for x in range (5,9):
 	away_relief_pitchers[x-5] = away_pitchers[x]
 
 # Print sorterd batters for Home
-print("\nStarting lineup for the " + home_team + ":")
+print("\nStarting lineup for the " + str(home_year) + " " + home_team + ":")
 wait()
 for x in home_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
 	wait_short()
 
 # Print sorted batters for Away
-print("\nStarting lineup for the " + away_team + ":")
+print("\nStarting lineup for the " + str(away_year) + " " + away_team + ":")
 wait()
 for x in away_batters:
 	print(x[0] + " - " + format_batting_average(x[1]))
