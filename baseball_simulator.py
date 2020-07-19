@@ -2266,7 +2266,7 @@ while gameover == False: # Main game loop
 			elif half_inning % 2 ==	0: # if bottom of inning
 				home_batters[current_home_batter][4] = home_batters[current_home_batter][4] + 1 #Hit count for box score
 				away_pitchers_used[-1][4] = away_pitchers_used[-1][4] + 1
-				resetcount()
+			resetcount()
 			pitch_result = "Double"
 		elif 94 <= rand <= 98: #Home run
 
