@@ -481,7 +481,7 @@ def now_batting():
 		home_batters[current_home_batter][2] = home_batters[current_home_batter][2] + 1 #Update at-bat count for box score
 	else:
 		print ("\033[1;93;40m" + str(away_batters[current_away_batter][0]) + 
-		"\033[0m is now batting for the " + away_team + ". " + str(home_year) + 
+		"\033[0m is now batting for the " + away_team + ". " + str(away_year) + 
 		" AVG: " + format_batting_average(away_batters[current_away_batter][1]))
 
 		away_batters[current_away_batter][2] = away_batters[current_away_batter][2] + 1 #Update at-bat count for box score
