@@ -1,17 +1,22 @@
-baseball_simulator is a Python program that simulates a complete baseball game.
+Baseball Simulator is a Python command-line program that simulates a complete 
+baseball game.
 
-For every pitch, a pseudorandom number from 1-100 is generated.
-The number determines the result of the pitch, using the following rules:
+The user is prompted to choose any two MLB teams, and the year for each team. 
+The program then scrapes player data from baseball-reference.com.
 
-1-35: Ball (35%)
-36-62: Strike (30%)
-67-76: Foul (10%)
-77-82: Ground out (6%)
-83-87: Fly out (5%)
-88-92: Single (5%)
-93-96: Double (4%)
-97-98: Home run (2%)
-99: Hit by pitch (1%)
-100: Triple (1%)
+The program attempts to be as accurate as possible to real-world outcomes. 
+Data from the following sources was used to refine the algorithms that 
+determine results:
 
-When the simulation is complete, the program will output the game stats, and also write them to a .txt file.
+https://www.baseball-reference.com/leagues/MLB/bat.shtml
+https://www.baseball-fever.com/forum/general-baseball/statistics-analysis-sabermetrics/81427-pitch-outcome-distribution-over-25-years
+https://www.baseballprospectus.com/news/article/8936/prospectus-idol-entry-grounding-home-run-hitters/
+
+For each at-bat, the program takes into account the batter's batting average, 
+the pitcher's earned run average, and the pitcher's pitch count to determine 
+whether the batter or pitcher has an edge, and how big of an edge. A player 
+with an edge over the other will be more likely to have a positive result for 
+each pitch, and that likelihood increases with larger edge percentages.
+
+At the end of each game, the program will output a box score, and give the 
+user the option to save the box score to a .txt file.
