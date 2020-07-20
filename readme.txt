@@ -1,6 +1,8 @@
 Baseball Simulator is a Python command-line program that simulates a complete 
 baseball game.
 
+Game demo: https://youtu.be/YLm9Nl_hyu4
+
 The user is prompted to choose any two MLB teams, and the year for each team. 
 The program then scrapes player data from baseball-reference.com.
 
