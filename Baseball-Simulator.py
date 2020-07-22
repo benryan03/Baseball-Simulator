@@ -35,11 +35,11 @@ earned_runs = 0
 
 
 def wait():  # Change these wait times to 0 for game to complete immediately
-	time.sleep(2)  # default 2
+	time.sleep(0)  # default 2
 
 
 def wait_short():
-	time.sleep(.5)  # default .5
+	time.sleep(0)  # default .5
 
 
 def batting_team():
@@ -245,7 +245,7 @@ def out(num):
 			if half_inning == 2:
 				print(
 					"\033[1;93;40m"
-					+ away_starting_pitcher[0]
+					+ starting_pitchers["away"][0]
 					+ "\033[0m is now pitching for the "
 					+ teams["away"]
 					+ "."
@@ -254,7 +254,7 @@ def out(num):
 				print(
 					str(years["away"])
 					+ " ERA: "
-					+ str(format_era(away_starting_pitcher[1]))
+					+ str(format_era(starting_pitchers["away"][1]))
 				)
 				wait()
 		elif (
@@ -546,130 +546,29 @@ def run(num):
 			gameover = True
 
 
-def check_if_pitching_change(): #Needs cleanup
+def check_if_pitching_change():
 
-	# Top half of inning
-	if (
-		half_inning % 2 != 0
-		and current_pitcher["home"][0] == home_starting_pitcher[0]
-		and pitch_count["home"] >= 100
-	):
+	if (current_pitcher[pitching_team()][0] == starting_pitchers[pitching_team()][0] and pitch_count[pitching_team()] >= 100):
 		# Starter is still in and has thrown 100 pitches
 		pitching_change()
-	elif (
-		half_inning % 2 != 0
-		and current_pitcher["home"][0] == home_starting_pitcher[0]
-		and half_inning >= 13
-	):
+	elif (current_pitcher[pitching_team()][0] == starting_pitchers[pitching_team()][0] and half_inning >= 13):
 		# Starter is still in and it is the top of the 7th inning
 		pitching_change()
-	elif (
-		half_inning % 2 != 0
-		and current_pitcher["home"][0] == home_starting_pitcher[0]
-		and away_score > 4
-	):
+	elif (current_pitcher[pitching_team()][0] == starting_pitchers[pitching_team()][0] and pitchers_used[pitching_team()][0][5] > 4):
 		# Starter is still in and has allowed more than 4 runs
 		pitching_change()
-	elif (
-		half_inning % 2 != 0
-		and current_pitcher["home"][0] != home_starting_pitcher[0]
-		and half_inning <= 9
-		and runs_in_current_inning > 2
-		and len(relief_pitchers["home"]) > 0
-	):
+	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning <= 9 and runs_in_current_inning > 2 and len(relief_pitchers[pitching_team()]) > 0):
 		# A reliever is in and has allowed more than 2 runs and it is before the 6th inning
 		pitching_change()
-	elif (
-		half_inning % 2 != 0
-		and current_pitcher["home"][0] != home_starting_pitcher[0]
-		and half_inning == 17
-		and current_pitcher["home"][0] != closers["home"]
-	):
+	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning == 17 and current_pitcher[pitching_team()][0] != closers[pitching_team()]):
 		# Top of 9th inning (Send in closer)
 		pitching_change()
-	elif (
-		half_inning % 2 != 0
-		and current_pitcher["home"][0] != home_starting_pitcher[0]
-		and half_inning > 9
-		and outs == 0
-		and on_base[1] == -1
-		and on_base[2] == -1
-		and on_base[3] == -1
-		and runs_in_current_inning == 0
-		and len(relief_pitchers["home"]) > 0
-	):
+	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning > 9 and outs == 0 and on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1 and runs_in_current_inning == 0 and len(relief_pitchers[pitching_team()]) > 0):
 		# A reliever is in and it is the start of an inning, 6th or later
 		pitching_change()
-	elif (
-		half_inning % 2 != 0
-		and current_pitcher["home"][0] != home_starting_pitcher[0]
-		and runs_in_current_inning > 2
-		and len(relief_pitchers["home"]) > 0
-	):
+	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and runs_in_current_inning > 2 and len(relief_pitchers[pitching_team()]) > 0):
 		# A reliever is in and has allowed more than 2 runs
 		pitching_change()
-
-	# Bottom half of inning
-	elif (
-		half_inning % 2 == 0
-		and current_pitcher["away"][0] == away_starting_pitcher[0]
-		and pitch_count["away"] >= 100
-	):
-		# Starter is still in and has thrown 100 pitches
-		pitching_change()
-	elif (
-		half_inning % 2 == 0
-		and current_pitcher["away"][0] == away_starting_pitcher[0]
-		and half_inning >= 14
-	):
-		# Starter is still in and it is the bottom of the 7th inning
-		pitching_change()
-	elif (
-		half_inning % 2 == 0
-		and current_pitcher["away"][0] == away_starting_pitcher[0]
-		and home_score > 4
-	):
-		# Starter is still in and has allowed more than 4 runs
-		pitching_change()
-	elif (
-		half_inning % 2 == 0
-		and current_pitcher["away"][0] != away_starting_pitcher[0]
-		and half_inning <= 10
-		and runs_in_current_inning > 2
-		and len(relief_pitchers["away"]) > 0
-	):
-		# A reliever is in and has allowed more than 2 runs and it is before the 6th inning
-		pitching_change()
-	elif (
-		half_inning % 2 == 0
-		and current_pitcher["away"][0] != away_starting_pitcher[0]
-		and half_inning == 17
-		and current_pitcher["away"][0] != closers["away"]
-	):
-		# Bottom of 9th inning (Send in closer)
-		pitching_change()
-	elif (
-		half_inning % 2 == 0
-		and current_pitcher["away"][0] != away_starting_pitcher[0]
-		and half_inning > 10
-		and outs == 0
-		and on_base[1] == -1
-		and on_base[2] == -1
-		and on_base[3] == -1
-		and runs_in_current_inning == 0
-		and len(relief_pitchers["away"]) > 0
-	):
-		# A reliever is in and it is the start of an inning, 6th or later
-		pitching_change()
-	elif (
-		half_inning % 2 == 0
-		and current_pitcher["away"][0] != away_starting_pitcher[0]
-		and runs_in_current_inning > 2
-		and len(relief_pitchers["away"]) > 0
-	):
-		# A reliever is in and has allowed more than 2 runs
-		pitching_change()
-
 
 def pitching_change(): #Needs cleanup
 	global relief_pitchers
@@ -1667,10 +1566,10 @@ teams = {"home": None, "away": None}
 abbrs = {"home": None, "away": None}
 years = {"home": None, "away": None}
 
-#teams = {"home": "Red Sox", "away": "Yankees"}
-#abbrs = {"home": "BOS", "away": "NYY"}
-#years = {"home": "2018", "away": "2018"}
-
+teams = {"home": "Red Sox", "away": "Yankees"}
+abbrs = {"home": "BOS", "away": "NYY"}
+years = {"home": "2018", "away": "2018"}
+"""
 home_team_error = True
 while home_team_error == True:
 	team = input("Enter the name of the home team: ")
@@ -1724,7 +1623,7 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
-
+"""
 print("")
 print("Loading players...")
 
@@ -1891,6 +1790,8 @@ pitchers = {"home":
 				]
 			}
 
+starting_pitchers = {"home": ["", 0], "away": ["", 0]}
+
 relief_pitchers = {"home": [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]]], "away": [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]]]}
 
 closers = {"home": ["", 0], "away": ["", 0]}
@@ -1998,19 +1899,19 @@ for x in batters["away"]:
 
 # Choose a random starting pitcher for each team
 pitcher_rand = random.randint(0, 4)
-home_starting_pitcher = pitchers["home"][pitcher_rand]
-current_pitcher["home"] = home_starting_pitcher
+starting_pitchers["home"] = pitchers["home"][pitcher_rand]
+current_pitcher["home"] = starting_pitchers["home"]
 
 pitcher_rand = random.randint(0, 4)
-away_starting_pitcher = pitchers["away"][pitcher_rand]
-current_pitcher["away"] = away_starting_pitcher
+starting_pitchers["away"] = pitchers["away"][pitcher_rand]
+current_pitcher["away"] = starting_pitchers["away"]
 
 # Keep track of what starting pitchers were used, for end-of-game box score
-pitchers_used["home"].append(home_starting_pitcher)
+pitchers_used["home"].append(starting_pitchers["home"])
 for x in range(10):
 	pitchers_used["home"][-1].append(0)
 
-pitchers_used["away"].append(away_starting_pitcher)
+pitchers_used["away"].append(starting_pitchers["away"])
 for x in range(10):
 	pitchers_used["away"][-1].append(0)
 
@@ -2023,13 +1924,13 @@ print("")
 wait()
 print(
 	"\033[1;93;40m"
-	+ home_starting_pitcher[0]
+	+ starting_pitchers["home"][0]
 	+ "\033[0m is now pitching for the "
 	+ teams["home"]
 	+ "."
 )
 wait()
-print(str(years["home"]) + " ERA: " + str(format_era(home_starting_pitcher[1])))
+print(str(years["home"]) + " ERA: " + str(format_era(starting_pitchers["home"][1])))
 wait()
 print()
 wait()
@@ -2546,15 +2447,15 @@ while gameover == False:  # Main game loop
 
 	if (
 		pitch_result == "Walk"
-		or "Single"
-		or "Double"
-		or "Triple"
-		or "Home run"
-		or "Hit by pitch"
-		or "Strikeout"
-		or "Grounder"
-		or "Fly"
-		or "Sacrifice fly"
+		or pitch_result == "Single"
+		or pitch_result == "Double"
+		or pitch_result == "Triple"
+		or pitch_result == "Home run"
+		or pitch_result == "Hit by pitch"
+		or pitch_result == "Strikeout"
+		or pitch_result == "Grounder"
+		or pitch_result == "Fly"
+		or pitch_result == "Sacrifice fly"
 	):
 		# At-bat is over
 
