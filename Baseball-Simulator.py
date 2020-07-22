@@ -76,12 +76,12 @@ def out(num):
 
         if outs <= 1:
             resetcount()
-            outs +=1
+            outs += 1
         elif outs == 2 and half_inning < 17:
             # before 9th inning, no win possible
             outs = 3
             wait()
-            half_inning +=1
+            half_inning += 1
             inning_status()
             outs = 0
             first = False
@@ -116,7 +116,7 @@ def out(num):
             outs = 3
             print("")
             wait()
-            half_inning +=1
+            half_inning += 1
             inning_status()
             outs = 0
             first = False
@@ -135,7 +135,7 @@ def out(num):
             outs = 3
             print("")
             wait()
-            half_inning +=1
+            half_inning += 1
             inning_status()
             outs = 0
             first = False
@@ -180,40 +180,40 @@ def run(num):  # Needs cleanup
     if half_inning % 2 != 0:  # Top half
         if num == 1:
             if runners_on_base[3] > -1:
-                away_batters[runners_on_base[3]][3] +=1
+                away_batters[runners_on_base[3]][3] += 1
                 runner1 = away_batters[runners_on_base[3]]
 
             elif runners_on_base[2] > -1:
-                away_batters[runners_on_base[2]][3] +=1
+                away_batters[runners_on_base[2]][3] += 1
                 runner1 = away_batters[runners_on_base[2]]
 
             elif runners_on_base[1] > -1:
-                away_batters[runners_on_base[1]][3] +=1
+                away_batters[runners_on_base[1]][3] += 1
 
             elif (
                 runners_on_base[3] == -1
                 and runners_on_base[2] == -1
                 and runners_on_base[1] == -1
             ):
-                away_batters[current_away_batter][3] +=1
+                away_batters[current_away_batter][3] += 1
                 runner1 = away_batters[current_away_batter]
 
         elif num == 2:
             if runners_on_base[3] > -1 and runners_on_base[2] > -1:
-                away_batters[runners_on_base[3]][3] +=1
-                away_batters[runners_on_base[2]][3] +=1
+                away_batters[runners_on_base[3]][3] += 1
+                away_batters[runners_on_base[2]][3] += 1
                 runner1 = away_batters[runners_on_base[3]]
                 runner2 = away_batters[runners_on_base[2]]
 
             elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
-                away_batters[runners_on_base[3]][3] +=1
-                away_batters[runners_on_base[1]][3] +=1
+                away_batters[runners_on_base[3]][3] += 1
+                away_batters[runners_on_base[1]][3] += 1
                 runner1 = away_batters[runners_on_base[3]]
                 runner2 = away_batters[runners_on_base[1]]
 
             elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
-                away_batters[runners_on_base[2]][3] +=1
-                away_batters[runners_on_base[1]][3] +=1
+                away_batters[runners_on_base[2]][3] += 1
+                away_batters[runners_on_base[1]][3] += 1
                 runner1 = away_batters[runners_on_base[2]]
                 runner2 = away_batters[runners_on_base[1]]
 
@@ -222,8 +222,8 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] == -1
                 and runners_on_base[1] == -1
             ):
-                away_batters[runners_on_base[3]][3] +=1
-                away_batters[current_away_batter][3] +=1
+                away_batters[runners_on_base[3]][3] += 1
+                away_batters[current_away_batter][3] += 1
                 runner1 = away_batters[runners_on_base[3]]
                 runner2 = away_batters[current_away_batter]
 
@@ -232,8 +232,8 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] > -1
                 and runners_on_base[1] == -1
             ):
-                away_batters[runners_on_base[2]][3] +=1
-                away_batters[current_away_batter][3] +=1
+                away_batters[runners_on_base[2]][3] += 1
+                away_batters[current_away_batter][3] += 1
                 runner1 = away_batters[runners_on_base[2]]
                 runner2 = away_batters[current_away_batter]
 
@@ -242,8 +242,8 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] == -1
                 and runners_on_base[1] > -1
             ):
-                away_batters[runners_on_base[1]][3] +=1
-                away_batters[current_away_batter][3] +=1
+                away_batters[runners_on_base[1]][3] += 1
+                away_batters[current_away_batter][3] += 1
                 runner1 = away_batters[runners_on_base[1]]
                 runner2 = away_batters[current_away_batter]
 
@@ -253,42 +253,42 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] > -1
                 and runners_on_base[1] > -1
             ):
-                away_batters[runners_on_base[3]][3] +=1
-                away_batters[runners_on_base[2]][3] +=1
-                away_batters[runners_on_base[1]][3] +=1
+                away_batters[runners_on_base[3]][3] += 1
+                away_batters[runners_on_base[2]][3] += 1
+                away_batters[runners_on_base[1]][3] += 1
                 runner1 = away_batters[runners_on_base[3]]
                 runner2 = away_batters[runners_on_base[2]]
                 runner3 = away_batters[runners_on_base[1]]
 
             elif runners_on_base[3] > -1 and runners_on_base[2] > -1:
-                away_batters[runners_on_base[3]][3] +=1
-                away_batters[runners_on_base[2]][3] +=1
-                away_batters[current_away_batter][3] +=1
+                away_batters[runners_on_base[3]][3] += 1
+                away_batters[runners_on_base[2]][3] += 1
+                away_batters[current_away_batter][3] += 1
                 runner1 = away_batters[runners_on_base[3]]
                 runner2 = away_batters[runners_on_base[2]]
                 runner3 = away_batters[current_away_batter]
 
             elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
-                away_batters[runners_on_base[3]][3] +=1
-                away_batters[runners_on_base[1]][3] +=1
-                away_batters[current_away_batter][3] +=1
+                away_batters[runners_on_base[3]][3] += 1
+                away_batters[runners_on_base[1]][3] += 1
+                away_batters[current_away_batter][3] += 1
                 runner1 = away_batters[runners_on_base[3]]
                 runner2 = away_batters[runners_on_base[1]]
                 runner3 = away_batters[current_away_batter]
 
             elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
-                away_batters[runners_on_base[2]][3] +=1
-                away_batters[runners_on_base[1]][3] +=1
-                away_batters[current_away_batter][3] +=1
+                away_batters[runners_on_base[2]][3] += 1
+                away_batters[runners_on_base[1]][3] += 1
+                away_batters[current_away_batter][3] += 1
                 runner1 = away_batters[runners_on_base[2]]
                 runner2 = away_batters[runners_on_base[1]]
                 runner3 = away_batters[current_away_batter]
 
         elif num == 4:
-            away_batters[runners_on_base[3]][3] +=1
-            away_batters[runners_on_base[2]][3] +=1
-            away_batters[runners_on_base[1]][3] +=1
-            away_batters[current_away_batter][3] +=1
+            away_batters[runners_on_base[3]][3] += 1
+            away_batters[runners_on_base[2]][3] += 1
+            away_batters[runners_on_base[1]][3] += 1
+            away_batters[current_away_batter][3] += 1
             runner1 = away_batters[runners_on_base[3]]
             runner2 = away_batters[runners_on_base[2]]
             runner3 = away_batters[runners_on_base[1]]
@@ -341,34 +341,34 @@ def run(num):  # Needs cleanup
     elif half_inning % 2 == 0:
         if num == 1:
             if runners_on_base[3] > -1:
-                home_batters[runners_on_base[3]][3] +=1
+                home_batters[runners_on_base[3]][3] += 1
                 runner1 = home_batters[runners_on_base[3]]
             elif runners_on_base[2] > -1:
-                home_batters[runners_on_base[2]][3] +=1
+                home_batters[runners_on_base[2]][3] += 1
                 runner1 = home_batters[runners_on_base[2]]
             elif runners_on_base[1] > -1:
-                home_batters[runners_on_base[1]][3] +=1
+                home_batters[runners_on_base[1]][3] += 1
             elif (
                 runners_on_base[3] == -1
                 and runners_on_base[2] == -1
                 and runners_on_base[1] == -1
             ):
-                home_batters[current_home_batter][3] +=1
+                home_batters[current_home_batter][3] += 1
                 runner1 = home_batters[current_home_batter]
         elif num == 2:
             if runners_on_base[3] > -1 and runners_on_base[2] > -1:
-                home_batters[runners_on_base[3]][3] +=1
-                home_batters[runners_on_base[2]][3] +=1
+                home_batters[runners_on_base[3]][3] += 1
+                home_batters[runners_on_base[2]][3] += 1
                 runner1 = home_batters[runners_on_base[3]]
                 runner2 = home_batters[runners_on_base[2]]
             elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
-                home_batters[runners_on_base[3]][3] +=1
-                home_batters[runners_on_base[1]][3] +=1
+                home_batters[runners_on_base[3]][3] += 1
+                home_batters[runners_on_base[1]][3] += 1
                 runner1 = home_batters[runners_on_base[3]]
                 runner2 = home_batters[runners_on_base[1]]
             elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
-                home_batters[runners_on_base[2]][3] +=1
-                home_batters[runners_on_base[1]][3] +=1
+                home_batters[runners_on_base[2]][3] += 1
+                home_batters[runners_on_base[1]][3] += 1
                 runner1 = home_batters[runners_on_base[2]]
                 runner2 = home_batters[runners_on_base[1]]
             elif (
@@ -376,8 +376,8 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] == -1
                 and runners_on_base[1] == -1
             ):
-                home_batters[runners_on_base[3]][3] +=1
-                home_batters[current_home_batter][3] +=1
+                home_batters[runners_on_base[3]][3] += 1
+                home_batters[current_home_batter][3] += 1
                 runner1 = home_batters[runners_on_base[3]]
                 runner2 = home_batters[current_home_batter]
             elif (
@@ -385,8 +385,8 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] > -1
                 and runners_on_base[1] == -1
             ):
-                home_batters[runners_on_base[2]][3] +=1
-                home_batters[current_home_batter][3] +=1
+                home_batters[runners_on_base[2]][3] += 1
+                home_batters[current_home_batter][3] += 1
                 runner1 = home_batters[runners_on_base[2]]
                 runner2 = home_batters[current_home_batter]
             elif (
@@ -394,8 +394,8 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] == -1
                 and runners_on_base[1] > -1
             ):
-                home_batters[runners_on_base[1]][3] +=1
-                home_batters[current_home_batter][3] +=1
+                home_batters[runners_on_base[1]][3] += 1
+                home_batters[current_home_batter][3] += 1
                 runner1 = home_batters[runners_on_base[1]]
                 runner2 = home_batters[current_home_batter]
         elif num == 3:
@@ -404,38 +404,38 @@ def run(num):  # Needs cleanup
                 and runners_on_base[2] > -1
                 and runners_on_base[1] > -1
             ):
-                home_batters[runners_on_base[3]][3] +=1
-                home_batters[runners_on_base[2]][3] +=1
-                home_batters[runners_on_base[1]][3] +=1
+                home_batters[runners_on_base[3]][3] += 1
+                home_batters[runners_on_base[2]][3] += 1
+                home_batters[runners_on_base[1]][3] += 1
                 runner1 = home_batters[runners_on_base[3]]
                 runner2 = home_batters[runners_on_base[2]]
                 runner3 = home_batters[runners_on_base[1]]
             elif runners_on_base[3] > -1 and runners_on_base[2] > -1:
-                home_batters[runners_on_base[3]][3] +=1
-                home_batters[runners_on_base[2]][3] +=1
-                home_batters[current_home_batter][3] +=1
+                home_batters[runners_on_base[3]][3] += 1
+                home_batters[runners_on_base[2]][3] += 1
+                home_batters[current_home_batter][3] += 1
                 runner1 = home_batters[runners_on_base[3]]
                 runner2 = home_batters[runners_on_base[2]]
                 runner3 = home_batters[current_home_batter]
             elif runners_on_base[3] > -1 and runners_on_base[1] > -1:
-                home_batters[runners_on_base[3]][3] +=1
-                home_batters[runners_on_base[1]][3] +=1
-                home_batters[current_home_batter][3] +=1
+                home_batters[runners_on_base[3]][3] += 1
+                home_batters[runners_on_base[1]][3] += 1
+                home_batters[current_home_batter][3] += 1
                 runner1 = home_batters[runners_on_base[3]]
                 runner2 = home_batters[runners_on_base[1]]
                 runner3 = home_batters[current_home_batter]
             elif runners_on_base[2] > -1 and runners_on_base[1] > -1:
-                home_batters[runners_on_base[2]][3] +=1
-                home_batters[runners_on_base[1]][3] +=1
-                home_batters[current_home_batter][3] +=1
+                home_batters[runners_on_base[2]][3] += 1
+                home_batters[runners_on_base[1]][3] += 1
+                home_batters[current_home_batter][3] += 1
                 runner1 = home_batters[runners_on_base[2]]
                 runner2 = home_batters[runners_on_base[1]]
                 runner3 = home_batters[current_home_batter]
         elif num == 4:
-            home_batters[runners_on_base[3]][3] +=1
-            home_batters[runners_on_base[2]][3] +=1
-            home_batters[runners_on_base[1]][3] +=1
-            home_batters[current_home_batter][3] +=1
+            home_batters[runners_on_base[3]][3] += 1
+            home_batters[runners_on_base[2]][3] += 1
+            home_batters[runners_on_base[1]][3] += 1
+            home_batters[current_home_batter][3] += 1
             runner1 = home_batters[runners_on_base[3]]
             runner2 = home_batters[runners_on_base[2]]
             runner3 = home_batters[runners_on_base[1]]
@@ -489,60 +489,68 @@ def run(num):  # Needs cleanup
     for x in range(num):
         if half_inning % 2 != 0:
             # run for away - line/box score
-            home_pitchers_used[-1][3] +=1
+            home_pitchers_used[-1][3] += 1
             inning = int((half_inning / 2) + 0.5)
             if len(away_score_by_inning) < inning:
                 away_score_by_inning.append(1)
             else:
-                away_score_by_inning[-1] +=1
+                away_score_by_inning[-1] += 1
 
             if earned_runs < 0:
-                earned_runs +=1
+                earned_runs += 1
             else:
-                home_pitchers_used[-1][5] +=1
+                home_pitchers_used[-1][5] += 1
 
         elif half_inning % 2 == 0:
             # run for home - line/box score
-            away_pitchers_used[-1][3] +=1
+            away_pitchers_used[-1][3] += 1
             inning = int((half_inning / 2) + 0.5)
             if len(home_score_by_inning) < inning:
                 home_score_by_inning.append(1)
             else:
-                home_score_by_inning[-1] +=1
+                home_score_by_inning[-1] += 1
 
             if earned_runs < 0:
-                earned_runs +=1
+                earned_runs += 1
             else:
-                away_pitchers_used[-1][5] +=1
+                away_pitchers_used[-1][5] += 1
 
         if half_inning < 18 and half_inning % 2 != 0:
             # normal innings - run for away
-            away_score +=1
-            runs_in_current_inning +=1  # For determining if there should be a pitching change
-            away_batters[current_away_batter][5] +=1 # RBI count for box score
+            away_score += 1
+            runs_in_current_inning += (
+                1  # For determining if there should be a pitching change
+            )
+            away_batters[current_away_batter][5] += 1  # RBI count for box score
             wait_short()
         elif half_inning < 18 and half_inning % 2 == 0:
             # normal innings - run for home
-            home_score +=1
-            runs_in_current_inning +=1 # For determining if there should be a pitching change
-            home_batters[current_home_batter][5] +=1 # RBI count for box score
+            home_score += 1
+            runs_in_current_inning += (
+                1  # For determining if there should be a pitching change
+            )
+            home_batters[current_home_batter][5] += 1  # RBI count for box score
             wait_short()
         elif half_inning >= 18 and half_inning % 2 != 0:
             # extra innings - run for away
-            away_score +=1
-            runs_in_current_inning +=1  # For determining if there should be a pitching change
-            away_batters[current_away_batter][5] +=1  # RBI count for box score
+            away_score += 1
+            runs_in_current_inning += (
+                1  # For determining if there should be a pitching change
+            )
+            away_batters[current_away_batter][5] += 1  # RBI count for box score
             wait_short()
         elif half_inning >= 18 and half_inning % 2 == 0 and away_score > home_score:
             # extra innings - run for home, no walkoff
-            home_score +=1
-            home_batters[current_home_batter][5] +=1  # RBI count for box score
-            runs_in_current_inning +=1  # For determining if there should be a pitching change
+            home_score += 1
+            home_batters[current_home_batter][5] += 1  # RBI count for box score
+            runs_in_current_inning += (
+                1  # For determining if there should be a pitching change
+            )
             wait_short()
         elif half_inning >= 18 and half_inning % 2 == 0 and away_score == home_score:
             # walkoff run!
-            home_score +=1
-            home_batters[current_home_batter][5] +=1  # RBI count for box score
+            home_score += 1
+            home_batters[current_home_batter][5] += 1  # RBI count for box score
             print("\033[1;30;102mWALKOFF for the " + home_team + "!\033[0m")
             wait()
             print("")
@@ -614,7 +622,7 @@ def now_batting():
             + format_batting_average(home_batters[current_home_batter][1])
         )
 
-        home_batters[current_home_batter][2] +=1 # Update at-bat count for box score
+        home_batters[current_home_batter][2] += 1  # Update at-bat count for box score
     else:
         print(
             "\033[1;93;40m"
@@ -627,7 +635,7 @@ def now_batting():
             + format_batting_average(away_batters[current_away_batter][1])
         )
 
-        away_batters[current_away_batter][2] +=1 # Update at-bat count for box score
+        away_batters[current_away_batter][2] += 1  # Update at-bat count for box score
 
     redo_pitch_loops = 0
 
@@ -736,7 +744,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):  # Do-over?
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -746,7 +754,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):  # Do-over?
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -756,7 +764,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):  # Do-over?
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -766,7 +774,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):  # Do-over?
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -776,7 +784,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):  # Do-over?
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -787,7 +795,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -797,7 +805,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -807,7 +815,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -817,7 +825,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -827,7 +835,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -838,7 +846,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -848,7 +856,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -858,7 +866,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -868,7 +876,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -878,7 +886,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -889,7 +897,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -899,7 +907,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -909,7 +917,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -919,7 +927,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -929,7 +937,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -940,7 +948,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -950,7 +958,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -960,7 +968,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -970,7 +978,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -980,7 +988,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -991,7 +999,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -1001,7 +1009,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1011,7 +1019,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -1021,7 +1029,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1031,7 +1039,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -1042,7 +1050,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -1052,7 +1060,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1062,7 +1070,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -1072,7 +1080,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1082,7 +1090,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -1093,7 +1101,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -1103,7 +1111,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1113,7 +1121,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -1123,7 +1131,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1133,7 +1141,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -1144,7 +1152,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -1154,7 +1162,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1164,7 +1172,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -1174,7 +1182,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1184,7 +1192,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -1195,7 +1203,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -1205,7 +1213,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1215,7 +1223,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -1225,7 +1233,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1235,7 +1243,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -1246,7 +1254,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -1256,7 +1264,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1266,7 +1274,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -1276,7 +1284,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1286,7 +1294,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -1297,7 +1305,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball"
@@ -1307,7 +1315,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1316,7 +1324,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Foul"
@@ -1326,7 +1334,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Strike"
@@ -1336,7 +1344,7 @@ def calculate_pitch_outcome(pitch, redo_pitch):
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     return calculate_pitch_outcome(pitch, True)
                 else:
                     return "Ball_in_play"
@@ -2284,7 +2292,7 @@ while gameover == False:  # Main game loop
 
     if pitch_result == "Ball":
         if balls < 3:
-            balls +=1
+            balls += 1
             pitching_animation()
             print("Ball. (" + str(balls) + " - " + str(strikes) + ")")
 
@@ -2353,16 +2361,16 @@ while gameover == False:  # Main game loop
                     runners_on_base[2] = runners_on_base[1]
                     runners_on_base[1] = current_home_batter
             if half_inning % 2 != 0:  # if top of inning
-                away_batters[current_away_batter][7] +=1  # At-bat count for box score
-                home_pitchers_used[-1][7] +=1
+                away_batters[current_away_batter][7] += 1  # At-bat count for box score
+                home_pitchers_used[-1][7] += 1
             elif half_inning % 2 == 0:  # if bottom of inning
-                home_batters[current_home_batter][7] +=1  # At-bat count for box score
-                away_pitchers_used[-1][7] +=1
+                home_batters[current_home_batter][7] += 1  # At-bat count for box score
+                away_pitchers_used[-1][7] += 1
             resetcount()
 
     elif pitch_result == "Strike":
         if strikes < 2:  # Strike
-            strikes +=1
+            strikes += 1
             pitching_animation()
             print("Strike. (" + str(balls) + " - " + str(strikes) + ")")
 
@@ -2370,8 +2378,8 @@ while gameover == False:  # Main game loop
             pitching_animation()
             print("\033[1;97;101mSTRIKEOUT!\033[0m")
             pitch_result = "Strikeout"
-            away_batters[current_away_batter][8] +=1  # At-bat count for box score
-            home_pitchers_used[-1][8] +=1
+            away_batters[current_away_batter][8] += 1  # At-bat count for box score
+            home_pitchers_used[-1][8] += 1
             out(1)
 
         elif strikes == 2 and half_inning % 2 == 0:  # Strikeout - home
@@ -2379,13 +2387,13 @@ while gameover == False:  # Main game loop
             print("\033[1;97;101mSTRIKEOUT!\033[0m")
             # print ("STRIKEOUT!")
             pitch_result = "Strikeout"
-            home_batters[current_home_batter][8] +=1 # At-bat count for box score
-            away_pitchers_used[-1][8] +=1
+            home_batters[current_home_batter][8] += 1  # At-bat count for box score
+            away_pitchers_used[-1][8] += 1
             out(1)
 
     elif pitch_result == "Foul":
         if strikes < 2:  # Foul
-            strikes +=1
+            strikes += 1
             pitching_animation()
             print("Foul. (" + str(balls) + " - " + str(strikes) + ")")
 
@@ -2401,7 +2409,7 @@ while gameover == False:  # Main game loop
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     continue
                 else:
                     pitch_result = "Fly"
@@ -2505,7 +2513,7 @@ while gameover == False:  # Main game loop
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     continue
                 else:
                     pitch_result = "Grounder"
@@ -2593,7 +2601,7 @@ while gameover == False:  # Main game loop
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     continue
                 else:
                     pitch_result = "Single"
@@ -2685,11 +2693,11 @@ while gameover == False:  # Main game loop
                     runners_on_base[1] = current_home_batter
 
             if half_inning % 2 != 0:  # if top of inning
-                away_batters[current_away_batter][4] +=1 # Hit count for box score
-                home_pitchers_used[-1][4] +=1
+                away_batters[current_away_batter][4] += 1  # Hit count for box score
+                home_pitchers_used[-1][4] += 1
             elif half_inning % 2 == 0:  # if bottom of inning
-                home_batters[current_home_batter][4] +=1 # Hit count for box score
-                away_pitchers_used[-1][4] +=1
+                home_batters[current_home_batter][4] += 1  # Hit count for box score
+                away_pitchers_used[-1][4] += 1
 
             resetcount()
             pitch_result = "Single"
@@ -2698,7 +2706,7 @@ while gameover == False:  # Main game loop
             if edge_pos == "Pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     continue
                 else:
                     pitch_result = "Double"
@@ -2781,11 +2789,11 @@ while gameover == False:  # Main game loop
                     runners_on_base[2] = current_home_batter
                     runners_on_base[1] = -1
             if half_inning % 2 != 0:  # if top of inning
-                away_batters[current_away_batter][4] +=1  # Hit count for box score
-                home_pitchers_used[-1][4] +=1
+                away_batters[current_away_batter][4] += 1  # Hit count for box score
+                home_pitchers_used[-1][4] += 1
             elif half_inning % 2 == 0:  # if bottom of inning
-                home_batters[current_home_batter][4] +=1  # Hit count for box score
-                away_pitchers_used[-1][4] +=1
+                home_batters[current_home_batter][4] += 1  # Hit count for box score
+                away_pitchers_used[-1][4] += 1
             resetcount()
             pitch_result = "Double"
         elif 94 <= rand <= 98:  # Home run
@@ -2793,7 +2801,7 @@ while gameover == False:  # Main game loop
             if edge_pos == "pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     continue
                 else:
                     pitch_result = "Home run"
@@ -2832,15 +2840,15 @@ while gameover == False:  # Main game loop
                 third = False
                 run(3)
             if half_inning % 2 != 0:  # if top of inning
-                away_batters[current_away_batter][4] +=1  # Hit count for box score
-                away_batters[current_away_batter][6] +=1  # HR count for box score
-                home_pitchers_used[-1][4] +=1
-                home_pitchers_used[-1][6] +=1
+                away_batters[current_away_batter][4] += 1  # Hit count for box score
+                away_batters[current_away_batter][6] += 1  # HR count for box score
+                home_pitchers_used[-1][4] += 1
+                home_pitchers_used[-1][6] += 1
             elif half_inning % 2 == 0:  # if bottom of inning
-                home_batters[current_home_batter][4] +=1  # Hit count for box score
-                home_batters[current_home_batter][6] +=1  # HR count for box score
-                away_pitchers_used[-1][4] +=1
-                away_pitchers_used[-1][6] +=1
+                home_batters[current_home_batter][4] += 1  # Hit count for box score
+                home_batters[current_home_batter][6] += 1  # HR count for box score
+                away_pitchers_used[-1][4] += 1
+                away_pitchers_used[-1][6] += 1
 
             resetcount()
             pitch_result = "Home run"
@@ -2853,7 +2861,7 @@ while gameover == False:  # Main game loop
             if edge_pos == "pitcher":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     continue
                 else:
                     pitch_result = "Hit by pitch"
@@ -2929,7 +2937,7 @@ while gameover == False:  # Main game loop
             if edge_pos == "Batter":
                 rand = random.randint(1, 100)
                 if 1 <= rand <= round(margin, 0):
-                    redo_pitch_loops +=1
+                    redo_pitch_loops += 1
                     continue
                 else:
                     pitch_result = "Triple"
@@ -3016,21 +3024,21 @@ while gameover == False:  # Main game loop
                     runners_on_base[3] = current_away_batter
                     runners_on_base[1] = -1
             if half_inning % 2 != 0:  # if top of inning
-                away_batters[current_away_batter][4] +=1  # Hit count for box score
-                home_pitchers_used[-1][4] +=1
+                away_batters[current_away_batter][4] += 1  # Hit count for box score
+                home_pitchers_used[-1][4] += 1
             elif half_inning % 2 == 0:  # if bottom of inning
-                home_batters[current_home_batter][4] +=1  # Hit count for box score
-                away_pitchers_used[-1][4] +=1
+                home_batters[current_home_batter][4] += 1  # Hit count for box score
+                away_pitchers_used[-1][4] += 1
             resetcount()
             pitch_result = "Triple"
 
-    atbat_pitch_count +=1
+    atbat_pitch_count += 1
     redo_pitch_loops = 0
 
     if half_inning % 2 == 0:
-        away_pitcher_pitch_count +=1
+        away_pitcher_pitch_count += 1
     else:
-        home_pitcher_pitch_count +=1
+        home_pitcher_pitch_count += 1
 
     if (
         pitch_result == "Walk"
@@ -3048,11 +3056,11 @@ while gameover == False:  # Main game loop
 
         # Determine and set who the next batter is
         if half_inning % 2 == 0 and current_home_batter < 8:
-            current_home_batter +=1
+            current_home_batter += 1
         elif half_inning % 2 == 0 and current_home_batter == 8:
             current_home_batter = 0
         elif half_inning % 2 != 0 and current_away_batter < 8:
-            current_away_batter +=1
+            current_away_batter += 1
         elif half_inning % 2 != 0 and current_away_batter == 8:
             current_away_batter = 0
 
