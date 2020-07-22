@@ -307,7 +307,7 @@ def out(num):
 			gameover = True
 
 
-def run(num):
+def run(num): #Needs cleanup
 	global away_score
 	global home_score
 	global gameover
@@ -322,111 +322,102 @@ def run(num):
 	runner4 = None
 
 	# Determine and who scored the runs, and update their Run stats for box score
-	if num == 1: # 1 run scored
-		if on_base[3] > -1: # Scoring runner was on third
-			batters[batting_team()][on_base[3]][3] += 1
-			runner1 = batters[batting_team()][on_base[3]]
+	if num == 1 and on_base[3] > -1:
+		# 1 run scored from third
+		batters[batting_team()][on_base[3]][3] += 1
+		runner1 = batters[batting_team()][on_base[3]]
 
-		elif on_base[2] > -1: # Scoring runner was on second
-			batters[batting_team()][on_base[2]][3] += 1
-			runner1 = batters[batting_team()][on_base[2]]
+	elif num == 1 and on_base[2] > -1:
+		# 1 run scored from second
+		batters[batting_team()][on_base[2]][3] += 1
+		runner1 = batters[batting_team()][on_base[2]]
 
-		elif on_base[1] > -1: # Scoring runner was on first
-			batters[batting_team()][on_base[1]][3] += 1
+	elif num == 1 and on_base[1] > -1:
+		# 1 run scored from first
+		batters[batting_team()][on_base[1]][3] += 1
 
-		elif (
-			on_base[3] == -1
-			and on_base[2] == -1
-			and on_base[1] == -1
-		): # Solo home run
-			batters[batting_team()][current_batter[batting_team()]][3] += 1
-			runner1 = batters[batting_team()][current_batter[batting_team()]]
+	elif num == 1 and (on_base[3] == -1 and on_base[2] == -1 and on_base[1] == -1):
+		# Solo home run
+		batters[batting_team()][current_batter[batting_team()]][3] += 1
+		runner1 = batters[batting_team()][current_batter[batting_team()]]
 
-	elif num == 2: # 2 runs scored
-		if on_base[3] > -1 and on_base[2] > -1: # Runners scored from second and third
-			batters[batting_team()][on_base[3]][3] += 1
-			batters[batting_team()][on_base[2]][3] += 1
-			runner1 = batters[batting_team()][on_base[3]]
-			runner2 = batters[batting_team()][on_base[2]]
+	elif num == 2 and on_base[3] > -1 and on_base[2] > -1:
+		# 2 runs scored from second and third
+		batters[batting_team()][on_base[3]][3] += 1
+		batters[batting_team()][on_base[2]][3] += 1
+		runner1 = batters[batting_team()][on_base[3]]
+		runner2 = batters[batting_team()][on_base[2]]
 
-		elif on_base[3] > -1 and on_base[1] > -1: # Runners scored from first and third
-			batters[batting_team()][on_base[3]][3] += 1
-			batters[batting_team()][on_base[1]][3] += 1
-			runner1 = batters[batting_team()][on_base[3]]
-			runner2 = batters[batting_team()][on_base[1]]
+	elif num == 2 and on_base[3] > -1 and on_base[1] > -1:
+		# 2 runs scored from first and third
+		batters[batting_team()][on_base[3]][3] += 1
+		batters[batting_team()][on_base[1]][3] += 1
+		runner1 = batters[batting_team()][on_base[3]]
+		runner2 = batters[batting_team()][on_base[1]]
 
-		elif on_base[2] > -1 and on_base[1] > -1: # Runners scored from first and second
-			batters[batting_team()][on_base[2]][3] += 1
-			batters[batting_team()][on_base[1]][3] += 1
-			runner1 = batters[batting_team()][on_base[2]]
-			runner2 = batters[batting_team()][on_base[1]]
+	elif num == 2 and on_base[2] > -1 and on_base[1] > -1:
+		# 2 runs scored from first and second
+		batters[batting_team()][on_base[2]][3] += 1
+		batters[batting_team()][on_base[1]][3] += 1
+		runner1 = batters[batting_team()][on_base[2]]
+		runner2 = batters[batting_team()][on_base[1]]
 
-		elif (
-			on_base[3] > -1
-			and on_base[2] == -1
-			and on_base[1] == -1
-		): # 2 run HR with runner on third
-			batters[batting_team()][on_base[3]][3] += 1
-			batters[batting_team()][current_batter[batting_team()]][3] += 1
-			runner1 = batters[batting_team()][on_base[3]]
-			runner2 = batters[batting_team()][current_batter[batting_team()]]
+	elif num == 2 and (on_base[3] > -1 and on_base[2] == -1 and on_base[1] == -1):
+		# 2 run HR with runner on third
+		batters[batting_team()][on_base[3]][3] += 1
+		batters[batting_team()][current_batter[batting_team()]][3] += 1
+		runner1 = batters[batting_team()][on_base[3]]
+		runner2 = batters[batting_team()][current_batter[batting_team()]]
 
-		elif (
-			on_base[3] == -1
-			and on_base[2] > -1
-			and on_base[1] == -1
-		): # 2 run HR with runner on second
-			batters[batting_team()][on_base[2]][3] += 1
-			batters[batting_team()][current_batter[batting_team()]][3] += 1
-			runner1 = batters[batting_team()][on_base[2]]
-			runner2 = batters[batting_team()][current_batter[batting_team()]]
+	elif num == 2 and (on_base[3] == -1 and on_base[2] > -1 and on_base[1] == -1):
+		# 2 run HR with runner on second
+		batters[batting_team()][on_base[2]][3] += 1
+		batters[batting_team()][current_batter[batting_team()]][3] += 1
+		runner1 = batters[batting_team()][on_base[2]]
+		runner2 = batters[batting_team()][current_batter[batting_team()]]
 
-		elif (
-			on_base[3] == -1
-			and on_base[2] == -1
-			and on_base[1] > -1
-		): # 2 run HR with runner on first
-			batters[batting_team()][on_base[1]][3] += 1
-			batters[batting_team()][current_batter[batting_team()]][3] += 1
-			runner1 = batters[batting_team()][on_base[1]]
-			runner2 = batters[batting_team()][current_batter[batting_team()]]
+	elif num == 2 and (on_base[3] == -1 and on_base[2] == -1 and on_base[1] > -1):
+		# 2 run HR with runner on first
+		batters[batting_team()][on_base[1]][3] += 1
+		batters[batting_team()][current_batter[batting_team()]][3] += 1
+		runner1 = batters[batting_team()][on_base[1]]
+		runner2 = batters[batting_team()][current_batter[batting_team()]]
 
-	elif num == 3: # 3 runs scored
-		if (
-			on_base[3] > -1
-			and on_base[2] > -1
-			and on_base[1] > -1
-		): # Runs scored from first, second, and third
-			batters[batting_team()][on_base[3]][3] += 1
-			batters[batting_team()][on_base[2]][3] += 1
-			batters[batting_team()][on_base[1]][3] += 1
-			runner1 = batters[batting_team()][on_base[3]]
-			runner2 = batters[batting_team()][on_base[2]]
-			runner3 = batters[batting_team()][on_base[1]]
+	elif num == 3 and (on_base[3] > -1 and on_base[2] > -1 and on_base[1] > -1):
+		# 3 runs scored from first, second, and third
+		batters[batting_team()][on_base[3]][3] += 1
+		batters[batting_team()][on_base[2]][3] += 1
+		batters[batting_team()][on_base[1]][3] += 1
+		runner1 = batters[batting_team()][on_base[3]]
+		runner2 = batters[batting_team()][on_base[2]]
+		runner3 = batters[batting_team()][on_base[1]]
 
-		elif on_base[3] > -1 and on_base[2] > -1: # 3 run HR, runners on second and third
-			batters[batting_team()][on_base[3]][3] += 1
-			batters[batting_team()][on_base[2]][3] += 1
-			batters[batting_team()][current_batter[batting_team()]][3] += 1
-			runner1 = batters[batting_team()][on_base[3]]
-			runner2 = batters[batting_team()][on_base[2]]
-			runner3 = batters[batting_team()][current_batter[batting_team()]]
+	elif num == 3 and on_base[3] > -1 and on_base[2] > -1:
+		# 3 run HR, runners on second and third
+		batters[batting_team()][on_base[3]][3] += 1
+		batters[batting_team()][on_base[2]][3] += 1
+		batters[batting_team()][current_batter[batting_team()]][3] += 1
+		runner1 = batters[batting_team()][on_base[3]]
+		runner2 = batters[batting_team()][on_base[2]]
+		runner3 = batters[batting_team()][current_batter[batting_team()]]
 
-		elif on_base[3] > -1 and on_base[1] > -1: # 3 run HR, runners on first and third
-			batters[batting_team()][on_base[3]][3] += 1
-			batters[batting_team()][on_base[1]][3] += 1
-			batters[batting_team()][current_batter[batting_team()]][3] += 1
-			runner1 = batters[batting_team()][on_base[3]]
-			runner2 = batters[batting_team()][on_base[1]]
-			runner3 = batters[batting_team()][current_batter[batting_team()]]
+	elif num == 3 and on_base[3] > -1 and on_base[1] > -1:
+		# 3 run HR, runners on first and third
+		batters[batting_team()][on_base[3]][3] += 1
+		batters[batting_team()][on_base[1]][3] += 1
+		batters[batting_team()][current_batter[batting_team()]][3] += 1
+		runner1 = batters[batting_team()][on_base[3]]
+		runner2 = batters[batting_team()][on_base[1]]
+		runner3 = batters[batting_team()][current_batter[batting_team()]]
 
-		elif on_base[2] > -1 and on_base[1] > -1: # 3 run HR, runners on first and second
-			batters[batting_team()][on_base[2]][3] += 1
-			batters[batting_team()][on_base[1]][3] += 1
-			batters[batting_team()][current_batter[batting_team()]][3] += 1
-			runner1 = batters[batting_team()][on_base[2]]
-			runner2 = batters[batting_team()][on_base[1]]
-			runner3 = batters[batting_team()][current_batter[batting_team()]]
+	elif num == 3 and on_base[2] > -1 and on_base[1] > -1:
+		# 3 run HR, runners on first and second
+		batters[batting_team()][on_base[2]][3] += 1
+		batters[batting_team()][on_base[1]][3] += 1
+		batters[batting_team()][current_batter[batting_team()]][3] += 1
+		runner1 = batters[batting_team()][on_base[2]]
+		runner2 = batters[batting_team()][on_base[1]]
+		runner3 = batters[batting_team()][current_batter[batting_team()]]
 
 	elif num == 4: # Grand slam
 		batters[batting_team()][on_base[3]][3] += 1
@@ -560,7 +551,7 @@ def check_if_pitching_change():
 	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning <= 9 and runs_in_current_inning > 2 and len(relief_pitchers[pitching_team()]) > 0):
 		# A reliever is in and has allowed more than 2 runs and it is before the 6th inning
 		pitching_change()
-	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning == 17 and current_pitcher[pitching_team()][0] != closers[pitching_team()]):
+	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and current_pitcher[pitching_team()][0] != closers[pitching_team()][0] and (half_inning == 17 or half_inning == 18)):
 		# Top of 9th inning (Send in closer)
 		pitching_change()
 	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning > 9 and outs == 0 and on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1 and runs_in_current_inning == 0 and len(relief_pitchers[pitching_team()]) > 0):
@@ -570,6 +561,7 @@ def check_if_pitching_change():
 		# A reliever is in and has allowed more than 2 runs
 		pitching_change()
 
+
 def pitching_change(): #Needs cleanup
 	global relief_pitchers
 	global current_pitcher
@@ -577,7 +569,6 @@ def pitching_change(): #Needs cleanup
 	global runs_in_current_inning
 	global earned_runs
 
-	# For determining if there should be a pitching change
 	runs_in_current_inning = 0
 
 	# Used for Earned Runs in box score
