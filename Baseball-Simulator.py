@@ -49,7 +49,7 @@ def batting_team():
 		return "away"
 
 
-def current_pitching_team():
+def pitching_team():
 	if half_inning % 2 == 0:
 		return "away"
 	else:
@@ -133,9 +133,9 @@ def format_era(era):
 def pitching_animation():
 	print(
 		"\033[1;30;40mPitch "
-		+ str(pitch_count[current_pitching_team()])
+		+ str(pitch_count[pitching_team()])
 		+ " ("
-		+ current_pitcher[current_pitching_team()][0]
+		+ current_pitcher[pitching_team()][0]
 		+ ") \033[0m",
 		end = "",
 		flush=True,
@@ -187,10 +187,10 @@ def now_batting():
 
 	# Determine edge
 	avg = batters[batting_team()][current_batter[batting_team()]][1]
-	era = current_pitcher[current_pitching_team()][1]
+	era = current_pitcher[pitching_team()][1]
 
 	x = avg / 0.250
-	y = (2 - (era / 4)) - (pitch_count[current_pitching_team()] * 0.005)
+	y = (2 - (era / 4)) - (pitch_count[pitching_team()] * 0.005)
 
 	if x > y:
 		# Batter has edge
@@ -200,7 +200,7 @@ def now_batting():
 
 	elif x <= y:
 		# Pitcher has edge
-		edge = current_pitcher[current_pitching_team()][0]
+		edge = current_pitcher[pitching_team()][0]
 		edge_pos = "Pitcher"
 		margin = y - x
 		
@@ -772,8 +772,8 @@ def inning_status():
 
 	# Update line score for end-of-game stats
 	prev_half_inning = half_inning - 1
-	if len(score_by_inning[current_pitching_team()]) < prev_half_inning - 1:
-		score_by_inning[current_pitching_team()].append(0)
+	if len(score_by_inning[pitching_team()]) < prev_half_inning - 1:
+		score_by_inning[pitching_team()].append(0)
 
 	# This will be accurate until the 21st inning - will fix eventually
 	if half_inning == 1 or half_inning == 2:
@@ -1891,7 +1891,6 @@ pitchers = {"home":
 				]
 			}
 
-
 relief_pitchers = {"home": [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]]], "away": [[[""], [0]], [[""], [0]], [[""], [0]], [[""], [0]]]}
 
 closers = {"home": ["", 0], "away": ["", 0]}
@@ -2090,7 +2089,7 @@ while gameover == False:  # Main game loop
 			on_base[1] = current_batter[batting_team()]
 
 		batters[batting_team()][current_batter[batting_team()]][7] += 1  # Batter walk count for box score
-		pitchers_used[current_pitching_team()][-1][7] += 1 # Pitcher walk count for box score
+		pitchers_used[pitching_team()][-1][7] += 1 # Pitcher walk count for box score
 
 		resetcount()
 
@@ -2104,7 +2103,7 @@ while gameover == False:  # Main game loop
 		print("\033[1;97;101mSTRIKEOUT!\033[0m")
 		pitch_result = "Strikeout"
 		batters[batting_team()][current_batter[batting_team()]][8] += 1  # Batter strikeout count for box score
-		pitchers_used[current_pitching_team()][-1][8] += 1 # Pitcher strikeout count for box score
+		pitchers_used[pitching_team()][-1][8] += 1 # Pitcher strikeout count for box score
 		out(1)
 
 	elif pitch_result == "Foul" and strikes < 2: # Foul
@@ -2349,7 +2348,7 @@ while gameover == False:  # Main game loop
 				on_base[1] = current_batter[batting_team()]
 
 			batters[batting_team()][current_batter[batting_team()]][4] += 1  # Batter hit count for box score
-			pitchers_used[current_pitching_team()][-1][4] += 1 # Pitcher hit count for box score
+			pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box score
 
 			resetcount()
 			pitch_result = "Single"
@@ -2400,7 +2399,7 @@ while gameover == False:  # Main game loop
 				on_base[1] = -1
 
 			batters[batting_team()][current_batter[batting_team()]][4] += 1  # Batter hit count for box score
-			pitchers_used[current_pitching_team()][-1][4] += 1 # Pitcher hit count for box score
+			pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box score
 
 			resetcount()
 			pitch_result = "Double"
@@ -2439,8 +2438,8 @@ while gameover == False:  # Main game loop
 
 			batters[batting_team()][current_batter[batting_team()]][4] += 1  # Hit count for box score
 			batters[batting_team()][current_batter[batting_team()]][6] += 1  # HR count for box score
-			pitchers_used[current_pitching_team()][-1][4] += 1 # Pitcher hit count for box scoure
-			pitchers_used[current_pitching_team()][-1][6] += 1 # Pitcher HR count for box score
+			pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box scoure
+			pitchers_used[pitching_team()][-1][6] += 1 # Pitcher HR count for box score
 
 			resetcount()
 			pitch_result = "Home run"
@@ -2536,26 +2535,26 @@ while gameover == False:  # Main game loop
 				on_base[1] = -1
 
 				batters[batting_team()][current_batter[batting_team()]][4] += 1  # Batter hit count for box score
-				pitchers_used[current_pitching_team()][-1][4] += 1 # Pitcher hit count for box score
+				pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box score
 
 			resetcount()
 			pitch_result = "Triple"
 
 	atbat_pitch_count += 1
 	redo_pitch_loops = 0
-	pitch_count[current_pitching_team()] += 1
+	pitch_count[pitching_team()] += 1
 
 	if (
 		pitch_result == "Walk"
-		or pitch_result == "Single"
-		or pitch_result == "Double"
-		or pitch_result == "Triple"
-		or pitch_result == "Home run"
-		or pitch_result == "Hit by pitch"
-		or pitch_result == "Strikeout"
-		or pitch_result == "Grounder"
-		or pitch_result == "Fly"
-		or pitch_result == "Sacrifice fly"
+		or "Single"
+		or "Double"
+		or "Triple"
+		or "Home run"
+		or "Hit by pitch"
+		or "Strikeout"
+		or "Grounder"
+		or "Fly"
+		or "Sacrifice fly"
 	):
 		# At-bat is over
 
