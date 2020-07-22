@@ -34,12 +34,12 @@ on_base = [-1, -1, -1, -1]
 earned_runs = 0
 
 
-def wait():  # Change these wait times to 0 for game to complete immediately
-	time.sleep(0)  # default 2
+def wait():  # Change both wait times to 0 for game to complete immediately
+	time.sleep(2)  # default 2
 
 
 def wait_short():
-	time.sleep(0)  # default .5
+	time.sleep(.5)  # default .5
 
 
 def batting_team():
@@ -264,13 +264,6 @@ def out(num):
 			strikes = 0
 		else:
 			# Game over
-
-			# This fixes a bug where sometimes the top of the 9th would not be shown in the line score
-			if (half_inning % 2 != 0 and home_score > away_score and len(score_by_inning["away"]) == len(score_by_inning["home"])):
-				# Previous half inning was top
-				if len(score_by_inning["away"]) < half_inning - 1:
-					score_by_inning["away"].append(0)
-
 			gameover = True
 
 
@@ -526,12 +519,11 @@ def pitching_change():
 
 
 def inning_status():
-	global half_inning
 
 	# Update line score for end-of-game stats
 	prev_half_inning = half_inning - 1
-	if len(score_by_inning[pitching_team()]) < prev_half_inning - 1:
-		score_by_inning[pitching_team()].append(0)
+	if len(score_by_inning[batting_team()]) < prev_half_inning - 1:
+		score_by_inning[batting_team()].append(0)
 
 	# This will be accurate until the 21st inning - will fix eventually
 	if half_inning == 1 or half_inning == 2:
@@ -562,7 +554,6 @@ def inning_status():
 	print("------------------------------------")
 	print("")
 	wait()
-
 
 def parse_input(input_team):
 
@@ -2391,6 +2382,12 @@ wait_short()
 
 ###########################################################
 ##Line score
+
+if away_score > home_score:
+	# Away won
+	if len(score_by_inning["home"]) < len(score_by_inning["away"]):
+		score_by_inning["home"].append(0)
+
 print(abbrs["away"]  + " ", end="")
 #for x in away_score_by_inning:
 for x in score_by_inning["away"]:
