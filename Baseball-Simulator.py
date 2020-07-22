@@ -394,7 +394,6 @@ def run(num):
 		runners[3] = batters[batting_team()][current_batter[batting_team()]]
 
 	# Print who scored the runs
-	print(str(runners))
 	for x in range(3):
 		if runners[x] != None:
 			wait()
@@ -1891,86 +1890,75 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Fly"
 
+			pitching_animation()
+			ball_in_play_animation()
+
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Bases empty
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runner on first
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runner on and second, less than 2 outs
 				print("\033[1;30;103mFLY OUT! RUNNER ADVANCED.\033[0m")
 				out(1)
 				on_base[3] = on_base[2]
 				on_base[2] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and second, 2 outs
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				#Runner on third, less than 2 outs
 				print("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				out(1)
 				run(1)
 				on_base[3] = -1
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runner on third, 2 outs
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and second, less than 2 outs
 				print("\033[1;30;103mFLY OUT! RUNNER ADVANCED.\033[0m")
 				out(1)
 				on_base[3] = on_base[2]
 				on_base[2] = -1
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and second, 2 outs
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on second and third, less than 2 outs
 				print("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				out(1)
 				run(1)
 				on_base[3] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on second and third, 2 outs
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and third, less than 2 outs
 				print("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				out(1)
 				run(1)
 				on_base[3] = -1
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and third, 2 outs
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Bases loaded, less than 2 outs
 				print("\033[1;30;102mSACRIFICE FLY!\033[0m")
 				out(1)
 				run(1)
 				on_base[3] = -1
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Bases loaded, 2 outs
 				print("\033[1;97;101mFLY OUT!\033[0m")
 				out(1)
 			resetcount()
@@ -1987,76 +1975,65 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Grounder"
 
+			pitching_animation()
+			ball_in_play_animation()
+
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Bases empty
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runner on first, 0-1 outs
 				print("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 				on_base[1] = -1
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runner on first, 2 outs
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runner on second
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runner on third
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1 and outs == 0):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and second, 0 outs
 				print("\033[1;97;101mTRIPLE PLAY\033[0m")
 				out(3)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1 and outs == 1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and second, 1 out
 				print("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and second, 2 outs
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on second and third
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1 and outs == 0):
-				pitching_animation()
-				ball_in_play_animation()
+				# Bases loaded, no outs
 				print("\033[1;97;101mTRIPLE PLAY!\033[0m")
 				out(3)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1 and outs == 1):
-				pitching_animation()
-				ball_in_play_animation()
+				# Bases loaded, 2 out
 				print("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Bases loaded, 2 outs
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1 and outs < 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and third, 0-1 outs
 				print("\033[1;97;101mDOUBLE PLAY!\033[0m")
 				out(2)
 				on_base[1] = -1
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1 and outs == 2):
-				pitching_animation()
-				ball_in_play_animation()
+				# Runners on first and third, 2 outs
 				print("\033[1;97;101mGROUND OUT!\033[0m")
 				out(1)
 			resetcount()
@@ -2075,34 +2052,44 @@ while gameover == False:  # Main game loop
 
 			pitching_animation()
 			ball_in_play_animation()
+
 			print("\033[1;30;102mSINGLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Bases empty
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Runner on first
+				on_base[2] = on_base[1]
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runner on second
 				on_base[3] = on_base[2]
 				on_base[2] = -1
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runner on third
 				run(1)
 				on_base[3] = -1
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runners on first and second
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Runners on second and third
 				run(1)
 				on_base[3] = on_base[2]
 				on_base[2] = -1
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Bases loaded
 				run(1)
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runners on first and third
 				run(1)
 				on_base[3] = -1
 				on_base[2] = on_base[1]
@@ -2129,31 +2116,39 @@ while gameover == False:  # Main game loop
 			ball_in_play_animation()
 			print("\033[1;30;102mDOUBLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Bases empty
 				on_base[2] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Runner on first
 				on_base[3] = on_base[1]
 				on_base[2] = current_batter[batting_team()]
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runner on second
 				run(1)
 				on_base[2] = -1
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runner on third
 				run(1)
 				on_base[3] = -1
 				on_base[2] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runners on first and second
 				run(2)
 				on_base[2] = current_batter[batting_team()]
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Runners on second and third
 				run(2)
 				on_base[2] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Bases loaded
 				run(3)
 				on_base[3] = on_base[1]
 				on_base[2] = current_batter[batting_team()]
 				on_base[1] = -1
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runners on first and third
 				run(2)
 				on_base[3] = on_base[1]
 				on_base[2] = current_batter[batting_team()]
@@ -2181,20 +2176,28 @@ while gameover == False:  # Main game loop
 			ball_in_play_animation()
 			print("\033[1;30;102mHOME RUN!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Bases empty
 				run(1)
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Runner on first
 				run(2)
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runner on second
 				run(2)
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runner on third
 				run(2)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runners on first and second
 				run(3)
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Runners on second and third
 				run(3)
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Bases loaded
 				run(4)
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runners on first and third
 				run(3)
 
 			batters[batting_team()][current_batter[batting_team()]][4] += 1  # Hit count for box score
@@ -2224,26 +2227,34 @@ while gameover == False:  # Main game loop
 			pitching_animation()
 			print("\033[1;30;102mHIT BY PITCH!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Bases empty
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Runner on first
 				on_base[2] = on_base[1]
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runner on second
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runner on third
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runners on first and second
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Runners on second and third
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Bases loaded
 				run(1)
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
 				on_base[1] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runners on first and third
 				on_base[2] = on_base[1]
 				on_base[1] = current_batter[batting_team()]
 				resetcount()
@@ -2264,33 +2275,41 @@ while gameover == False:  # Main game loop
 			ball_in_play_animation()
 			print("\033[1;30;102mTRIPLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Bases empty
 				on_base[3] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
+				# Runner on first
 				run(1)
 				on_base[3] = current_batter[batting_team()]
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runner on second
 				run(1)
 				on_base[3] = current_batter[batting_team()]
 				on_base[2] = -1
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runner on third
 				run(1)
 				on_base[3] = current_batter[batting_team()]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
+				# Runners on first and second
 				run(2)
 				on_base[3] = current_batter[batting_team()]
 				on_base[2] = -1
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Runners on second and third
 				run(2)
 				on_base[3] = current_batter[batting_team()]
 				on_base[2] = -1
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
+				# Bases loaded
 				run(3)
 				on_base[3] = current_batter[batting_team()]
 				on_base[2] = -1
 				on_base[1] = -1
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
+				# Runners on first and third
 				run(2)
 				on_base[3] = current_batter[batting_team()]
 				on_base[1] = -1
