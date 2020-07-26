@@ -1416,10 +1416,10 @@ teams = {"home": None, "away": None}
 abbrs = {"home": None, "away": None}
 years = {"home": None, "away": None}
 
-teams = {"home": "Red Sox", "away": "Yankees"}
-abbrs = {"home": "BOS", "away": "NYY"}
-years = {"home": "2018", "away": "2018"}
-"""
+#teams = {"home": "Red Sox", "away": "Yankees"}
+#abbrs = {"home": "BOS", "away": "NYY"}
+#years = {"home": "2018", "away": "2018"}
+
 home_team_error = True
 while home_team_error == True:
 	team = input("Enter the name of the home team: ")
@@ -1473,7 +1473,7 @@ while away_year_error == True:
 		continue
 	else:
 		away_year_error = False
-"""
+
 print("")
 print("Loading players...")
 
