@@ -1,7 +1,5 @@
 import time
-
-def wait_short():
-	time.sleep(.5)  # default .5
+from main import wait_short
 
 def PrintBoxScore(teams, batters, pitchers_used):
 
