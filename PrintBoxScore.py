@@ -1,13 +1,15 @@
 import time
-from main import wait_short
+
+def wait_short2():
+	time.sleep(.5)  # default .5
 
 def PrintBoxScore(teams, batters, pitchers_used):
 
-    wait_short()
+    wait_short2()
     print("Batting")
-    wait_short()
+    wait_short2()
     print("")
-    wait_short()
+    wait_short2()
 
     ###########################################################
     # Box score - Away batting
@@ -18,7 +20,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
 
     for x in batters["away"]:
         # Player name
-        wait_short()
+        wait_short2()
         print(x[0] + " ", end="")
 
         # Print correct amount of spaces
@@ -60,7 +62,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         away_total[5] = away_total[5] + batters["away"][x][7]  # BB
         away_total[6] = away_total[6] + batters["away"][x][8]  # SO
 
-    wait_short()
+    wait_short2()
     print("Totals:                  " + str(away_total[0]), end="")
 
     # Totals, Columns 1-6
@@ -97,7 +99,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
 
     for x in batters["home"]:
         # Player name
-        wait_short()
+        wait_short2()
         print(x[0] + " ", end="")
 
         # Print correct amount of spaces
@@ -139,7 +141,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         home_total[5] = home_total[5] + batters["home"][x][7]  # BB
         home_total[6] = home_total[6] + batters["home"][x][8]  # SO
 
-    wait_short()
+    wait_short2()
     print("Totals:                  " + str(home_total[0]), end="")
 
     # Totals, columns 1-6
@@ -165,11 +167,11 @@ def PrintBoxScore(teams, batters, pitchers_used):
         print(str(home_total[6]))
 
     print("")
-    wait_short()
+    wait_short2()
     print("Pitching")
-    wait_short()
+    wait_short2()
     print("")
-    wait_short
+    wait_short2
 
     ###########################################################
     # Box score - Away pitching
@@ -178,7 +180,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         print(" ", end="")
     print("IP   R   H  ER  HR  BB  SO")
 
-    wait_short()
+    wait_short2()
     for x in pitchers_used["away"]:
         # Player name
         print(x[0] + " ", end="")
@@ -214,7 +216,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         else:
             print(str(x[8]))
 
-        wait_short()
+        wait_short2()
 
     # Add up away pitching totals
     away_total = [0, 0, 0, 0, 0, 0, 0]
@@ -227,7 +229,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         away_total[5] = away_total[5] + pitchers_used["away"][x][7]  # BB
         away_total[6] = away_total[6] + pitchers_used["away"][x][8]  # SO
 
-    wait_short()
+    wait_short2()
     print("Totals:                 " + str(round(away_total[0], 1)), end="")
 
     # Totals, columns 2-6
@@ -253,7 +255,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         print(str(away_total[6]))
 
     print("")
-    wait_short()
+    wait_short2()
 
 
     ###########################################################
@@ -263,7 +265,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         print(" ", end="")
     print("IP   R   H  ER  HR  BB  SO")
 
-    wait_short()
+    wait_short2()
     for x in pitchers_used["home"]:
         # Player name
         print(x[0] + " ", end="")
@@ -299,7 +301,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         else:
             print(str(x[8]))
 
-        wait_short()
+        wait_short2()
 
     # Add up home pitching totals
     home_total = [0, 0, 0, 0, 0, 0, 0]
@@ -312,7 +314,7 @@ def PrintBoxScore(teams, batters, pitchers_used):
         home_total[5] = home_total[5] + pitchers_used["home"][x][7]  # BB
         home_total[6] = home_total[6] + pitchers_used["home"][x][8]  # SO
 
-    wait_short()
+    wait_short2()
     print("Totals:                 " + str(round(home_total[0], 1)), end="")
 
     # Totals, columns 2-6
@@ -338,9 +340,9 @@ def PrintBoxScore(teams, batters, pitchers_used):
         print(str(home_total[6]))
 
     print("")
-    wait_short()
+    wait_short2()
 
     print("")
-    wait_short()
-    wait_short()
+    wait_short2()
+    wait_short2()
     print("")
