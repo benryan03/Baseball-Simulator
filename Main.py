@@ -9,6 +9,7 @@ from CalculatePitchOutcome import *
 from PrintBoxScore import *
 from SaveBoxScore import *
 from GetUserInputs import *
+from Functions import *
 
 # To scrape players and stats from baseball-reference
 from lxml import html
@@ -38,106 +39,9 @@ score_by_inning = {"home":[], "away":[]}
 on_base = [-1, -1, -1, -1]
 earned_runs = 0
 
-
-def wait():  # Change both wait times to 0 for game to complete immediately
-	time.sleep(2)  # default 2
-
-
-def wait_short():
-	time.sleep(.5)  # default .5
-
-
-def batting_team():
-	if half_inning % 2 == 0:
-		return "home"
-	else:
-		return "away"
-
-
-def pitching_team():
-	if half_inning % 2 == 0:
-		return "away"
-	else:
-		return "home"
-
-
-def resetcount():
-	global balls
-	global strikes
-	balls = 0
-	strikes = 0
-
-
-def status():  # Print number of outs, inning number, score, and on-base statuses
-
-	wait()
-	print("-------------------------------------------------------------")
-	wait()
-
-	print("Outs: " + str(outs) + " | Inning: ", end="")
-	if half_inning % 2 != 0:
-		print("Top ", end="")
-	elif half_inning % 2 == 0:
-		print("Bot ", end="")
-	print(
-		str(math.ceil(half_inning / 2))
-		+ " | "
-		+ abbrs["home"] 
-		+ ": "
-		+ str(home_score)
-		+ " | "
-		+ abbrs["away"] 
-		+ ": "
-		+ str(away_score)
-		+ " | 3B: ",
-		end="",
-	)
-	if on_base[3] > -1:
-		print("\033[1;93;40mX\033[0m 2B: ", end="")
-	elif on_base[3] == -1:
-		print("  2B: ", end="")
-	if on_base[2] > -1:
-		print("\033[1;93;40mX\033[0m 1B: ", end="")
-	elif on_base[2] == -1:
-		print("  1B: ", end="")
-	if on_base[1] > -1:
-		print("\033[1;93;40mX\033[0m")
-	elif on_base[1] == -1:
-		print(" ")
-
-	wait()
-	now_batting()
-	wait()
-
-
-def format_batting_average(avg):
-	avg_string = str(avg)
-
-	# Remove leading 0
-	avg_string = avg_string[1:]
-
-	# Add trailing 0s if necessary
-	if len(avg_string) == 2:
-		avg_string = avg_string + "00"
-	elif len(avg_string) == 3:
-		avg_string = avg_string + "0"
-
-	return avg_string
-
-
-def format_era(era):
-	era_string = str(era)
-
-	# Add trailing 0 if necessary
-	if len(era_string) == 3:
-		era_string = era_string + "0"
-
-	return era_string
-
-
 def pitching_animation():
 	# flush=True makes sure time.sleep instances do not occur all at once
-	print("\033[1;30;40mPitch " + str(pitch_count[pitching_team()]) + " (" + current_pitcher[pitching_team()][0] + ") \033[0m", end = "", flush=True)
+	print("\033[1;30;40mPitch " + str(pitch_count[pitching_team(half_inning)]) + " (" + current_pitcher[pitching_team(half_inning)][0] + ") \033[0m", end = "", flush=True)
 	for x in range(0, 3):
 		wait_short()
 		print("\033[1;30;40m. \033[0m", end="", flush=True)
@@ -147,64 +51,6 @@ def pitching_animation():
 		print("\033[1;30;40m. \033[0m", end="", flush=True)
 
 	print("")
-
-
-def ball_in_play_animation():
-	# flush=True makes sure time.sleep instances do not occur all at once
-	print("\033[1;97;100mBall in play!\033[0m", end="", flush=True)
-	for x in range(0, 6):
-		wait_short()
-		print("\033[1;97;100m .\033[0m", end="", flush=True)
-	print("")
-
-
-def now_batting():
-	global edge
-	global edge_pos
-	global margin
-	global redo_pitch_loops
-	global batters
-	global batters
-
-	# Print name and average of current batter
-	print(
-		"\033[1;93;40m"
-		+ str(batters[batting_team()][current_batter[batting_team()]][0])
-		+ "\033[0m is now batting for the "
-		+ teams[batting_team()]
-		+ ". "
-		+ str(years[batting_team()])
-		+ " AVG: "
-		+ format_batting_average(batters[batting_team()][current_batter[batting_team()]][1])
-	)
-	batters[batting_team()][current_batter[batting_team()]][2] += 1  # Update at-bat count for box score
-
-	redo_pitch_loops = 0
-
-	# Determine edge
-	avg = batters[batting_team()][current_batter[batting_team()]][1]
-	era = current_pitcher[pitching_team()][1]
-
-	x = avg / 0.250
-	y = (2 - (era / 4)) - (pitch_count[pitching_team()] * 0.005)
-
-	if x > y:
-		# Batter has edge
-		edge = batters[batting_team()][current_batter[batting_team()]][0]
-		edge_pos = "Batter"
-		margin = x - y
-
-	elif x <= y:
-		# Pitcher has edge
-		edge = current_pitcher[pitching_team()][0]
-		edge_pos = "Pitcher"
-		margin = y - x
-		
-	# Print edge
-	wait()
-	margin = round(margin * 50, 1)
-	print("Edge: " + edge + " - " + str(margin) + "%")	
-
 
 def out(num):
 	global outs
@@ -271,7 +117,6 @@ def out(num):
 			# Game over
 			gameover = True
 
-
 def run(num):
 	global away_score
 	global home_score
@@ -286,110 +131,110 @@ def run(num):
 	# Determine and who scored the runs, and update their Run stats for box score
 	if num == 1 and on_base[3] > -1:
 		# 1 run scored from third
-		batters[batting_team()][on_base[3]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
 
 	elif num == 1 and on_base[2] > -1:
 		# 1 run scored from second
-		batters[batting_team()][on_base[2]][3] += 1
-		runners[0] = batters[batting_team()][on_base[2]]
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[2]]
 
 	elif num == 1 and on_base[1] > -1:
 		# 1 run scored from first
-		batters[batting_team()][on_base[1]][3] += 1
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
 
 	elif num == 1 and (on_base[3] == -1 and on_base[2] == -1 and on_base[1] == -1):
 		# Solo home run
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	elif num == 2 and on_base[3] > -1 and on_base[2] > -1:
 		# 2 runs scored from second and third
-		batters[batting_team()][on_base[3]][3] += 1
-		batters[batting_team()][on_base[2]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
-		runners[1] = batters[batting_team()][on_base[2]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
+		runners[1] = batters[batting_team(half_inning)][on_base[2]]
 
 	elif num == 2 and on_base[3] > -1 and on_base[1] > -1:
 		# 2 runs scored from first and third
-		batters[batting_team()][on_base[3]][3] += 1
-		batters[batting_team()][on_base[1]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
-		runners[1] = batters[batting_team()][on_base[1]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
+		runners[1] = batters[batting_team(half_inning)][on_base[1]]
 
 	elif num == 2 and on_base[2] > -1 and on_base[1] > -1:
 		# 2 runs scored from first and second
-		batters[batting_team()][on_base[2]][3] += 1
-		batters[batting_team()][on_base[1]][3] += 1
-		runners[0] = batters[batting_team()][on_base[2]]
-		runners[1] = batters[batting_team()][on_base[1]]
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[2]]
+		runners[1] = batters[batting_team(half_inning)][on_base[1]]
 
 	elif num == 2 and (on_base[3] > -1 and on_base[2] == -1 and on_base[1] == -1):
 		# 2 run HR with runner on third
-		batters[batting_team()][on_base[3]][3] += 1
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
-		runners[1] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
+		runners[1] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	elif num == 2 and (on_base[3] == -1 and on_base[2] > -1 and on_base[1] == -1):
 		# 2 run HR with runner on second
-		batters[batting_team()][on_base[2]][3] += 1
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][on_base[2]]
-		runners[1] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[2]]
+		runners[1] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	elif num == 2 and (on_base[3] == -1 and on_base[2] == -1 and on_base[1] > -1):
 		# 2 run HR with runner on first
-		batters[batting_team()][on_base[1]][3] += 1
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][on_base[1]]
-		runners[1] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[1]]
+		runners[1] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	elif num == 3 and (on_base[3] > -1 and on_base[2] > -1 and on_base[1] > -1):
 		# 3 runs scored from first, second, and third
-		batters[batting_team()][on_base[3]][3] += 1
-		batters[batting_team()][on_base[2]][3] += 1
-		batters[batting_team()][on_base[1]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
-		runners[1] = batters[batting_team()][on_base[2]]
-		runners[2] = batters[batting_team()][on_base[1]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
+		runners[1] = batters[batting_team(half_inning)][on_base[2]]
+		runners[2] = batters[batting_team(half_inning)][on_base[1]]
 
 	elif num == 3 and on_base[3] > -1 and on_base[2] > -1:
 		# 3 run HR, runners on second and third
-		batters[batting_team()][on_base[3]][3] += 1
-		batters[batting_team()][on_base[2]][3] += 1
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
-		runners[1] = batters[batting_team()][on_base[2]]
-		runners[2] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
+		runners[1] = batters[batting_team(half_inning)][on_base[2]]
+		runners[2] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	elif num == 3 and on_base[3] > -1 and on_base[1] > -1:
 		# 3 run HR, runners on first and third
-		batters[batting_team()][on_base[3]][3] += 1
-		batters[batting_team()][on_base[1]][3] += 1
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
-		runners[1] = batters[batting_team()][on_base[1]]
-		runners[2] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
+		runners[1] = batters[batting_team(half_inning)][on_base[1]]
+		runners[2] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	elif num == 3 and on_base[2] > -1 and on_base[1] > -1:
 		# 3 run HR, runners on first and second
-		batters[batting_team()][on_base[2]][3] += 1
-		batters[batting_team()][on_base[1]][3] += 1
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][on_base[2]]
-		runners[1] = batters[batting_team()][on_base[1]]
-		runners[2] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[2]]
+		runners[1] = batters[batting_team(half_inning)][on_base[1]]
+		runners[2] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	elif num == 4: # Grand slam
-		batters[batting_team()][on_base[3]][3] += 1
-		batters[batting_team()][on_base[2]][3] += 1
-		batters[batting_team()][on_base[1]][3] += 1
-		batters[batting_team()][current_batter[batting_team()]][3] += 1
-		runners[0] = batters[batting_team()][on_base[3]]
-		runners[1] = batters[batting_team()][on_base[2]]
-		runners[2] = batters[batting_team()][on_base[1]]
-		runners[3] = batters[batting_team()][current_batter[batting_team()]]
+		batters[batting_team(half_inning)][on_base[3]][3] += 1
+		batters[batting_team(half_inning)][on_base[2]][3] += 1
+		batters[batting_team(half_inning)][on_base[1]][3] += 1
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][3] += 1
+		runners[0] = batters[batting_team(half_inning)][on_base[3]]
+		runners[1] = batters[batting_team(half_inning)][on_base[2]]
+		runners[2] = batters[batting_team(half_inning)][on_base[1]]
+		runners[3] = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]]
 
 	# Print who scored the runs
 	for x in range(3):
@@ -397,23 +242,23 @@ def run(num):
 			wait()
 			print("")
 			wait()
-			print("\033[1;30;102m" + runners[x][0] + " scored a run for the " + teams[batting_team()] + "!\033[0m")
+			print("\033[1;30;102m" + runners[x][0] + " scored a run for the " + teams[batting_team(half_inning)] + "!\033[0m")
 
 	for x in range(num):
 
 		# Line score
 		inning = int((half_inning / 2) + 0.5)
-		if len(score_by_inning[batting_team()]) < inning:
-			score_by_inning[batting_team()].append(1)
+		if len(score_by_inning[batting_team(half_inning)]) < inning:
+			score_by_inning[batting_team(half_inning)].append(1)
 		else:
-			score_by_inning[batting_team()][-1] += 1
+			score_by_inning[batting_team(half_inning)][-1] += 1
 
 		# Box score - earned runs
-		pitchers_used[pitching_team()][-1][3] += 1
+		pitchers_used[pitching_team(half_inning)][-1][3] += 1
 		if earned_runs < 0:
 			earned_runs += 1
 		else:
-			pitchers_used[pitching_team()][-1][5] += 1
+			pitchers_used[pitching_team(half_inning)][-1][5] += 1
 
 		if half_inning < 18 and half_inning % 2 != 0:
 			# normal innings - run for away
@@ -450,85 +295,12 @@ def run(num):
 			print("Game has ended. " + teams["home"] + " wins.")
 			gameover = True
 
-
-def check_if_pitching_change():
-
-	if (current_pitcher[pitching_team()][0] == starting_pitchers[pitching_team()][0] and pitch_count[pitching_team()] >= 100):
-		# Starter is still in and has thrown 100 pitches
-		pitching_change()
-	elif (current_pitcher[pitching_team()][0] == starting_pitchers[pitching_team()][0] and half_inning >= 13):
-		# Starter is still in and it is the top of the 7th inning
-		pitching_change()
-	elif (current_pitcher[pitching_team()][0] == starting_pitchers[pitching_team()][0] and pitchers_used[pitching_team()][0][5] > 4):
-		# Starter is still in and has allowed more than 4 runs
-		pitching_change()
-	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning <= 9 and runs_in_current_inning > 2 and len(relief_pitchers[pitching_team()]) > 0):
-		# A reliever is in and has allowed more than 2 runs and it is before the 6th inning
-		pitching_change()
-	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and current_pitcher[pitching_team()][0] != closers[pitching_team()][0] and (half_inning == 17 or half_inning == 18)):
-		# Top of 9th inning (Send in closer)
-		pitching_change()
-	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and half_inning > 9 and outs == 0 and on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1 and runs_in_current_inning == 0 and len(relief_pitchers[pitching_team()]) > 0):
-		# A reliever is in and it is the start of an inning, 6th or later
-		pitching_change()
-	elif (current_pitcher[pitching_team()][0] != starting_pitchers[pitching_team()][0] and runs_in_current_inning > 2 and len(relief_pitchers[pitching_team()]) > 0):
-		# A reliever is in and has allowed more than 2 runs
-		pitching_change()
-
-
-def pitching_change():
-	global relief_pitchers
-	global current_pitcher
-	global pitch_count
-	global runs_in_current_inning
-	global earned_runs
-
-	runs_in_current_inning = 0
-
-	# Used for Earned Runs in box score
-	earned_runs = 0
-	if on_base[1] > -1:
-		earned_runs = earned_runs - 1
-	if on_base[2] > -1:
-		earned_runs = earned_runs - 1
-	if on_base[3] > -1:
-		earned_runs = earned_runs - 1
-
-	if half_inning == 17 or half_inning == 18:
-		# 9th inning - send in closer
-		current_pitcher[pitching_team()] = closers[pitching_team()]
-	else:
-		# Not 9th inning - Choose a random relief pitcher
-		x = len(relief_pitchers[pitching_team()])
-		rand = random.randint(0, x - 1)
-		current_pitcher[pitching_team()] = relief_pitchers[pitching_team()][rand]
-		del relief_pitchers[pitching_team()][rand]
-		pitch_count[pitching_team()] = 1
-
-	pitchers_used[pitching_team()].append(current_pitcher[pitching_team()])  # Add pitcher to array for box score
-	for x in range(10): # Generate blank stats for box score
-		pitchers_used[pitching_team()][-1].append(0)
-
-	# Print new pitcher
-	wait()
-	print("Pitching change!")
-	wait()
-	print("")
-	wait()
-	print("\033[1;93;40m" + current_pitcher[pitching_team()][0] + "\033[0m is now pitching for the " + teams[pitching_team()] + ".")
-	wait()
-	print(str(years[pitching_team()]) + " ERA: " + str(format_era(current_pitcher[pitching_team()][1])))
-	wait()
-	print("")
-	wait()
-
-
 def inning_status():
 
 	# Update line score for end-of-game stats
 	prev_half_inning = half_inning - 1
-	if len(score_by_inning[batting_team()]) < prev_half_inning - 1:
-		score_by_inning[batting_team()].append(0)
+	if len(score_by_inning[batting_team(half_inning)]) < prev_half_inning - 1:
+		score_by_inning[batting_team(half_inning)].append(0)
 
 	# This will be accurate until the 21st inning - will fix eventually
 	if half_inning == 1 or half_inning == 2:
@@ -557,6 +329,163 @@ def inning_status():
 		+ " inning."
 	)
 	print("------------------------------------")
+	print("")
+	wait()
+
+def status():  # Print number of outs, inning number, score, and on-base statuses
+
+	wait()
+	print("-------------------------------------------------------------")
+	wait()
+
+	print("Outs: " + str(outs) + " | Inning: ", end="")
+	if half_inning % 2 != 0:
+		print("Top ", end="")
+	elif half_inning % 2 == 0:
+		print("Bot ", end="")
+	print(
+		str(math.ceil(half_inning / 2))
+		+ " | "
+		+ abbrs["home"] 
+		+ ": "
+		+ str(home_score)
+		+ " | "
+		+ abbrs["away"] 
+		+ ": "
+		+ str(away_score)
+		+ " | 3B: ",
+		end="",
+	)
+	if on_base[3] > -1:
+		print("\033[1;93;40mX\033[0m 2B: ", end="")
+	elif on_base[3] == -1:
+		print("  2B: ", end="")
+	if on_base[2] > -1:
+		print("\033[1;93;40mX\033[0m 1B: ", end="")
+	elif on_base[2] == -1:
+		print("  1B: ", end="")
+	if on_base[1] > -1:
+		print("\033[1;93;40mX\033[0m")
+	elif on_base[1] == -1:
+		print(" ")
+
+	wait()
+	now_batting()
+	wait()
+
+def now_batting():
+	global edge
+	global edge_pos
+	global margin
+	global redo_pitch_loops
+	global half_inning
+
+	# Print name and average of current batter
+	print(
+		"\033[1;93;40m"
+		+ str(batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][0])
+		+ "\033[0m is now batting for the "
+		+ teams[batting_team(half_inning)]
+		+ ". "
+		+ str(years[batting_team(half_inning)])
+		+ " AVG: "
+		+ format_batting_average(batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][1])
+	)
+	batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][2] += 1  # Update at-bat count for box score
+
+	redo_pitch_loops = 0
+
+	# Determine edge
+	avg = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][1]
+	era = current_pitcher[pitching_team(half_inning)][1]
+
+	x = avg / 0.250
+	y = (2 - (era / 4)) - (pitch_count[pitching_team(half_inning)] * 0.005)
+
+	if x > y:
+		# Batter has edge
+		edge = batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][0]
+		edge_pos = "Batter"
+		margin = x - y
+
+	elif x <= y:
+		# Pitcher has edge
+		edge = current_pitcher[pitching_team(half_inning)][0]
+		edge_pos = "Pitcher"
+		margin = y - x
+		
+	# Print edge
+	wait()
+	margin = round(margin * 50, 1)
+	print("Edge: " + edge + " - " + str(margin) + "%")	
+
+def check_if_pitching_change():
+
+	if (current_pitcher[pitching_team(half_inning)][0] == starting_pitchers[pitching_team(half_inning)][0] and pitch_count[pitching_team(half_inning)] >= 100):
+		# Starter is still in and has thrown 100 pitches
+		pitching_change()
+	elif (current_pitcher[pitching_team(half_inning)][0] == starting_pitchers[pitching_team(half_inning)][0] and half_inning >= 13):
+		# Starter is still in and it is the top of the 7th inning
+		pitching_change()
+	elif (current_pitcher[pitching_team(half_inning)][0] == starting_pitchers[pitching_team(half_inning)][0] and pitchers_used[pitching_team(half_inning)][0][5] > 4):
+		# Starter is still in and has allowed more than 4 runs
+		pitching_change()
+	elif (current_pitcher[pitching_team(half_inning)][0] != starting_pitchers[pitching_team(half_inning)][0] and half_inning <= 9 and runs_in_current_inning > 2 and len(relief_pitchers[pitching_team(half_inning)]) > 0):
+		# A reliever is in and has allowed more than 2 runs and it is before the 6th inning
+		pitching_change()
+	elif (current_pitcher[pitching_team(half_inning)][0] != starting_pitchers[pitching_team(half_inning)][0] and current_pitcher[pitching_team(half_inning)][0] != closers[pitching_team(half_inning)][0] and (half_inning == 17 or half_inning == 18)):
+		# Top of 9th inning (Send in closer)
+		pitching_change()
+	elif (current_pitcher[pitching_team(half_inning)][0] != starting_pitchers[pitching_team(half_inning)][0] and half_inning > 9 and outs == 0 and on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1 and runs_in_current_inning == 0 and len(relief_pitchers[pitching_team(half_inning)]) > 0):
+		# A reliever is in and it is the start of an inning, 6th or later
+		pitching_change()
+	elif (current_pitcher[pitching_team(half_inning)][0] != starting_pitchers[pitching_team(half_inning)][0] and runs_in_current_inning > 2 and len(relief_pitchers[pitching_team(half_inning)]) > 0):
+		# A reliever is in and has allowed more than 2 runs
+		pitching_change()
+
+def pitching_change():
+	global relief_pitchers
+	global current_pitcher
+	global pitch_count
+	global runs_in_current_inning
+	global earned_runs
+
+	runs_in_current_inning = 0
+
+	# Used for Earned Runs in box score
+	earned_runs = 0
+	if on_base[1] > -1:
+		earned_runs = earned_runs - 1
+	if on_base[2] > -1:
+		earned_runs = earned_runs - 1
+	if on_base[3] > -1:
+		earned_runs = earned_runs - 1
+
+	if half_inning == 17 or half_inning == 18:
+		# 9th inning - send in closer
+		current_pitcher[pitching_team(half_inning)] = closers[pitching_team(half_inning)]
+	else:
+		# Not 9th inning - Choose a random relief pitcher
+		x = len(relief_pitchers[pitching_team(half_inning)])
+		rand = random.randint(0, x - 1)
+		current_pitcher[pitching_team(half_inning)] = relief_pitchers[pitching_team(half_inning)][rand]
+		del relief_pitchers[pitching_team(half_inning)][rand]
+		pitch_count[pitching_team(half_inning)] = 1
+
+	pitchers_used[pitching_team(half_inning)].append(current_pitcher[pitching_team(half_inning)])  # Add pitcher to array for box score
+	for x in range(10): # Generate blank stats for box score
+		pitchers_used[pitching_team(half_inning)][-1].append(0)
+
+	# Print new pitcher
+	wait()
+	print("Pitching change!")
+	wait()
+	print("")
+	wait()
+	print("\033[1;93;40m" + current_pitcher[pitching_team(half_inning)][0] + "\033[0m is now pitching for the " + teams[pitching_team(half_inning)] + ".")
+	wait()
+	print(str(years[pitching_team(half_inning)]) + " ERA: " + str(format_era(current_pitcher[pitching_team(half_inning)][1])))
+	wait()
 	print("")
 	wait()
 
@@ -919,31 +848,31 @@ while gameover == False:  # Main game loop
 		pitching_animation()
 		print("\033[1;30;102mWALK!\033[0m")
 		if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 		elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
 			on_base[2] = on_base[1]
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 		elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 		elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 		elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
 			on_base[3] = on_base[2]
 			on_base[2] = on_base[1]
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 		elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 		elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
 			run(1)
 			on_base[3] = on_base[2]
 			on_base[2] = on_base[1]
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 		elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
 			on_base[2] = on_base[1]
-			on_base[1] = current_batter[batting_team()]
+			on_base[1] = current_batter[batting_team(half_inning)]
 
-		batters[batting_team()][current_batter[batting_team()]][7] += 1  # Batter walk count for box score
-		pitchers_used[pitching_team()][-1][7] += 1 # Pitcher walk count for box score
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][7] += 1  # Batter walk count for box score
+		pitchers_used[pitching_team(half_inning)][-1][7] += 1 # Pitcher walk count for box score
 
 		resetcount()
 
@@ -956,8 +885,8 @@ while gameover == False:  # Main game loop
 		pitching_animation()
 		print("\033[1;97;101mSTRIKEOUT!\033[0m")
 		pitch_result = "Strikeout"
-		batters[batting_team()][current_batter[batting_team()]][8] += 1  # Batter strikeout count for box score
-		pitchers_used[pitching_team()][-1][8] += 1 # Pitcher strikeout count for box score
+		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][8] += 1  # Batter strikeout count for box score
+		pitchers_used[pitching_team(half_inning)][-1][8] += 1 # Pitcher strikeout count for box score
 		out(1)
 
 	elif pitch_result == "Foul" and strikes < 2: # Foul
@@ -1150,47 +1079,47 @@ while gameover == False:  # Main game loop
 			print("\033[1;30;102mSINGLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Bases empty
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Runner on first
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runner on second
 				on_base[3] = on_base[2]
 				on_base[2] = -1
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
 				# Runner on third
 				run(1)
 				on_base[3] = -1
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runners on first and second
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Runners on second and third
 				run(1)
 				on_base[3] = on_base[2]
 				on_base[2] = -1
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Bases loaded
 				run(1)
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
 				# Runners on first and third
 				run(1)
 				on_base[3] = -1
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 
-			batters[batting_team()][current_batter[batting_team()]][4] += 1  # Batter hit count for box score
-			pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box score
+			batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][4] += 1  # Batter hit count for box score
+			pitchers_used[pitching_team(half_inning)][-1][4] += 1 # Pitcher hit count for box score
 
 			resetcount()
 			pitch_result = "Single"
@@ -1211,11 +1140,11 @@ while gameover == False:  # Main game loop
 			print("\033[1;30;102mDOUBLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Bases empty
-				on_base[2] = current_batter[batting_team()]
+				on_base[2] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Runner on first
 				on_base[3] = on_base[1]
-				on_base[2] = current_batter[batting_team()]
+				on_base[2] = current_batter[batting_team(half_inning)]
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runner on second
@@ -1225,31 +1154,31 @@ while gameover == False:  # Main game loop
 				# Runner on third
 				run(1)
 				on_base[3] = -1
-				on_base[2] = current_batter[batting_team()]
+				on_base[2] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runners on first and second
 				run(2)
-				on_base[2] = current_batter[batting_team()]
+				on_base[2] = current_batter[batting_team(half_inning)]
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Runners on second and third
 				run(2)
-				on_base[2] = current_batter[batting_team()]
+				on_base[2] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Bases loaded
 				run(3)
 				on_base[3] = on_base[1]
-				on_base[2] = current_batter[batting_team()]
+				on_base[2] = current_batter[batting_team(half_inning)]
 				on_base[1] = -1
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
 				# Runners on first and third
 				run(2)
 				on_base[3] = on_base[1]
-				on_base[2] = current_batter[batting_team()]
+				on_base[2] = current_batter[batting_team(half_inning)]
 				on_base[1] = -1
 
-			batters[batting_team()][current_batter[batting_team()]][4] += 1  # Batter hit count for box score
-			pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box score
+			batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][4] += 1  # Batter hit count for box score
+			pitchers_used[pitching_team(half_inning)][-1][4] += 1 # Pitcher hit count for box score
 
 			resetcount()
 			pitch_result = "Double"
@@ -1294,10 +1223,10 @@ while gameover == False:  # Main game loop
 				# Runners on first and third
 				run(3)
 
-			batters[batting_team()][current_batter[batting_team()]][4] += 1  # Hit count for box score
-			batters[batting_team()][current_batter[batting_team()]][6] += 1  # HR count for box score
-			pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box scoure
-			pitchers_used[pitching_team()][-1][6] += 1 # Pitcher HR count for box score
+			batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][4] += 1  # Hit count for box score
+			batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][6] += 1  # HR count for box score
+			pitchers_used[pitching_team(half_inning)][-1][4] += 1 # Pitcher hit count for box scoure
+			pitchers_used[pitching_team(half_inning)][-1][6] += 1 # Pitcher HR count for box score
 
 			resetcount()
 			pitch_result = "Home run"
@@ -1322,35 +1251,35 @@ while gameover == False:  # Main game loop
 			print("\033[1;30;102mHIT BY PITCH!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Bases empty
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Runner on first
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runner on second
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
 				# Runner on third
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runners on first and second
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Runners on second and third
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Bases loaded
 				run(1)
 				on_base[3] = on_base[2]
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
 				# Runners on first and third
 				on_base[2] = on_base[1]
-				on_base[1] = current_batter[batting_team()]
+				on_base[1] = current_batter[batting_team(half_inning)]
 				resetcount()
 			pitch_result = "Hit by pitch"
 		else:  # Triple
@@ -1370,53 +1299,53 @@ while gameover == False:  # Main game loop
 			print("\033[1;30;102mTRIPLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Bases empty
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Runner on first
 				run(1)
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runner on second
 				run(1)
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 				on_base[2] = -1
 			elif (on_base[1] == -1 and on_base[2] == -1 and on_base[3] > -1):
 				# Runner on third
 				run(1)
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] == -1):
 				# Runners on first and second
 				run(2)
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 				on_base[2] = -1
 				on_base[1] = -1
 			elif (on_base[1] == -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Runners on second and third
 				run(2)
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 				on_base[2] = -1
 			elif (on_base[1] > -1 and on_base[2] > -1 and on_base[3] > -1):
 				# Bases loaded
 				run(3)
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 				on_base[2] = -1
 				on_base[1] = -1
 			elif (on_base[1] > -1 and on_base[2] == -1 and on_base[3] > -1):
 				# Runners on first and third
 				run(2)
-				on_base[3] = current_batter[batting_team()]
+				on_base[3] = current_batter[batting_team(half_inning)]
 				on_base[1] = -1
 
-				batters[batting_team()][current_batter[batting_team()]][4] += 1  # Batter hit count for box score
-				pitchers_used[pitching_team()][-1][4] += 1 # Pitcher hit count for box score
+				batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][4] += 1  # Batter hit count for box score
+				pitchers_used[pitching_team(half_inning)][-1][4] += 1 # Pitcher hit count for box score
 
 			resetcount()
 			pitch_result = "Triple"
 
 	atbat_pitch_count += 1
 	redo_pitch_loops = 0
-	pitch_count[pitching_team()] += 1
+	pitch_count[pitching_team(half_inning)] += 1
 
 	if (
 		pitch_result == "Walk"
@@ -1433,10 +1362,10 @@ while gameover == False:  # Main game loop
 		# At-bat is over
 
 		# Determine and set who the next batter is
-		if current_batter[batting_team()] < 8:
-			current_batter[batting_team()] += 1
-		elif current_batter[batting_team()] == 8:
-			current_batter[batting_team()] = 0
+		if current_batter[batting_team(half_inning)] < 8:
+			current_batter[batting_team(half_inning)] += 1
+		elif current_batter[batting_team(half_inning)] == 8:
+			current_batter[batting_team(half_inning)] = 0
 
 		atbat_pitch_count = 1
 
