@@ -39,19 +39,6 @@ score_by_inning = {"home":[], "away":[]}
 on_base = [-1, -1, -1, -1]
 earned_runs = 0
 
-def pitching_animation():
-	# flush=True makes sure time.sleep instances do not occur all at once
-	print("\033[1;30;40mPitch " + str(pitch_count[pitching_team(half_inning)]) + " (" + current_pitcher[pitching_team(half_inning)][0] + ") \033[0m", end = "", flush=True)
-	for x in range(0, 3):
-		wait_short()
-		print("\033[1;30;40m. \033[0m", end="", flush=True)
-
-	for x in range(0, redo_pitch_loops):
-		wait_short()
-		print("\033[1;30;40m. \033[0m", end="", flush=True)
-
-	print("")
-
 def out(num):
 	global outs
 	global half_inning
@@ -840,12 +827,12 @@ while gameover == False:  # Main game loop
 
 	if pitch_result == "Ball" and balls < 3: # Ball
 		balls += 1
-		pitching_animation()
+		pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 		print("Ball. (" + str(balls) + " - " + str(strikes) + ")")
 
 	elif pitch_result == "Ball" and balls == 3:  # Walk
 		pitch_result = "Walk"
-		pitching_animation()
+		pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 		print("\033[1;30;102mWALK!\033[0m")
 		if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
 			on_base[1] = current_batter[batting_team(half_inning)]
@@ -878,11 +865,11 @@ while gameover == False:  # Main game loop
 
 	elif pitch_result == "Strike" and strikes < 2: #Strike
 		strikes += 1
-		pitching_animation()
+		pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 		print("Strike. (" + str(balls) + " - " + str(strikes) + ")")
 
 	elif pitch_result == "Strike" and strikes == 2: # Strikeout
-		pitching_animation()
+		pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 		print("\033[1;97;101mSTRIKEOUT!\033[0m")
 		pitch_result = "Strikeout"
 		batters[batting_team(half_inning)][current_batter[batting_team(half_inning)]][8] += 1  # Batter strikeout count for box score
@@ -891,11 +878,11 @@ while gameover == False:  # Main game loop
 
 	elif pitch_result == "Foul" and strikes < 2: # Foul
 		strikes += 1
-		pitching_animation()
+		pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 		print("Foul. (" + str(balls) + " - " + str(strikes) + ")")
 
 	elif pitch_result == "Foul" and strikes == 2:  # Foul (with 2 strikes)
-		pitching_animation()
+		pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 		print("Foul. (" + str(balls) + " - " + str(strikes) + ")")
 
 	elif pitch_result == "Ball_in_play":
@@ -913,7 +900,7 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Fly"
 
-			pitching_animation()
+			pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 			ball_in_play_animation()
 
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
@@ -998,7 +985,7 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Grounder"
 
-			pitching_animation()
+			pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 			ball_in_play_animation()
 
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
@@ -1073,7 +1060,7 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Single"
 
-			pitching_animation()
+			pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 			ball_in_play_animation()
 
 			print("\033[1;30;102mSINGLE!\033[0m")
@@ -1135,7 +1122,7 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Double"
 
-			pitching_animation()
+			pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 			ball_in_play_animation()
 			print("\033[1;30;102mDOUBLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
@@ -1195,7 +1182,7 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Home run"
 
-			pitching_animation()
+			pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 			ball_in_play_animation()
 			print("\033[1;30;102mHOME RUN!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
@@ -1247,7 +1234,7 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Hit by pitch"
 
-			pitching_animation()
+			pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 			print("\033[1;30;102mHIT BY PITCH!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):
 				# Bases empty
@@ -1294,7 +1281,7 @@ while gameover == False:  # Main game loop
 			else:
 				pitch_result == "Triple"
 
-			pitching_animation()
+			pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops)
 			ball_in_play_animation()
 			print("\033[1;30;102mTRIPLE!\033[0m")
 			if (on_base[1] == -1 and on_base[2] == -1 and on_base[3] == -1):

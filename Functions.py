@@ -2,10 +2,10 @@ import time
 import math
 
 def wait():  # Change both wait times to 0 for game to complete immediately
-	time.sleep(0)  # default 2
+	time.sleep(2)  # default 2
 
 def wait_short():
-	time.sleep(0)  # default .5
+	time.sleep(.5)  # default .5
 
 def batting_team(half_inning):
 	if half_inning % 2 == 0:
@@ -54,4 +54,17 @@ def ball_in_play_animation():
 	for x in range(0, 6):
 		wait_short()
 		print("\033[1;97;100m .\033[0m", end="", flush=True)
+	print("")
+
+def pitching_animation(pitch_count, half_inning, current_pitcher, redo_pitch_loops):
+	# flush=True makes sure time.sleep instances do not occur all at once
+	print("\033[1;30;40mPitch " + str(pitch_count[pitching_team(half_inning)]) + " (" + current_pitcher[pitching_team(half_inning)][0] + ") \033[0m", end = "", flush=True)
+	for x in range(0, 3):
+		wait_short()
+		print("\033[1;30;40m. \033[0m", end="", flush=True)
+
+	for x in range(0, redo_pitch_loops):
+		wait_short()
+		print("\033[1;30;40m. \033[0m", end="", flush=True)
+
 	print("")
