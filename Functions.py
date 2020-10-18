@@ -19,12 +19,6 @@ def pitching_team(half_inning):
 	else:
 		return "home"
 
-def resetcount():
-	global balls
-	global strikes
-	balls = 0
-	strikes = 0
-
 def format_batting_average(avg):
 	avg_string = str(avg)
 
