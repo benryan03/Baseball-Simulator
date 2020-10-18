@@ -545,13 +545,7 @@ print("PLAY BALL!")
 wait()
 print("")
 wait()
-print(
-	"\033[1;93;40m"
-	+ starting_pitchers["home"][0]
-	+ "\033[0m is now pitching for the "
-	+ teams["home"]
-	+ "."
-)
+print("\033[1;93;40m" + starting_pitchers["home"][0] + "\033[0m is now pitching for the " + teams["home"] + ".")
 wait()
 print(str(years["home"]) + " ERA: " + str(format_era(starting_pitchers["home"][1])))
 wait()
@@ -561,16 +555,11 @@ wait()
 status()
 
 first_pitch_time = (
-	(datetime.strftime(datetime.now(), "%Y"))
-	+ "-"
-	+ (datetime.strftime(datetime.now(), "%m"))
-	+ "-"
-	+ (datetime.strftime(datetime.now(), "%d"))
-	+ " at "
-	+ (datetime.strftime(datetime.now(), "%H"))
-	+ ":"
-	+ (datetime.strftime(datetime.now(), "%M"))
-)
+	(datetime.strftime(datetime.now(), "%Y")) + "-"
+	+ (datetime.strftime(datetime.now(), "%m")) + "-"
+	+ (datetime.strftime(datetime.now(), "%d")) + " at "
+	+ (datetime.strftime(datetime.now(), "%H")) + ":"
+	+ (datetime.strftime(datetime.now(), "%M")))
 
 #######################################################################################################################
 #######################################################################################################################
